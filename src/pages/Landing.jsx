@@ -352,7 +352,77 @@ const Landing = () => {
       </li>
     </ol>
   </div>
+
+  
 </section>
+
+<ol
+  className="relative space-y-8 before:absolute before:top-0 before:left-1/2 before:h-full before:w-0.5 before:-translate-x-1/2 before:rounded-full before:bg-gray-200 dark:before:bg-gray-700"
+>
+  <li className="group relative grid grid-cols-2 odd:-me-3 even:-ms-3">
+    <div
+      className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+    >
+      <span className="size-3 shrink-0 rounded-full bg-blue-600"></span>
+
+      <div className="-mt-2">
+        <time className="text-xs/none font-medium text-gray-700 dark:text-gray-200">12/02/2025</time>
+
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Kickoff</h3>
+
+        <p className="mt-0.5 text-sm text-gray-700 dark:text-gray-200">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga officiis tempora ipsum
+          adipisci tenetur sunt quae exercitationem sed pariatur porro!
+        </p>
+      </div>
+    </div>
+
+    <div aria-hidden="true"></div>
+  </li>
+
+  <li className="group relative grid grid-cols-2 odd:-me-3 even:-ms-3">
+    <div
+      className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+    >
+      <span className="size-3 shrink-0 rounded-full bg-blue-600"></span>
+
+      <div className="-mt-2">
+        <time className="text-xs/none font-medium text-gray-700 dark:text-gray-200">5/03/2025</time>
+
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white">First Milestone</h3>
+
+        <p className="mt-0.5 text-sm text-gray-700 dark:text-gray-200">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga officiis tempora ipsum
+          adipisci tenetur sunt quae exercitationem sed pariatur porro!
+        </p>
+      </div>
+    </div>
+
+    <div aria-hidden="true"></div>
+  </li>
+
+  <li className="group relative grid grid-cols-2 odd:-me-3 even:-ms-3">
+    <div
+      className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+    >
+      <span className="size-3 shrink-0 rounded-full bg-blue-600"></span>
+
+      <div className="-mt-2">
+        <time className="text-xs/none font-medium text-gray-700 dark:text-gray-200">24/04/2025</time>
+
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Launch</h3>
+
+        <p className="mt-0.5 text-sm text-gray-700 dark:text-gray-200">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga officiis tempora ipsum
+          adipisci tenetur sunt quae exercitationem sed pariatur porro!
+        </p>
+      </div>
+    </div>
+
+    <div aria-hidden="true"></div>
+  </li>
+</ol>
+
 
 <section className="py-18 flex flex-row items-center justify-center gap-6">
 <section className="bg-gray-50">
@@ -505,13 +575,11 @@ const Landing = () => {
   <div className="p-8 md:p-12 lg:px-16 lg:py-24">
     <div className="mx-auto max-w-lg text-center">
       <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit
+        Have a question in your mind?
       </h2>
 
       <p className="hidden text-gray-500 sm:mt-4 sm:block">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolor officia blanditiis
-        repellat in, vero, aperiam porro ipsum laboriosam consequuntur exercitationem incidunt
-        tempora nisi?
+        We're here to help! Reach out to us and we'll get back to you as soon as possible.
       </p>
     </div>
 
@@ -522,16 +590,16 @@ const Landing = () => {
 
           <input
             type="email"
-            placeholder="Email address"
-            className="w-full rounded-md border-gray-200 bg-white p-3 text-gray-700 shadow-xs transition focus:border-white focus:ring-3 focus:ring-yellow-400 focus:outline-hidden"
+            placeholder="Enter your email"
+            className="w-full rounded-md border-gray-200 bg-white p-3 text-gray-700 shadow-md transition focus:border-white focus:ring-3 focus:ring-blue-400 focus:outline-hidden"
           />
         </div>
 
         <button
           type="submit"
-          className="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-3 text-white transition focus:ring-3 focus:ring-yellow-400 focus:outline-hidden sm:mt-0 sm:w-auto"
+          className="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 px-5 py-3 text-white transition focus:ring-3 focus:ring-blue-400 focus:outline-hidden shadow-md sm:mt-0 sm:w-auto"
         >
-          <span className="text-sm font-medium"> Sign Up </span>
+          <span className="text-sm font-medium"> Contact Us </span>
 
           <svg
             className="size-5 shadow-sm rtl:rotate-180"
@@ -552,6 +620,7 @@ const Landing = () => {
     </div>
   </div>
 </section>
+
 
   </>
   )

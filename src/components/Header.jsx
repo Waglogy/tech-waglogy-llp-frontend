@@ -7,7 +7,7 @@ const Header = () => {
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-20 items-center justify-between">
             <div className="md:flex md:items-center md:gap-12">
-                <a className="block" href="#">
+                <a className="block" href="/">
                 <span className="sr-only">Home</span>
                 <div className="h-20 overflow-hidden">
                   <img src="/logo.png" alt="Waglogy logo" className="h-28 w-auto object-cover object-center" />
@@ -19,7 +19,7 @@ const Header = () => {
                 <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
                     <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About </a>
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/about"> About </a>
                     </li>
 
                     <li>
@@ -39,7 +39,7 @@ const Header = () => {
                     </li>
 
                     <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Blog </a>
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/blog"> Blog </a>
                     </li>
                 </ul>
                 </nav>
