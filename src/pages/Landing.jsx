@@ -1,7 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 const Landing = () => {
   const [activeSection, setActiveSection] = useState('web')
+  const [visiblePhases, setVisiblePhases] = useState([])
+  const phaseRefs = useRef([])
+
+  useEffect(() => {
+    const observers = []
+    
+    phaseRefs.current.forEach((ref, index) => {
+      if (ref) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  setVisiblePhases((prev) => [...new Set([...prev, index])])
+                }, index * 150) // Stagger animation
+              }
+            })
+          },
+          { threshold: 0.2 }
+        )
+        
+        observer.observe(ref)
+        observers.push(observer)
+      }
+    })
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect())
+    }
+  }, [])
 
   return (
     <>
@@ -11,15 +41,16 @@ const Landing = () => {
     >
       <div className="max-w-3xl text-left">
         <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-          We build modern web apps and
-          <span style={{ color: 'var(--brand-primary)' }}> AI‑powered solutions</span>
-          
+        Empowering Businesses with Modern
+          <span style={{ color: 'var(--brand-primary)' }}>  Technology & Scalable Solutions</span>
+         
         </h1>
 
         <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-          Waglogy Tech LLP designs, develops, and ships high‑quality web applications and
-          intelligent products powered by AI. From MVP to scale, we deliver fast.
-        </p>
+        At Tech Waglogy LLP, we believe technology should grow with your business—not burden you with unnecessary costs. That’s why we’ve designed our services with one simple promise:
+        <span className='font-bold'>  start with the essentials, 
+        scale as your business grows, and pay only for what you need.   </span>
+           </p>
 
         <div className="mt-4 sm:mt-6">
           <a
@@ -128,7 +159,7 @@ const Landing = () => {
            <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">Web Development</h2>
            <p className="mt-4 text-gray-700">Modern, fast, and scalable websites and web apps tailored to your business.</p>
            <img
-             src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1974&auto=format&fit=crop"
+             src="/3.png"
              alt="Web development"
              className="mt-6 rounded"
            />
@@ -140,7 +171,7 @@ const Landing = () => {
            <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">App Development</h2>
            <p className="mt-4 text-gray-700">iOS, Android, and cross‑platform apps with great UX and robust performance.</p>
            <img
-             src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1974&auto=format&fit=crop"
+             src="/4.png"
              alt="App development"
              className="mt-6 rounded"
            />
@@ -152,7 +183,7 @@ const Landing = () => {
            <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">Software Development</h2>
            <p className="mt-4 text-gray-700">Custom software solutions, integrations, and automation for complex workflows.</p>
            <img
-             src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1974&auto=format&fit=crop"
+             src="/6.png"
              alt="Software development"
              className="mt-6 rounded"
            />
@@ -164,7 +195,7 @@ const Landing = () => {
            <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">Graphic Designing</h2>
            <p className="mt-4 text-gray-700">Branding, UI/UX, and visuals that communicate clearly and look stunning.</p>
            <img
-             src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1974&auto=format&fit=crop"
+             src="/7.png"
              alt="Graphic design workspace"
              className="mt-6 rounded"
            />
@@ -176,7 +207,7 @@ const Landing = () => {
            <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">AI‑Powered Applications</h2>
            <p className="mt-4 text-gray-700">Intelligent products using LLMs, automation, and data to deliver real value.</p>
            <img
-             src="https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=1974&auto=format&fit=crop"
+             src="/5.png"
              alt="AI and machine learning"
              className="mt-6 rounded"
            />
@@ -218,7 +249,7 @@ const Landing = () => {
       </p>
     </header>
 
-    <div className="mt-8">
+    <div className="mt-8 text-left">
       <p className="text-sm text-gray-500">Showing <span> 4 </span> of 40</p>
     </div>
 
@@ -356,72 +387,221 @@ const Landing = () => {
   
 </section>
 
-<ol
-  className="relative space-y-8 before:absolute before:top-0 before:left-1/2 before:h-full before:w-0.5 before:-translate-x-1/2 before:rounded-full before:bg-gray-200 dark:before:bg-gray-700"
->
-  <li className="group relative grid grid-cols-2 odd:-me-3 even:-ms-3">
-    <div
-      className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+<section className="py-12 px-4 sm:px-6 lg:px-8">
+  <div className="mx-auto max-w-screen-xl">
+    <header className="text-center mb-12 animate-[fadeIn_0.8s_ease-out]">
+      <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Our Project Timeline</h2>
+    </header>
+
+    <ol
+      className="relative space-y-8 before:absolute before:top-0 before:left-1/2 before:h-full before:w-0.5 before:-translate-x-1/2 before:rounded-full before:bg-gray-200 dark:before:bg-gray-700"
     >
-      <span className="size-3 shrink-0 rounded-full bg-blue-600"></span>
+      {/* Phase 1 – Kickoff & Discovery */}
+      <li 
+        ref={(el) => (phaseRefs.current[0] = el)}
+        className={`group relative grid grid-cols-2 odd:-me-3 even:-ms-3 transition-all duration-700 ${
+          visiblePhases.includes(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div
+          className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+        >
+          <span className="size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
-      <div className="-mt-2">
-        <time className="text-xs/none font-medium text-gray-700 dark:text-gray-200">12/02/2025</time>
+          <div className="-mt-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Phase 1 – Kickoff & Discovery</h3>
 
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Kickoff</h3>
+            <p className="mt-3 text-sm text-gray-700 dark:text-gray-200">
+              Every great project starts with a strong foundation. In this phase, we:
+            </p>
+            
+            <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <li>• Understand your business goals & challenges</li>
+              <li>• Analyze your industry & competitors</li>
+              <li>• Define the scope, deliverables, and success metrics</li>
+            </ul>
+            
+            <p className="mt-3 text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
+              👉 Outcome: A clear roadmap for your digital journey.
+            </p>
+          </div>
+        </div>
 
-        <p className="mt-0.5 text-sm text-gray-700 dark:text-gray-200">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga officiis tempora ipsum
-          adipisci tenetur sunt quae exercitationem sed pariatur porro!
-        </p>
-      </div>
-    </div>
+        <div aria-hidden="true"></div>
+      </li>
 
-    <div aria-hidden="true"></div>
-  </li>
+      {/* Phase 2 – Design & Strategy */}
+      <li 
+        ref={(el) => (phaseRefs.current[1] = el)}
+        className={`group relative grid grid-cols-2 odd:-me-3 even:-ms-3 transition-all duration-700 ${
+          visiblePhases.includes(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div
+          className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+        >
+          <span className="size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
-  <li className="group relative grid grid-cols-2 odd:-me-3 even:-ms-3">
-    <div
-      className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
-    >
-      <span className="size-3 shrink-0 rounded-full bg-blue-600"></span>
+          <div className="-mt-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Phase 2 – Design & Strategy</h3>
 
-      <div className="-mt-2">
-        <time className="text-xs/none font-medium text-gray-700 dark:text-gray-200">5/03/2025</time>
+            <p className="mt-3 text-sm text-gray-700 dark:text-gray-200">
+              Once we know what to build, we focus on how to build it effectively.
+            </p>
+            
+            <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <li>• Create wireframes & UI/UX designs</li>
+              <li>• Establish branding and user experience guidelines</li>
+              <li>• Develop a strategy aligned with your business growth</li>
+            </ul>
+            
+            <p className="mt-3 text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
+              👉 Outcome: A visual blueprint that brings your idea to life.
+            </p>
+          </div>
+        </div>
 
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white">First Milestone</h3>
+        <div aria-hidden="true"></div>
+      </li>
 
-        <p className="mt-0.5 text-sm text-gray-700 dark:text-gray-200">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga officiis tempora ipsum
-          adipisci tenetur sunt quae exercitationem sed pariatur porro!
-        </p>
-      </div>
-    </div>
+      {/* Phase 3 – Development & First Milestone */}
+      <li 
+        ref={(el) => (phaseRefs.current[2] = el)}
+        className={`group relative grid grid-cols-2 odd:-me-3 even:-ms-3 transition-all duration-700 ${
+          visiblePhases.includes(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div
+          className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+        >
+          <span className="size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
-    <div aria-hidden="true"></div>
-  </li>
+          <div className="-mt-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Phase 3 – Development & First Milestone</h3>
 
-  <li className="group relative grid grid-cols-2 odd:-me-3 even:-ms-3">
-    <div
-      className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
-    >
-      <span className="size-3 shrink-0 rounded-full bg-blue-600"></span>
+            <p className="mt-3 text-sm text-gray-700 dark:text-gray-200">
+              Our developers begin building the core system with a scalable, growth-ready architecture.
+            </p>
+            
+            <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <li>• Development of core modules / MVP</li>
+              <li>• Regular updates & demo sessions</li>
+              <li>• Early testing for quality assurance</li>
+            </ul>
+            
+            <p className="mt-3 text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
+              👉 Outcome: A working product prototype you can test and review.
+            </p>
+          </div>
+        </div>
 
-      <div className="-mt-2">
-        <time className="text-xs/none font-medium text-gray-700 dark:text-gray-200">24/04/2025</time>
+        <div aria-hidden="true"></div>
+      </li>
 
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Launch</h3>
+      {/* Phase 4 – Testing & Refinement */}
+      <li 
+        ref={(el) => (phaseRefs.current[3] = el)}
+        className={`group relative grid grid-cols-2 odd:-me-3 even:-ms-3 transition-all duration-700 ${
+          visiblePhases.includes(3) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div
+          className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+        >
+          <span className="size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
-        <p className="mt-0.5 text-sm text-gray-700 dark:text-gray-200">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga officiis tempora ipsum
-          adipisci tenetur sunt quae exercitationem sed pariatur porro!
-        </p>
-      </div>
-    </div>
+          <div className="-mt-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Phase 4 – Testing & Refinement</h3>
 
-    <div aria-hidden="true"></div>
-  </li>
-</ol>
+            <p className="mt-3 text-sm text-gray-700 dark:text-gray-200">
+              Before going live, we ensure everything runs smoothly.
+            </p>
+            
+            <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <li>• Functional & security testing</li>
+              <li>• Client feedback integration</li>
+              <li>• Performance optimization</li>
+            </ul>
+            
+            <p className="mt-3 text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
+              👉 Outcome: A polished product that's reliable, fast, and secure.
+            </p>
+          </div>
+        </div>
+
+        <div aria-hidden="true"></div>
+      </li>
+
+      {/* Phase 5 – Launch & Deployment */}
+      <li 
+        ref={(el) => (phaseRefs.current[4] = el)}
+        className={`group relative grid grid-cols-2 odd:-me-3 even:-ms-3 transition-all duration-700 ${
+          visiblePhases.includes(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div
+          className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+        >
+          <span className="size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
+
+          <div className="-mt-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Phase 5 – Launch & Deployment</h3>
+
+            <p className="mt-3 text-sm text-gray-700 dark:text-gray-200">
+              The big moment! We make your product live for your users.
+            </p>
+            
+            <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <li>• Deployment on chosen cloud/servers</li>
+              <li>• Final checks & training for your team</li>
+              <li>• Launch marketing & go-live support</li>
+            </ul>
+            
+            <p className="mt-3 text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
+              👉 Outcome: A successful launch with everything ready for your audience.
+            </p>
+          </div>
+        </div>
+
+        <div aria-hidden="true"></div>
+      </li>
+
+      {/* Phase 6 – Post-Launch & Scaling */}
+      <li 
+        ref={(el) => (phaseRefs.current[5] = el)}
+        className={`group relative grid grid-cols-2 odd:-me-3 even:-ms-3 transition-all duration-700 ${
+          visiblePhases.includes(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div
+          className="relative flex items-start gap-4 group-odd:flex-row-reverse group-odd:text-right group-even:order-last"
+        >
+          <span className="size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
+
+          <div className="-mt-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Phase 6 – Post-Launch & Scaling</h3>
+
+            <p className="mt-3 text-sm text-gray-700 dark:text-gray-200">
+              Our relationship doesn't end at launch—we help you grow.
+            </p>
+            
+            <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <li>• Continuous monitoring & support</li>
+              <li>• Adding new features as your business scales</li>
+              <li>• AI & automation integration when you're ready</li>
+            </ul>
+            
+            <p className="mt-3 text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
+              👉 Outcome: A long-term growth partnership with technology that evolves with your business.
+            </p>
+          </div>
+        </div>
+
+        <div aria-hidden="true"></div>
+      </li>
+    </ol>
+  </div>
+</section>
 
 
 <section className="py-18 flex flex-row items-center justify-center gap-6">

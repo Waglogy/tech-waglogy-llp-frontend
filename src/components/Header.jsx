@@ -1,6 +1,30 @@
 import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const Header = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleGetQuote = () => {
+    // If we're on the contact page, scroll to the form
+    if (location.pathname === '/contact') {
+      const contactForm = document.getElementById('contact-form')
+      if (contactForm) {
+        contactForm.scrollIntoView({ behavior: 'smooth' })
+        // Focus on the first input field after scrolling
+        setTimeout(() => {
+          const nameInput = document.getElementById('name')
+          if (nameInput) {
+            nameInput.focus()
+          }
+        }, 800)
+      }
+    } else {
+      // Navigate to contact page with quote parameter
+      navigate('/contact?quote=true')
+    }
+  }
+
   return (
     <>
     <header className="bg-white">
@@ -23,19 +47,19 @@ const Header = () => {
                     </li>
 
                     <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Careers </a>
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/contact"> Contact Us </a>
                     </li>
 
                     <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> History </a>
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/pricing"> Pricing </a>
                     </li>
 
                     <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Services </a>
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/services"> Services </a>
                     </li>
 
                     <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Projects </a>
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/projects"> Projects </a>
                     </li>
 
                     <li>
@@ -47,19 +71,21 @@ const Header = () => {
 
             <div className="flex items-center gap-4">
                 <div className="sm:flex sm:gap-4">
-                <a
-                    className="rounded-md px-5 py-2.5 text-sm font-medium text-white shadow-sm"
+                <button
+                    onClick={handleGetQuote}
+                    className="rounded-md px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:shadow-md transition-shadow"
                     style={{ backgroundColor: 'var(--brand-primary)' }}
-                    href="#quote"
                 >
                     Get a Quote
-                </a>
+                </button>
 
                 <div className="hidden sm:flex">
                     <a
-                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium"
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium hover:bg-gray-200 transition-colors"
                     style={{ color: 'var(--brand-primary)' }}
-                    href="mailto:hello@waglogy.com"
+                    href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services%20and%20would%20like%20to%20discuss%20my%20project%20requirements.%20Please%20let%20me%20know%20when%20you%20can%20schedule%20a%20call.%20Thank%20you!"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     >
                     Contact Us
                     </a>

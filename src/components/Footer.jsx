@@ -4,48 +4,73 @@ const Footer = () => {
   return (
     <footer className="bg-gray-100">
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex justify-center text-teal-600">
-      <div className="h-20 overflow-hidden">
-                  <img src="/logo.png" alt="Waglogy logo" className="h-28 w-auto object-cover object-center" />
-               
-                </div>
+      <div className="flex justify-center items-center gap-4">
+        <div className="h-20 overflow-hidden">
+          <img src="/logo.png" alt="Waglogy logo" className="h-28 w-auto object-cover object-center" />
+        </div>
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-gray-900">Tech Waglogy LLP</h3>
+          <p className="text-sm text-gray-600 mt-1">Building Digital Excellence</p>
+        </div>
       </div>
   
       <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa cum
-        itaque neque.
+        Building modern web applications and AI-powered solutions that drive business growth. 
+        From concept to deployment, we deliver excellence.
       </p>
   
       <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
         <li>
-          <a className="text-gray-700 transition hover:text-gray-700/75" href="#"> About </a>
+          <a className="text-gray-700 transition hover:text-gray-700/75" href="/about"> About </a>
         </li>
   
         <li>
-          <a className="text-gray-700 transition hover:text-gray-700/75" href="#"> Careers </a>
+          <a className="text-gray-700 transition hover:text-gray-700/75" href="/services"> Services </a>
         </li>
   
         <li>
-          <a className="text-gray-700 transition hover:text-gray-700/75" href="#"> History </a>
+          <a className="text-gray-700 transition hover:text-gray-700/75" href="/projects"> Projects </a>
         </li>
   
         <li>
-          <a className="text-gray-700 transition hover:text-gray-700/75" href="#"> Services </a>
+          <a className="text-gray-700 transition hover:text-gray-700/75" href="/pricing"> Pricing </a>
         </li>
   
         <li>
-          <a className="text-gray-700 transition hover:text-gray-700/75" href="#"> Projects </a>
+          <a className="text-gray-700 transition hover:text-gray-700/75" href="/contact"> Contact </a>
         </li>
   
         <li>
-          <a className="text-gray-700 transition hover:text-gray-700/75" href="#"> Blog </a>
+          <a className="text-gray-700 transition hover:text-gray-700/75" href="/blog"> Blog </a>
         </li>
       </ul>
+
+      <div className="mt-8 pt-8 border-t border-gray-200">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} Waglogy Tech LLP. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <a 
+              href="/privacy-policy" 
+              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <a 
+              href="/terms-conditions" 
+              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              Terms & Conditions
+            </a>
+          </div>
+        </div>
+      </div>
   
       <ul className="mt-12 flex justify-center gap-6 md:gap-8">
         <li>
           <a
-            href="#"
+            href="https://www.facebook.com/profile.php?id=100088111282938"
             rel="noreferrer"
             target="_blank"
             className="text-gray-700 transition hover:text-gray-700/75"
