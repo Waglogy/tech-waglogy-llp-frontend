@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { FaWhatsapp, FaEnvelope, FaPhone, FaChevronDown } from 'react-icons/fa'
 
 const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const [isContactDropdownOpen, setIsContactDropdownOpen] = useState(false)
+  const dropdownRef = useRef(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsContactDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleGetQuote = () => {
     // If we're on the contact page, scroll to the form
@@ -79,16 +93,67 @@ const Header = () => {
                     Get a Quote
                 </button>
 
-                <div className="hidden sm:flex">
-                    <a
-                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium hover:bg-gray-200 transition-colors"
+                <div className="hidden sm:flex relative" ref={dropdownRef}>
+                    <button
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2"
                     style={{ color: 'var(--brand-primary)' }}
-                    href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services%20and%20would%20like%20to%20discuss%20my%20project%20requirements.%20Please%20let%20me%20know%20when%20you%20can%20schedule%20a%20call.%20Thank%20you!"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={() => setIsContactDropdownOpen(!isContactDropdownOpen)}
                     >
                     Contact Us
-                    </a>
+                    <FaChevronDown className={`w-3 h-3 transition-transform ${isContactDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {isContactDropdownOpen && (
+                      <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
+                        {/* WhatsApp */}
+                        <a
+                          href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                          onClick={() => setIsContactDropdownOpen(false)}
+                        >
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
+                            <FaWhatsapp className="w-5 h-5 text-green-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-semibold text-gray-900">WhatsApp</p>
+                            <p className="text-xs text-gray-500">9733814168</p>
+                          </div>
+                        </a>
+
+                        {/* Call */}
+                        <a
+                          href="tel:9733814168"
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                          onClick={() => setIsContactDropdownOpen(false)}
+                        >
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+                            <FaPhone className="w-4 h-4 text-blue-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-semibold text-gray-900">Call Us</p>
+                            <p className="text-xs text-gray-500">9733814168</p>
+                          </div>
+                        </a>
+
+                        {/* Email */}
+                        <a
+                          href="mailto:contact@waglogy.in"
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                          onClick={() => setIsContactDropdownOpen(false)}
+                        >
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100">
+                            <FaEnvelope className="w-4 h-4 text-purple-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-semibold text-gray-900">Email</p>
+                            <p className="text-xs text-gray-500">contact@waglogy.in</p>
+                          </div>
+                        </a>
+                      </div>
+                    )}
                 </div>
                 </div>
 
