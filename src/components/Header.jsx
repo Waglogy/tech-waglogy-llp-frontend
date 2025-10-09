@@ -58,9 +58,9 @@ const Header = () => {
                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/services"> Services </a>
                     </li>
 
-                    <li>
+                    {/* <li>
                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/projects"> Projects </a>
-                    </li>
+                    </li> */}
 
                     <li>
                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/blog"> Blog </a>
