@@ -1319,7 +1319,7 @@ const Landing = () => {
 
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Enter your query"
             className="w-full rounded-md border-gray-200 bg-white p-3 text-sm sm:text-base text-gray-700 shadow-md transition focus:border-white focus:ring-3 focus:ring-blue-400 focus:outline-hidden"
           />
         </div>
@@ -1328,7 +1328,7 @@ const Landing = () => {
           type="submit"
           className="group mt-3 sm:mt-0 flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 px-5 py-3 text-white transition focus:ring-3 focus:ring-blue-400 focus:outline-hidden shadow-md sm:w-auto"
         >
-          <span className="text-sm font-medium"> Contact Us </span>
+          <span className="text-sm font-medium"> Send Your query </span>
 
           <svg
             className="size-4 sm:size-5 shadow-sm rtl:rotate-180"

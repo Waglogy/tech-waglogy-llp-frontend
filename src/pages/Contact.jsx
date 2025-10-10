@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa'
 
 const Contact = () => {
   const [searchParams] = useSearchParams()
@@ -64,37 +65,6 @@ const Contact = () => {
     }, 2000)
   }
 
-  const contactInfo = [
-    {
-      icon: '📧',
-      title: 'Email Us',
-      details: 'contact@waglogy.in',
-      description: 'Send us an email anytime',
-      action: 'mailto:contact@waglogy.in'
-    },
-    {
-      icon: '📞',
-      title: 'Call Us',
-      details: '+91 97338 14168',
-      description: 'Mon-Fri from 9am to 6pm',
-      action: 'tel:+919733814168'
-    },
-    {
-      icon: '📍',
-      title: 'Visit Us',
-      details: '123 Tech Street, Suite 100',
-      description: 'San Francisco, CA 94105',
-      action: '#'
-    },
-    {
-      icon: '💬',
-      title: 'WhatsApp',
-      details: '+91 97338 14168',
-      description: 'Quick response guaranteed',
-      action: 'https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services%20and%20would%20like%20to%20discuss%20my%20project%20requirements.%20Please%20let%20me%20know%20when%20you%20can%20schedule%20a%20call.%20Thank%20you!'
-    }
-  ]
-
   const faqs = [
     {
       question: 'How long does a typical project take?',
@@ -125,47 +95,86 @@ const Contact = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-white py-8">
-        <div className="pt-0 pb-4 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:pt-2 lg:pb-8">
-          <div className="max-w-3xl text-left">
-            <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-              {isQuoteRequest ? (
-                <>
-                  Get Your
-                  <span style={{ color: 'var(--brand-primary)' }}> Quote</span>
-                </>
-              ) : (
-                <>
-                  Get in
-                  <span style={{ color: 'var(--brand-primary)' }}> Touch</span>
-                </>
-              )}
-            </h1>
-            <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-              {isQuoteRequest ? (
-                <>
-                  Ready to get a detailed quote for your project? Fill out the form below 
-                  and we'll send you a customized proposal within 24 hours.
-                </>
-              ) : (
-                <>
-                  Ready to start your next project? We'd love to hear from you. 
-                  Send us a message and we'll respond within 24 hours.
-                </>
-              )}
-            </p>
-            <div className="mt-4 sm:mt-6">
-              <a
-                className="inline-block rounded-lg px-5 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                style={{ backgroundColor: 'var(--brand-primary)' }}
-                href="#contact-form"
-              >
-                Send Message
-              </a>
+      <section className="bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="mx-auto max-w-screen-xl">
+          <div className="pt-4 pb-12 sm:pt-2 sm:pb-16 md:grid md:grid-cols-2 md:items-center md:gap-8 lg:pt-2 lg:pb-20">
+            <div className="max-w-3xl text-left">
+              <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+                {isQuoteRequest ? (
+                  <>
+                    Get Your
+                    <span style={{ color: 'var(--brand-primary)' }}> Quote</span>
+                  </>
+                ) : (
+                  <>
+                    Get in
+                    <span style={{ color: 'var(--brand-primary)' }}> Touch</span>
+                  </>
+                )}
+              </h1>
+              <p className="mt-4 text-base text-gray-700 sm:text-lg leading-relaxed">
+                {isQuoteRequest ? (
+                  <>
+                    Ready to get a detailed quote for your project? Fill out the form below 
+                    and we'll send you a customized proposal within 24 hours.
+                  </>
+                ) : (
+                  <>
+                    Ready to start your next project? We'd love to hear from you. 
+                    Whether you need a website, mobile app, custom software, or AI-powered solutions—we're here to help bring your vision to life.
+                  </>
+                )}
+              </p>
+
+              <div className="mt-6 space-y-4">
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: 'var(--brand-primary)' }} fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <p className="text-gray-700 text-sm sm:text-base">
+                    <strong>Quick Response:</strong> We respond to all inquiries within 24 hours
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: 'var(--brand-primary)' }} fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <p className="text-gray-700 text-sm sm:text-base">
+                    <strong>Free Consultation:</strong> Get expert advice on your project at no cost
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: 'var(--brand-primary)' }} fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <p className="text-gray-700 text-sm sm:text-base">
+                    <strong>No Obligation:</strong> Ask questions, discuss ideas—no pressure to commit
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4">
+                <a
+                  className="inline-block w-full sm:w-auto text-center rounded-lg px-6 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
+                  style={{ backgroundColor: 'var(--brand-primary)' }}
+                  href="#contact-form"
+                >
+                  Send Message
+                </a>
+                <a
+                  className="inline-block w-full sm:w-auto text-center rounded-lg px-6 py-3 font-medium border-2 hover:bg-gray-50 transition-colors"
+                  style={{ borderColor: 'var(--brand-primary)', color: 'var(--brand-primary)' }}
+                  href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp Us
+                </a>
+              </div>
             </div>
-          </div>
-          <div className="mx-auto hidden max-w-md md:block">
-            <img src="/banner.png" alt="Waglogy contact" className="w-full h-auto object-contain" />
+            <div className="mx-auto mt-8 md:mt-0 max-w-md">
+              <img src="/banner.png" alt="Waglogy contact" className="w-full h-auto object-contain" />
+            </div>
           </div>
         </div>
       </section>
@@ -174,25 +183,68 @@ const Contact = () => {
       <section className="py-12 bg-gray-50">
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Contact Information</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Choose the most convenient way to reach us
+            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Get In Touch</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Choose the most convenient way to reach us. We're here to help bring your vision to life.
             </p>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {contactInfo.map((info, index) => (
-              <a
-                key={index}
-                href={info.action}
-                className="group block p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-              >
-                <div className="text-4xl mb-4">{info.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{info.title}</h3>
-                <p className="text-gray-900 font-medium mb-1">{info.details}</p>
-                <p className="text-sm text-gray-600">{info.description}</p>
-              </a>
-            ))}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Email Card */}
+            <a
+              href="mailto:contact@waglogy.in"
+              className="group relative overflow-hidden bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center border-t-4 border-purple-500"
+            >
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 group-hover:scale-110 transition-transform">
+                <FaEnvelope className="w-7 h-7 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Us</h3>
+              <p className="text-gray-900 font-medium mb-1 text-sm">contact@waglogy.in</p>
+              <p className="text-xs text-gray-500">We reply within 24 hours</p>
+            </a>
+
+            {/* Phone Card */}
+            <a
+              href="tel:+919733814168"
+              className="group relative overflow-hidden bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center border-t-4 border-blue-500"
+            >
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 group-hover:scale-110 transition-transform">
+                <FaPhoneAlt className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Call Us</h3>
+              <p className="text-gray-900 font-medium mb-1 text-sm">+91 9733814168</p>
+              <p className="text-xs text-gray-500">Mon-Sat, 9am to 7pm IST</p>
+            </a>
+
+            {/* Location Card */}
+            <a
+              href="https://maps.google.com/?q=Tadong+Metro+Point+Gangtok+Sikkim"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center border-t-4 border-red-500"
+            >
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 group-hover:scale-110 transition-transform">
+                <FaMapMarkerAlt className="w-7 h-7 text-red-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Visit Us</h3>
+              <p className="text-gray-900 font-medium mb-1 text-sm">Tadong Metro Point</p>
+              <p className="text-xs text-gray-500">Gangtok, Sikkim - 737102</p>
+            </a>
+
+            {/* WhatsApp Card */}
+            <a
+              href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center border-t-4 border-green-500"
+            >
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 group-hover:scale-110 transition-transform">
+                <FaWhatsapp className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">WhatsApp</h3>
+              <p className="text-gray-900 font-medium mb-1 text-sm">+91 9733814168</p>
+              <p className="text-xs text-gray-500">Instant messaging</p>
+            </a>
           </div>
         </div>
       </section>
@@ -200,13 +252,14 @@ const Contact = () => {
       {/* Contact Form Section */}
       <section id="contact-form" className="py-12">
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2">
-            {/* Contact Form */}
+          
+          {/* Contact Form - Centered */}
+          <div className="max-w-3xl mx-auto">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
                 {isQuoteRequest ? 'Request Your Quote' : 'Send us a Message'}
               </h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-gray-600 mb-8 text-center">
                 {isQuoteRequest ? (
                   <>
                     Fill out the form below and we'll send you a detailed quote within 24 hours. 
@@ -271,7 +324,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                      Company
+                      Company / Organization
                     </label>
                     <input
                       type="text"
@@ -280,7 +333,7 @@ const Contact = () => {
                       value={formData.company}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                      placeholder="Your company name"
+                      placeholder="Your company / organization name"
                     />
                   </div>
                 </div>
@@ -299,11 +352,11 @@ const Contact = () => {
                     >
                       <option value="">Select a service</option>
                       <option value="web-development">Web Development</option>
-                      <option value="mobile-app">Mobile App Development</option>
-                      <option value="ai-solutions">AI-Powered Solutions</option>
-                      <option value="ecommerce">E-commerce Development</option>
-                      <option value="ui-ux">UI/UX Design</option>
-                      <option value="software">Software Development</option>
+                      <option value="app-development">Application Development</option>
+                      <option value="software-development">Software Development</option>
+                      <option value="graphics-uiux">Graphics & UI/UX Design</option>
+                      <option value="ai-chatbots">AI Solutions & Chatbots</option>
+                      <option value="ai-automations">AI Automations</option>
                       <option value="consultation">Consultation</option>
                     </select>
                   </div>
@@ -319,11 +372,12 @@ const Contact = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                     >
                       <option value="">Select budget range</option>
-                      <option value="under-5k">Under $5,000</option>
-                      <option value="5k-15k">$5,000 - $15,000</option>
-                      <option value="15k-50k">$15,000 - $50,000</option>
-                      <option value="50k-100k">$50,000 - $100,000</option>
-                      <option value="over-100k">Over $100,000</option>
+                      <option value="under-50k">Under ₹50,000</option>
+                      <option value="50k-1l">₹50,000 - ₹1,00,000</option>
+                      <option value="1l-3l">₹1,00,000 - ₹3,00,000</option>
+                      <option value="3l-5l">₹3,00,000 - ₹5,00,000</option>
+                      <option value="5l-10l">₹5,00,000 - ₹10,00,000</option>
+                      <option value="over-10l">Over ₹10,00,000</option>
                     </select>
                   </div>
                 </div>
@@ -367,63 +421,64 @@ const Contact = () => {
                 </button>
               </form>
             </div>
+          </div>
 
-            {/* Additional Information */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Choose Waglogy?</h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start">
-                    <svg className="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Expert Team</h4>
-                      <p className="text-gray-600 text-sm">Experienced developers and designers with proven track records</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Modern Technologies</h4>
-                      <p className="text-gray-600 text-sm">We use the latest tools and frameworks for optimal performance</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Transparent Process</h4>
-                      <p className="text-gray-600 text-sm">Regular updates and clear communication throughout the project</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Ongoing Support</h4>
-                      <p className="text-gray-600 text-sm">Comprehensive maintenance and support after project completion</p>
-                    </div>
-                  </li>
-                </ul>
+          {/* Why Choose Waglogy - Centered Below Form */}
+          <div className="max-w-4xl mx-auto mt-16">
+            <div className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl shadow-lg">
+              <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Why Choose Waglogy?</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex items-start gap-4 text-left">
+                  <svg className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-1">Growth-Friendly Technology</h4>
+                    <p className="text-gray-600 text-sm">Pay only for what you need, scale as you grow</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 text-left">
+                  <svg className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-1">Modern Technologies</h4>
+                    <p className="text-gray-600 text-sm">React, Next.js, Flutter, AI integrations & more</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 text-left">
+                  <svg className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-1">Transparent Process</h4>
+                    <p className="text-gray-600 text-sm">Regular updates and clear communication</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 text-left">
+                  <svg className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-1">Ongoing Support</h4>
+                    <p className="text-gray-600 text-sm">Maintenance and support after launch</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-3">Response Time</h4>
-                <p className="text-gray-600 text-sm mb-4">
+              <div className="bg-white p-6 rounded-lg mt-6 text-center border" style={{ borderColor: 'var(--brand-primary)' }}>
+                <h4 className="font-semibold text-gray-900 mb-3">⏰ Response Time</h4>
+                <p className="text-gray-600 text-sm mb-3">
                   We typically respond to all inquiries within 24 hours during business days. 
-                  For urgent matters, please call us directly.
+                  For urgent matters, please call or WhatsApp us directly.
                 </p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Business Hours: Mon-Fri, 9:00 AM - 6:00 PM PST
-                </div>
+                <p className="text-sm font-medium" style={{ color: 'var(--brand-primary)' }}>
+                  Business Hours: Mon-Sat, 9:00 AM - 7:00 PM IST
+                </p>
               </div>
             </div>
           </div>
