@@ -12,10 +12,20 @@ import Contact from './pages/Contact'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 
+// Admin Imports
+import AdminLogin from './admin/Login'
+import AdminLayout from './admin/components/AdminLayout'
+import Dashboard from './admin/pages/Dashboard'
+import AdminContacts from './admin/pages/Contacts'
+import Queries from './admin/pages/Queries'
+import Clients from './admin/pages/Clients'
+import Payments from './admin/pages/Payments'
+
 
 function App() {
   return (
     <Routes>
+      {/* Public Routes */}
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
         <Route path="about" element={<About />} /> 
@@ -26,6 +36,16 @@ function App() {
         <Route path = "pricing" element={<Pricing/>}/>
         <Route path = "privacy-policy" element={<PrivacyPolicy/>}/>
         <Route path = "terms-conditions" element={<TermsConditions/>}/>
+      </Route>
+
+      {/* Admin Routes */}
+      <Route path="admin/login" element={<AdminLogin />} />
+      <Route path="admin" element={<AdminLayout />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="contacts" element={<AdminContacts />} />
+        <Route path="queries" element={<Queries />} />
+        <Route path="clients" element={<Clients />} />
+        <Route path="payments" element={<Payments />} />
       </Route>
     </Routes>
   )
