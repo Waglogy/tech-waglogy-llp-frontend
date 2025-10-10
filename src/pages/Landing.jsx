@@ -3,11 +3,18 @@ import { motion } from 'framer-motion'
 import { MdConstruction } from 'react-icons/md'
 import { FaRocket } from 'react-icons/fa'
 import { HiChip } from 'react-icons/hi'
+import { submitQuery } from '../services/queryService'
 
 const Landing = () => {
   const [activeSection, setActiveSection] = useState('web')
   const [visiblePhases, setVisiblePhases] = useState([])
   const phaseRefs = useRef([])
+  
+  // Query form state
+  const [queryMessage, setQueryMessage] = useState('')
+  const [isSubmittingQuery, setIsSubmittingQuery] = useState(false)
+  const [queryStatus, setQueryStatus] = useState(null) // 'success' or 'error'
+  const [queryErrorMessage, setQueryErrorMessage] = useState('')
 
   useEffect(() => {
     const observers = []
@@ -36,6 +43,40 @@ const Landing = () => {
       observers.forEach((observer) => observer.disconnect())
     }
   }, [])
+
+  // Handle query form submission
+  const handleQuerySubmit = async (e) => {
+    e.preventDefault()
+    
+    if (!queryMessage.trim()) {
+      setQueryStatus('error')
+      setQueryErrorMessage('Please enter your query')
+      return
+    }
+
+    setIsSubmittingQuery(true)
+    setQueryStatus(null)
+    setQueryErrorMessage('')
+
+    try {
+      const response = await submitQuery({ message: queryMessage })
+      
+      console.log('Query submitted successfully:', response)
+      setQueryStatus('success')
+      setQueryMessage('') // Reset form
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setQueryStatus(null)
+      }, 5000)
+    } catch (error) {
+      console.error('Error submitting query:', error)
+      setQueryStatus('error')
+      setQueryErrorMessage(error.message || 'Failed to submit query. Please try again.')
+    } finally {
+      setIsSubmittingQuery(false)
+    }
+  }
 
   return (
     <>
@@ -812,13 +853,13 @@ const Landing = () => {
           <span className="absolute left-[11px] sm:left-auto sm:relative size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
           <div className="-mt-2 text-left">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-left">Phase 1 – Kickoff & Discovery</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-left">Phase 1 – Kickoff & Discovery</h3>
 
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-700 dark:text-gray-200 text-left leading-relaxed">
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-900 text-left leading-relaxed">
               Every great project starts with a strong foundation. In this phase, we:
             </p>
             
-            <ul className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 space-y-1 text-left">
+            <ul className="mt-2 text-xs sm:text-sm text-gray-900 space-y-1 text-left">
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Understand your business goals & challenges</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Analyze your industry & competitors</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Define the scope, deliverables, and success metrics</span></li>
@@ -846,13 +887,13 @@ const Landing = () => {
           <span className="absolute left-[11px] sm:left-auto sm:relative size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
           <div className="-mt-2 text-left">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-left">Phase 2 – Design & Strategy</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-left">Phase 2 – Design & Strategy</h3>
 
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-700 dark:text-gray-200 text-left leading-relaxed">
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-900 text-left leading-relaxed">
               Once we know what to build, we focus on how to build it effectively.
             </p>
             
-            <ul className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 space-y-1 text-left">
+            <ul className="mt-2 text-xs sm:text-sm text-gray-900 space-y-1 text-left">
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Create wireframes & UI/UX designs</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Establish branding and user experience guidelines</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Develop a strategy aligned with your business growth</span></li>
@@ -880,13 +921,13 @@ const Landing = () => {
           <span className="absolute left-[11px] sm:left-auto sm:relative size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
           <div className="-mt-2 text-left">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-left">Phase 3 – Development & First Milestone</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-left">Phase 3 – Development & First Milestone</h3>
 
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-700 dark:text-gray-200 text-left leading-relaxed">
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-900 text-left leading-relaxed">
               Our developers begin building the core system with a scalable, growth-ready architecture.
             </p>
             
-            <ul className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 space-y-1 text-left">
+            <ul className="mt-2 text-xs sm:text-sm text-gray-900 space-y-1 text-left">
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Development of core modules / MVP</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Regular updates & demo sessions</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Early testing for quality assurance</span></li>
@@ -914,13 +955,13 @@ const Landing = () => {
           <span className="absolute left-[11px] sm:left-auto sm:relative size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
           <div className="-mt-2 text-left">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-left">Phase 4 – Testing & Refinement</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-left">Phase 4 – Testing & Refinement</h3>
 
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-700 dark:text-gray-200 text-left leading-relaxed">
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-900 text-left leading-relaxed">
               Before going live, we ensure everything runs smoothly.
             </p>
             
-            <ul className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 space-y-1 text-left">
+            <ul className="mt-2 text-xs sm:text-sm text-gray-900 space-y-1 text-left">
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Functional & security testing</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Client feedback integration</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Performance optimization</span></li>
@@ -948,13 +989,13 @@ const Landing = () => {
           <span className="absolute left-[11px] sm:left-auto sm:relative size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
           <div className="-mt-2 text-left">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-left">Phase 5 – Launch & Deployment</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-left">Phase 5 – Launch & Deployment</h3>
 
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-700 dark:text-gray-200 text-left leading-relaxed">
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-900 text-left leading-relaxed">
               The big moment! We make your product live for your users.
             </p>
             
-            <ul className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 space-y-1 text-left">
+            <ul className="mt-2 text-xs sm:text-sm text-gray-900 space-y-1 text-left">
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Deployment on chosen cloud/servers</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Final checks & training for your team</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Launch marketing & go-live support</span></li>
@@ -982,13 +1023,13 @@ const Landing = () => {
           <span className="absolute left-[11px] sm:left-auto sm:relative size-4 shrink-0 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }}></span>
 
           <div className="-mt-2 text-left">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-left">Phase 6 – Post-Launch & Scaling</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-left">Phase 6 – Post-Launch & Scaling</h3>
 
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-700 dark:text-gray-200 text-left leading-relaxed">
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-900 text-left leading-relaxed">
               Our relationship doesn't end at launch—we help you grow.
             </p>
             
-            <ul className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 space-y-1 text-left">
+            <ul className="mt-2 text-xs sm:text-sm text-gray-900 space-y-1 text-left">
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Continuous monitoring & support</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>Adding new features as your business scales</span></li>
               <li className="flex items-start"><span className="mr-2 flex-shrink-0">•</span><span>AI & automation integration when you're ready</span></li>
@@ -1313,39 +1354,65 @@ const Landing = () => {
     </div>
 
     <div className="mx-auto mt-6 sm:mt-8 max-w-xl px-4">
-      <form action="#" className="sm:flex sm:gap-4">
+      <form onSubmit={handleQuerySubmit} className="sm:flex sm:gap-4">
         <div className="sm:flex-1">
-          <label htmlFor="email" className="sr-only">Email</label>
+          <label htmlFor="query-message" className="sr-only">Query</label>
 
           <input
-            type="email"
+            id="query-message"
+            type="text"
+            value={queryMessage}
+            onChange={(e) => setQueryMessage(e.target.value)}
             placeholder="Enter your query"
-            className="w-full rounded-md border-gray-200 bg-white p-3 text-sm sm:text-base text-gray-700 shadow-md transition focus:border-white focus:ring-3 focus:ring-blue-400 focus:outline-hidden"
+            disabled={isSubmittingQuery}
+            className="w-full rounded-md border-gray-200 bg-white p-3 text-sm sm:text-base text-gray-700 shadow-md transition focus:border-white focus:ring-3 focus:ring-blue-400 focus:outline-hidden disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
 
         <button
           type="submit"
-          className="group mt-3 sm:mt-0 flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 px-5 py-3 text-white transition focus:ring-3 focus:ring-blue-400 focus:outline-hidden shadow-md sm:w-auto"
+          disabled={isSubmittingQuery || !queryMessage.trim()}
+          className="group mt-3 sm:mt-0 flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 px-5 py-3 text-white transition focus:ring-3 focus:ring-blue-400 focus:outline-hidden shadow-md sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600"
         >
-          <span className="text-sm font-medium"> Send Your query </span>
+          <span className="text-sm font-medium">
+            {isSubmittingQuery ? 'Sending...' : 'Send Your query'}
+          </span>
 
-          <svg
-            className="size-4 sm:size-5 shadow-sm rtl:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
+          {!isSubmittingQuery && (
+            <svg
+              className="size-4 sm:size-5 shadow-sm rtl:rotate-180"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          )}
         </button>
       </form>
+      
+      {/* Success/Error Messages */}
+      {queryStatus === 'success' && (
+        <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md">
+          <p className="text-sm text-green-800 text-center font-medium">
+            ✅ Thank you! Your query has been submitted successfully. We'll get back to you soon!
+          </p>
+        </div>
+      )}
+      
+      {queryStatus === 'error' && (
+        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+          <p className="text-sm text-red-800 text-center font-medium">
+            ❌ {queryErrorMessage}
+          </p>
+        </div>
+      )}
     </div>
   </div>
 </section>

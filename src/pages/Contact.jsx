@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa'
+import { submitContactForm } from '../services/contactService'
+import SuccessModal from '../components/SuccessModal'
+import { convertBudgetRangeToUSD } from '../utils/currencyConverter'
 
 const Contact = () => {
   const [searchParams] = useSearchParams()
@@ -17,6 +20,9 @@ const Contact = () => {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [submittedData, setSubmittedData] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('')
 
   // Auto-scroll to form if it's a quote request
   useEffect(() => {
@@ -48,11 +54,47 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setErrorMessage('')
+    setSubmitStatus(null)
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      // Convert budget from INR to USD
+      const budgetInUSD = formData.budget ? convertBudgetRangeToUSD(formData.budget) : '';
+      
+      // Prepare data in API format - only include required fields first
+      const apiData = {
+        fullName: formData.name,
+        email: formData.email,
+        projectDetails: formData.message
+      }
+
+      // Only add optional fields if they have actual values
+      if (formData.phone && formData.phone.trim()) {
+        apiData.phone = formData.phone.trim();
+      }
+      
+      if (formData.company && formData.company.trim()) {
+        apiData.organizationName = formData.company.trim();
+      }
+      
+      if (budgetInUSD) {
+        apiData.budgetRange = budgetInUSD;
+      }
+
+      // Log the data being sent (for debugging)
+      console.log('Submitting to API:', apiData);
+
+      // Submit to API
+      const response = await submitContactForm(apiData)
+      
+      // Store submitted data for modal
+      setSubmittedData(apiData)
+      
+      // Show success status and modal
       setSubmitStatus('success')
+      setShowSuccessModal(true)
+      
+      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -62,7 +104,15 @@ const Contact = () => {
         budget: '',
         message: ''
       })
-    }, 2000)
+      
+      console.log('Contact form submitted successfully:', response)
+    } catch (error) {
+      console.error('Error submitting contact form:', error)
+      setSubmitStatus('error')
+      setErrorMessage(error.message || 'Failed to submit form. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const faqs = [
@@ -406,6 +456,14 @@ const Contact = () => {
                   </div>
                 )}
 
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-800 font-medium">
+                      ❌ {errorMessage}
+                    </p>
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -548,6 +606,13 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        submittedData={submittedData}
+      />
     </>
   )
 }
