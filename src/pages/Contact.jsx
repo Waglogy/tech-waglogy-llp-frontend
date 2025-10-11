@@ -4,6 +4,9 @@ import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/
 import { submitContactForm } from '../services/contactService'
 import SuccessModal from '../components/SuccessModal'
 import { convertBudgetRangeToUSD } from '../utils/currencyConverter'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { generateFAQSchema } from '../config/seo'
 
 const Contact = () => {
   const [searchParams] = useSearchParams()
@@ -115,6 +118,7 @@ const Contact = () => {
     }
   }
 
+  // FAQ data for structured data
   const faqs = [
     {
       question: 'How long does a typical project take?',
@@ -144,6 +148,9 @@ const Contact = () => {
 
   return (
     <>
+      <SEO page="contact" />
+      <StructuredData schemas={[generateFAQSchema(faqs)]} />
+      
       {/* Hero Section */}
       <section className="bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8 mb-8">
         <div className="mx-auto max-w-screen-xl">

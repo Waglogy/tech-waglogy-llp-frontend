@@ -4,6 +4,7 @@ import { FaRupeeSign, FaDollarSign, FaCheckCircle, FaArrowRight, FaTimes, FaRock
 import { MdWeb, MdPhoneAndroid, MdComputer, MdPalette, MdConstruction } from 'react-icons/md'
 import { HiChip } from 'react-icons/hi'
 import { RiRobotFill } from 'react-icons/ri'
+import SEO from '../components/SEO'
 
 const Pricing = () => {
   const [currency, setCurrency] = useState('INR') // INR or USD
@@ -204,6 +205,7 @@ const Pricing = () => {
 
   return (
     <>
+    <SEO page="pricing" />
       {/* Hero Section */}
       <section className="bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-screen-xl">

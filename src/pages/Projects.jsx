@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import SEO from '../components/SEO'
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -89,6 +90,7 @@ const Projects = () => {
 
   return (
     <>
+      <SEO page="projects" />
       {/* Hero Section */}
       <section className="bg-white py-8">
         <div className="pt-0 pb-4 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:pt-2 lg:pb-8">
