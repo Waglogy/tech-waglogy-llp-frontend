@@ -1,64 +1,107 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiMail, FiPhone, FiCalendar, FiTrash2, FiEye } from 'react-icons/fi';
+import { getAllContacts, deleteContact, updateContactStatus } from '../../services/contactService';
 
 const Contacts = () => {
-  const [contacts] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '+1 234 567 8900',
-      subject: 'Website Development Inquiry',
-      message: 'I am interested in developing a new website for my business.',
-      date: '2025-10-08',
-      status: 'New'
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      phone: '+1 234 567 8901',
-      subject: 'Mobile App Development',
-      message: 'Looking for a team to build an iOS and Android app.',
-      date: '2025-10-07',
-      status: 'In Progress'
-    },
-    {
-      id: 3,
-      name: 'Mike Johnson',
-      email: 'mike.j@example.com',
-      phone: '+1 234 567 8902',
-      subject: 'SEO Services',
-      message: 'Need help with SEO optimization for my e-commerce site.',
-      date: '2025-10-06',
-      status: 'Replied'
-    },
-    {
-      id: 4,
-      name: 'Sarah Williams',
-      email: 'sarah.w@example.com',
-      phone: '+1 234 567 8903',
-      subject: 'General Inquiry',
-      message: 'What are your hourly rates for consulting services?',
-      date: '2025-10-05',
-      status: 'New'
-    }
-  ]);
-
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
+
+  // Fetch contacts on component mount
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await getAllContacts();
+      setContacts(response.data || []);
+    } catch (err) {
+      setError('Failed to load contacts. Please try again.');
+      console.error('Error fetching contacts:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this contact?')) return;
+    
+    try {
+      await deleteContact(id);
+      setContacts(contacts.filter(contact => contact._id !== id));
+    } catch (err) {
+      alert('Failed to delete contact. Please try again.');
+      console.error('Error deleting contact:', err);
+    }
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await updateContactStatus(id, newStatus);
+      setContacts(contacts.map(contact => 
+        contact._id === id ? { ...contact, status: newStatus } : contact
+      ));
+    } catch (err) {
+      alert('Failed to update status. Please try again.');
+      console.error('Error updating status:', err);
+    }
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'New':
+      case 'new':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'In Progress':
+      case 'in-progress':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Replied':
+      case 'contacted':
         return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'qualified':
+        return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'closed':
+        return 'bg-gray-100 text-gray-800 border-gray-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading contacts...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={fetchContacts}
+            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -74,53 +117,62 @@ const Contacts = () => {
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold">Name</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold">Email</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Subject</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold">Organization</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold">Date</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold">Status</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {contacts.map((contact) => (
-                <tr key={contact.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm text-black font-medium">{contact.name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <FiMail className="mr-2" size={14} />
-                      {contact.email}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{contact.subject}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <FiCalendar className="mr-2" size={14} />
-                      {contact.date}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(contact.status)}`}>
-                      {contact.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => setSelectedContact(contact)}
-                        className="text-black hover:text-gray-600 p-2 hover:bg-gray-100 rounded"
-                        title="View"
-                      >
-                        <FiEye size={18} />
-                      </button>
-                      <button
-                        className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded"
-                        title="Delete"
-                      >
-                        <FiTrash2 size={18} />
-                      </button>
-                    </div>
+              {contacts.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
+                    No contacts found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                contacts.map((contact) => (
+                  <tr key={contact._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 text-sm text-black font-medium">{contact.fullName}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <FiMail className="mr-2" size={14} />
+                        {contact.email}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">{contact.organizationName || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <FiCalendar className="mr-2" size={14} />
+                        {formatDate(contact.createdAt)}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(contact.status)}`}>
+                        {contact.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => setSelectedContact(contact)}
+                          className="text-black hover:text-gray-600 p-2 hover:bg-gray-100 rounded"
+                          title="View"
+                        >
+                          <FiEye size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(contact._id)}
+                          className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded"
+                          title="Delete"
+                        >
+                          <FiTrash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -142,7 +194,7 @@ const Contacts = () => {
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-semibold text-gray-700">Name</label>
-                <p className="text-black">{selectedContact.name}</p>
+                <p className="text-black">{selectedContact.fullName}</p>
               </div>
               <div>
                 <label className="text-sm font-semibold text-gray-700">Email</label>
@@ -153,21 +205,35 @@ const Contacts = () => {
                 <p className="text-black">{selectedContact.phone}</p>
               </div>
               <div>
-                <label className="text-sm font-semibold text-gray-700">Subject</label>
-                <p className="text-black">{selectedContact.subject}</p>
+                <label className="text-sm font-semibold text-gray-700">Organization</label>
+                <p className="text-black">{selectedContact.organizationName || 'N/A'}</p>
               </div>
               <div>
-                <label className="text-sm font-semibold text-gray-700">Message</label>
-                <p className="text-black">{selectedContact.message}</p>
+                <label className="text-sm font-semibold text-gray-700">Budget Range</label>
+                <p className="text-black">{selectedContact.budgetRange || 'N/A'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700">Project Details</label>
+                <p className="text-black">{selectedContact.projectDetails}</p>
               </div>
               <div className="flex gap-4">
                 <div>
                   <label className="text-sm font-semibold text-gray-700">Date</label>
-                  <p className="text-black">{selectedContact.date}</p>
+                  <p className="text-black">{formatDate(selectedContact.createdAt)}</p>
                 </div>
                 <div>
                   <label className="text-sm font-semibold text-gray-700">Status</label>
-                  <p className="text-black">{selectedContact.status}</p>
+                  <select
+                    value={selectedContact.status}
+                    onChange={(e) => handleStatusChange(selectedContact._id, e.target.value)}
+                    className="px-3 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  >
+                    <option value="new">New</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="contacted">Contacted</option>
+                    <option value="qualified">Qualified</option>
+                    <option value="closed">Closed</option>
+                  </select>
                 </div>
               </div>
             </div>

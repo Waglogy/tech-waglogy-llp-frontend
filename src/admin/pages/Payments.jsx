@@ -1,70 +1,55 @@
-import { useState } from 'react';
-import { FiDollarSign, FiCalendar, FiCreditCard, FiPlus, FiTrash2, FiDownload, FiX } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
+import { FiDollarSign, FiCalendar, FiCreditCard, FiPlus, FiTrash2, FiX, FiEdit2, FiFilter } from 'react-icons/fi';
+import { getAllPayments, createPayment, updatePayment, deletePayment, getPaymentStats } from '../../services/paymentService';
 
 const Payments = () => {
-  const [payments, setPayments] = useState([
-    {
-      id: 1,
-      clientName: 'Acme Corporation',
-      invoiceNumber: 'INV-001',
-      amount: '$5,000',
-      date: '2025-10-01',
-      method: 'Bank Transfer',
-      status: 'Paid',
-      description: 'Web Development - Phase 1'
-    },
-    {
-      id: 2,
-      clientName: 'Tech Solutions Inc',
-      invoiceNumber: 'INV-002',
-      amount: '$12,000',
-      date: '2025-10-05',
-      method: 'Credit Card',
-      status: 'Paid',
-      description: 'Mobile App Development - Milestone 2'
-    },
-    {
-      id: 3,
-      clientName: 'Digital Ventures',
-      invoiceNumber: 'INV-003',
-      amount: '$3,500',
-      date: '2025-10-08',
-      method: 'PayPal',
-      status: 'Pending',
-      description: 'UI/UX Design Services'
-    },
-    {
-      id: 4,
-      clientName: 'E-Store Global',
-      invoiceNumber: 'INV-004',
-      amount: '$8,000',
-      date: '2025-10-09',
-      method: 'Bank Transfer',
-      status: 'Paid',
-      description: 'E-commerce Platform - Initial Payment'
-    },
-    {
-      id: 5,
-      clientName: 'Tech Solutions Inc',
-      invoiceNumber: 'INV-005',
-      amount: '$6,500',
-      date: '2025-10-10',
-      method: 'Check',
-      status: 'Overdue',
-      description: 'Consulting Services - Q4 2024'
-    }
-  ]);
-
+  const [payments, setPayments] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingPayment, setEditingPayment] = useState(null);
+  const [filterStatus, setFilterStatus] = useState('All');
+  
   const [formData, setFormData] = useState({
-    clientName: '',
-    invoiceNumber: '',
+    client: '',
     amount: '',
     date: '',
     method: '',
-    status: 'Pending',
-    description: ''
+    status: 'pending',
+    description: '',
+    comment: ''
   });
+
+  // Fetch payments and stats on component mount
+  useEffect(() => {
+    fetchPayments();
+    fetchStats();
+  }, [filterStatus]);
+
+  const fetchPayments = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const params = filterStatus !== 'All' ? { status: filterStatus } : {};
+      const response = await getAllPayments(params);
+      setPayments(response.data || []);
+    } catch (err) {
+      setError('Failed to load payments. Please try again.');
+      console.error('Error fetching payments:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const response = await getPaymentStats();
+      setStats(response.data);
+    } catch (err) {
+      console.error('Error fetching stats:', err);
+    }
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -73,55 +58,146 @@ const Payments = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setPayments([...payments, { ...formData, id: Date.now() }]);
-    resetForm();
+    
+    try {
+      if (editingPayment) {
+        // Update existing payment - don't send invoiceNo
+        const { invoiceNo, ...updateData } = formData;
+        const response = await updatePayment(editingPayment._id, updateData);
+        setPayments(payments.map(payment => 
+          payment._id === editingPayment._id ? response.data : payment
+        ));
+      } else {
+        // Create new payment - backend will auto-generate invoiceNo
+        const response = await createPayment(formData);
+        setPayments([response.data, ...payments]);
+      }
+      await fetchStats(); // Refresh stats
+      resetForm();
+    } catch (err) {
+      alert(err.message || 'Failed to save payment. Please try again.');
+      console.error('Error saving payment:', err);
+    }
   };
 
-  const handleDelete = (id) => {
-    if (confirm('Are you sure you want to delete this payment record?')) {
-      setPayments(payments.filter(payment => payment.id !== id));
+  const handleEdit = (payment) => {
+    setEditingPayment(payment);
+    setFormData({
+      client: payment.client,
+      amount: payment.amount,
+      date: payment.date ? new Date(payment.date).toISOString().split('T')[0] : '',
+      method: payment.method,
+      status: payment.status,
+      description: payment.description,
+      comment: payment.comment || ''
+    });
+    setShowAddModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this payment record?')) return;
+    
+    try {
+      await deletePayment(id);
+      setPayments(payments.filter(payment => payment._id !== id));
+      await fetchStats(); // Refresh stats
+    } catch (err) {
+      alert('Failed to delete payment. Please try again.');
+      console.error('Error deleting payment:', err);
     }
   };
 
   const resetForm = () => {
     setFormData({
-      clientName: '',
-      invoiceNumber: '',
+      client: '',
       amount: '',
       date: '',
       method: '',
-      status: 'Pending',
-      description: ''
+      status: 'pending',
+      description: '',
+      comment: ''
     });
+    setEditingPayment(null);
     setShowAddModal(false);
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Paid':
+      case 'completed':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'Pending':
+      case 'pending':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Overdue':
+      case 'failed':
         return 'bg-red-100 text-red-800 border-red-200';
+      case 'refunded':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'cancelled':
+        return 'bg-gray-100 text-gray-800 border-gray-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
-  const totalPaid = payments
-    .filter(p => p.status === 'Paid')
-    .reduce((sum, p) => sum + parseFloat(p.amount.replace(/[$,]/g, '')), 0);
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
 
-  const totalPending = payments
-    .filter(p => p.status === 'Pending')
-    .reduce((sum, p) => sum + parseFloat(p.amount.replace(/[$,]/g, '')), 0);
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(amount);
+  };
 
-  const totalOverdue = payments
-    .filter(p => p.status === 'Overdue')
-    .reduce((sum, p) => sum + parseFloat(p.amount.replace(/[$,]/g, '')), 0);
+  const formatMethod = (method) => {
+    return method.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  };
+
+  // Calculate stats from local data
+  const calculateLocalStats = () => {
+    const completed = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
+    const pending = payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0);
+    const failed = payments.filter(p => p.status === 'failed').reduce((sum, p) => sum + p.amount, 0);
+    
+    return { completed, pending, failed };
+  };
+
+  const localStats = calculateLocalStats();
+
+  if (loading && payments.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading payments...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && payments.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={fetchPayments}
+            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -143,12 +219,12 @@ const Payments = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-600 text-sm font-medium">Total Paid</h3>
+            <h3 className="text-gray-600 text-sm font-medium">Completed</h3>
             <div className="bg-green-100 text-green-800 p-2 rounded-lg">
               <FiDollarSign size={20} />
             </div>
           </div>
-          <p className="text-3xl font-bold text-black">${totalPaid.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-black">{formatCurrency(localStats.completed)}</p>
         </div>
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <div className="flex items-center justify-between mb-2">
@@ -157,16 +233,36 @@ const Payments = () => {
               <FiDollarSign size={20} />
             </div>
           </div>
-          <p className="text-3xl font-bold text-black">${totalPending.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-black">{formatCurrency(localStats.pending)}</p>
         </div>
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-600 text-sm font-medium">Overdue</h3>
+            <h3 className="text-gray-600 text-sm font-medium">Failed</h3>
             <div className="bg-red-100 text-red-800 p-2 rounded-lg">
               <FiDollarSign size={20} />
             </div>
           </div>
-          <p className="text-3xl font-bold text-black">${totalOverdue.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-black">{formatCurrency(localStats.failed)}</p>
+        </div>
+      </div>
+
+      {/* Filter */}
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 mb-6">
+        <div className="flex items-center gap-4">
+          <FiFilter className="text-gray-600" size={20} />
+          <label className="text-sm font-semibold text-gray-700">Filter by Status:</label>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
+          >
+            <option>All</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+            <option value="refunded">Refunded</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
         </div>
       </div>
 
@@ -187,61 +283,78 @@ const Payments = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {payments.map((payment) => (
-                <tr key={payment.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm font-medium text-black">
-                    {payment.invoiceNumber}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{payment.clientName}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{payment.description}</td>
-                  <td className="px-6 py-4 text-sm font-semibold text-black">{payment.amount}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <FiCalendar className="mr-2" size={14} />
-                      {payment.date}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <FiCreditCard className="mr-2" size={14} />
-                      {payment.method}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(payment.status)}`}>
-                      {payment.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    <div className="flex space-x-2">
-                      <button
-                        className="text-black hover:text-gray-600 p-2 hover:bg-gray-100 rounded"
-                        title="Download Invoice"
-                      >
-                        <FiDownload size={18} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(payment.id)}
-                        className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded"
-                        title="Delete"
-                      >
-                        <FiTrash2 size={18} />
-                      </button>
-                    </div>
+              {payments.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="px-6 py-8 text-center text-gray-500">
+                    No payments found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                payments.map((payment) => (
+                  <tr key={payment._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 text-sm font-medium text-black">
+                      {payment.invoiceNo}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">{payment.client}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      <div className="truncate max-w-xs" title={payment.description}>
+                        {payment.description}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-semibold text-black">
+                      {formatCurrency(payment.amount)}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <FiCalendar className="mr-2" size={14} />
+                        {formatDate(payment.date)}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <FiCreditCard className="mr-2" size={14} />
+                        {formatMethod(payment.method)}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(payment.status)}`}>
+                        {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleEdit(payment)}
+                          className="text-black hover:text-gray-600 p-2 hover:bg-gray-100 rounded"
+                          title="Edit"
+                        >
+                          <FiEdit2 size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(payment._id)}
+                          className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded"
+                          title="Delete"
+                        >
+                          <FiTrash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* Add Payment Modal */}
+      {/* Add/Edit Payment Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-start mb-6">
-              <h2 className="text-2xl font-bold text-black">Add New Payment</h2>
+              <h2 className="text-2xl font-bold text-black">
+                {editingPayment ? 'Edit Payment' : 'Add New Payment'}
+              </h2>
               <button
                 onClick={resetForm}
                 className="text-gray-500 hover:text-black text-2xl"
@@ -253,41 +366,30 @@ const Payments = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Client Name
+                    Client Name *
                   </label>
                   <input
                     type="text"
-                    name="clientName"
-                    value={formData.clientName}
+                    name="client"
+                    value={formData.client}
                     onChange={handleInputChange}
+                    maxLength="100"
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Invoice Number
+                    Amount *
                   </label>
                   <input
-                    type="text"
-                    name="invoiceNumber"
-                    value={formData.invoiceNumber}
-                    onChange={handleInputChange}
-                    placeholder="INV-001"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Amount
-                  </label>
-                  <input
-                    type="text"
+                    type="number"
                     name="amount"
                     value={formData.amount}
                     onChange={handleInputChange}
-                    placeholder="$0"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     required
                   />
@@ -302,12 +404,11 @@ const Payments = () => {
                     value={formData.date}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Payment Method
+                    Payment Method *
                   </label>
                   <select
                     name="method"
@@ -317,11 +418,14 @@ const Payments = () => {
                     required
                   >
                     <option value="">Select Method</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="PayPal">PayPal</option>
-                    <option value="Check">Check</option>
-                    <option value="Cash">Cash</option>
+                    <option value="cash">Cash</option>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="debit_card">Debit Card</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                    <option value="upi">UPI</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="stripe">Stripe</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
                 <div>
@@ -335,22 +439,38 @@ const Payments = () => {
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     required
                   >
-                    <option value="Pending">Pending</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Overdue">Overdue</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="failed">Failed</option>
+                    <option value="refunded">Refunded</option>
+                    <option value="cancelled">Cancelled</option>
                   </select>
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Description
+                    Description *
                   </label>
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
+                    maxLength="500"
                     rows="3"
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     required
+                  ></textarea>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Comment
+                  </label>
+                  <textarea
+                    name="comment"
+                    value={formData.comment}
+                    onChange={handleInputChange}
+                    maxLength="1000"
+                    rows="2"
+                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
                   ></textarea>
                 </div>
               </div>
@@ -359,7 +479,7 @@ const Payments = () => {
                   type="submit"
                   className="flex-1 bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
                 >
-                  Add Payment
+                  {editingPayment ? 'Update Payment' : 'Add Payment'}
                 </button>
                 <button
                   type="button"
@@ -378,4 +498,3 @@ const Payments = () => {
 };
 
 export default Payments;
-
