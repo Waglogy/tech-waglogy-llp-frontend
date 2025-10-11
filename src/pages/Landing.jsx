@@ -4,6 +4,10 @@ import { MdConstruction } from 'react-icons/md'
 import { FaRocket } from 'react-icons/fa'
 import { HiChip } from 'react-icons/hi'
 import { submitQuery } from '../services/queryService'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import ServiceArea from '../components/ServiceArea'
+import { generateFAQSchema } from '../config/seo'
 
 const Landing = () => {
   const [activeSection, setActiveSection] = useState('web')
@@ -78,8 +82,27 @@ const Landing = () => {
     }
   }
 
+  // FAQ data for structured data
+  const faqData = [
+    {
+      question: 'What makes Tech Waglogy different from other development agencies?',
+      answer: 'Our Growth-Friendly Technology approach sets us apart. We don\'t believe in overwhelming businesses with features they don\'t need yet. Instead, we build your foundation first—website, branding, essential tools—then add smart features as you grow. Finally, when you\'re ready, we scale with AI & automation to optimize costs and efficiency. You pay only for what you need, when you need it.'
+    },
+    {
+      question: 'How long does it take to complete a typical project?',
+      answer: 'Project timelines vary based on scope and complexity. A standard business website typically takes 2-4 weeks, while a mobile app might take 6-12 weeks, and custom software solutions can range from 8-16 weeks. We provide a detailed timeline during our discovery phase and keep you updated throughout the project with regular demos and progress reports.'
+    },
+    {
+      question: 'Do you offer ongoing support and maintenance after launch?',
+      answer: 'Absolutely! We believe in long-term partnerships. Our relationship doesn\'t end at launch. We offer flexible support and maintenance packages that include continuous monitoring, bug fixes, security updates, and performance optimization. As your business grows, we\'re here to add new features, implement advanced integrations, and scale your technology infrastructure.'
+    }
+  ]
+
   return (
     <>
+    <SEO page="home" />
+    <StructuredData schemas={[generateFAQSchema(faqData)]} />
+    
     <section className="bg-white py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
     <div className="mx-auto max-w-screen-xl">
     <div
@@ -1340,6 +1363,9 @@ const Landing = () => {
   </div>
 </section>
 
+
+{/* Service Area Section - Location-based SEO */}
+<ServiceArea />
 
 <section className="bg-gray-50">
   <div className="p-6 sm:p-8 md:p-12 lg:px-16 lg:py-24">

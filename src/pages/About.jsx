@@ -1,12 +1,14 @@
 import react from 'react'
 import { motion } from 'framer-motion'
 import { FaChartLine, FaLaptopCode, FaPalette, FaHandshake, FaRupeeSign, FaClock } from 'react-icons/fa'
+import SEO from '../components/SEO'
 
 const About = () => {
 
   return (
 
     <>
+    <SEO page="about" />
     <div
       className="pt-0 pb-4 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:pt-2 lg:pb-8 mb-12"
     >

@@ -4,6 +4,9 @@ import { MdWeb, MdPhoneAndroid, MdComputer, MdPalette } from 'react-icons/md'
 import { RiRobotFill } from 'react-icons/ri'
 import { HiChip } from 'react-icons/hi'
 import { FaTimes, FaCheckCircle, FaArrowRight } from 'react-icons/fa'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { generateServiceSchema } from '../config/seo'
 
 const Services = () => {
   const [showQuoteModal, setShowQuoteModal] = useState(false)
@@ -165,8 +168,20 @@ const Services = () => {
     setQuoteFormData({ name: '', email: '', phone: '', message: '' })
   }
 
+  // Generate service schemas for structured data
+  const serviceSchemas = services.slice(0, 3).map(service => 
+    generateServiceSchema({
+      name: service.title,
+      description: service.description,
+      features: service.features
+    })
+  )
+
   return (
     <>
+      <SEO page="services" />
+      <StructuredData schemas={serviceSchemas} />
+      
       {/* Hero Section */}
       <section className="bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-screen-xl">

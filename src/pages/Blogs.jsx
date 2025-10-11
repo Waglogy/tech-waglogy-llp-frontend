@@ -1,9 +1,11 @@
 import react from 'react'
+import SEO from '../components/SEO'
 
 const Blog = () =>{
 
 return(
     <>
+    <SEO page="blog" />
   <article class="flex bg-white transition hover:shadow-xl mb-4">
   <div class="rotate-180 p-2 [writing-mode:_vertical-lr]">
     <time
