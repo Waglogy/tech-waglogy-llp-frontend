@@ -7,7 +7,7 @@ import { API_BASE_URL } from '../config/api'
 
 // Get auth token from localStorage
 const getAuthToken = () => {
-  return localStorage.getItem('adminToken')
+  return localStorage.getItem('admin_token')
 }
 
 // Get auth headers
@@ -41,7 +41,7 @@ export const getAllBlogs = async (params = {}) => {
     if (params.isPublished !== undefined) queryParams.append('isPublished', params.isPublished)
     
     const queryString = queryParams.toString()
-    const url = `${API_BASE_URL}/blogs${queryString ? `?${queryString}` : ''}`
+    const url = `${API_BASE_URL}/v1/blogs${queryString ? `?${queryString}` : ''}`
     
     const response = await fetch(url, {
       method: 'GET',
@@ -66,7 +66,7 @@ export const getAllBlogs = async (params = {}) => {
  */
 export const getBlogById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs/${id}`, {
       method: 'GET'
     })
     
@@ -88,7 +88,7 @@ export const getBlogById = async (id) => {
  */
 export const getBlogBySlug = async (slug) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/slug/${slug}`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs/slug/${slug}`, {
       method: 'GET'
     })
     
@@ -110,7 +110,7 @@ export const getBlogBySlug = async (slug) => {
  */
 export const createBlog = async (blogData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(blogData)
@@ -135,7 +135,7 @@ export const createBlog = async (blogData) => {
  */
 export const updateBlog = async (id, blogData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(blogData)
@@ -159,7 +159,7 @@ export const updateBlog = async (id, blogData) => {
  */
 export const deleteBlog = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders()
     })
@@ -182,7 +182,7 @@ export const deleteBlog = async (id) => {
  */
 export const togglePublishStatus = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/${id}/publish`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs/${id}/publish`, {
       method: 'PATCH',
       headers: getAuthHeaders()
     })
@@ -204,7 +204,7 @@ export const togglePublishStatus = async (id) => {
  */
 export const getBlogStats = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/stats/summary`, {
+    const response = await fetch(`${API_BASE_URL}/v1/blogs/stats/summary`, {
       method: 'GET',
       headers: getAuthHeaders()
     })
