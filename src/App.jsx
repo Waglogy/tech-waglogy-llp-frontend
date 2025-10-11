@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import Landing from './pages/Landing'
 import About from './pages/About'
 import Blog from './pages/Blogs'
+import BlogDetail from './pages/BlogDetail'
 import Projects from './pages/Projects'
 import Services from './pages/Services'
 import Pricing from './pages/Pricing'
@@ -20,6 +21,7 @@ import AdminContacts from './admin/pages/Contacts'
 import Queries from './admin/pages/Queries'
 import Clients from './admin/pages/Clients'
 import Payments from './admin/pages/Payments'
+import AdminBlogs from './admin/pages/Blogs'
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Route index element={<Landing />} />
         <Route path="about" element={<About />} /> 
         <Route path = "blog" element={<Blog/>}/>
+        <Route path = "blog/:slug" element={<BlogDetail/>}/>
         <Route path = "projects" element={<Projects/>}/>
         <Route path = "services" element={<Services/>}/>
         <Route path = "contact" element={<Contact/>}/>
@@ -46,6 +49,7 @@ function App() {
         <Route path="queries" element={<Queries />} />
         <Route path="clients" element={<Clients />} />
         <Route path="payments" element={<Payments />} />
+        <Route path="blogs" element={<AdminBlogs />} />
       </Route>
     </Routes>
   )

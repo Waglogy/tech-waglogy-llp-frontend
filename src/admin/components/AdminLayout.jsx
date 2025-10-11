@@ -8,7 +8,8 @@ import {
   FiMenu, 
   FiX,
   FiLogOut,
-  FiMail
+  FiMail,
+  FiFileText
 } from 'react-icons/fi';
 import adminAuthService from '../../services/adminAuthService';
 
@@ -57,6 +58,7 @@ const AdminLayout = () => {
     { name: 'Queries', path: '/admin/queries', icon: FiMessageSquare },
     { name: 'Clients', path: '/admin/clients', icon: FiUsers },
     { name: 'Payments', path: '/admin/payments', icon: FiDollarSign },
+    { name: 'Blogs', path: '/admin/blogs', icon: FiFileText },
   ];
 
   return (
