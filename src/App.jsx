@@ -12,6 +12,7 @@ import Pricing from './pages/Pricing'
 import Contact from './pages/Contact'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
+import NotFound from './pages/NotFound'
 
 // Admin Imports
 import AdminLogin from './admin/Login'
@@ -51,6 +52,9 @@ function App() {
         <Route path="payments" element={<Payments />} />
         <Route path="blogs" element={<AdminBlogs />} />
       </Route>
+
+      {/* 404 - Catch all unmatched routes */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

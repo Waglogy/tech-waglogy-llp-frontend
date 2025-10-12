@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { FaCalendar, FaUser, FaEye, FaArrowRight, FaSearch, FaTimes, FaSpinner } from 'react-icons/fa'
+import { FaCalendar, FaUser, FaEye, FaArrowRight, FaSearch, FaTimes, FaSpinner, FaClock } from 'react-icons/fa'
 import { getAllBlogs } from '../services/blogService'
 import SEO from '../components/SEO'
 
@@ -227,9 +227,9 @@ const Blogs = () => {
                         </Link>
                       </h3>
 
-                      {/* Description */}
+                      {/* Excerpt/Description */}
                       <p className="text-gray-600 mb-4 flex-1 line-clamp-3">
-                        {truncateText(blog.description, 150)}
+                        {blog.excerpt ? truncateText(blog.excerpt, 150) : truncateText(blog.content?.replace(/<[^>]*>/g, ''), 150)}
                       </p>
 
                       {/* Meta Info */}
@@ -244,6 +244,12 @@ const Blogs = () => {
                           <FaCalendar className="text-xs" />
                           <span>{formatDate(blog.date)}</span>
                         </div>
+                        {blog.readTime && (
+                          <div className="flex items-center gap-1">
+                            <FaClock className="text-xs" />
+                            <span>{blog.readTime} min</span>
+                          </div>
+                        )}
                         <div className="flex items-center gap-1">
                           <FaEye className="text-xs" />
                           <span>{blog.views} views</span>

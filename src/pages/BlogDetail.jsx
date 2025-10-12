@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaCalendar, FaUser, FaEye, FaArrowLeft, FaTag, FaSpinner, FaShareAlt } from 'react-icons/fa'
+import { FaCalendar, FaUser, FaEye, FaArrowLeft, FaTag, FaSpinner, FaShareAlt, FaClock } from 'react-icons/fa'
 import { FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import { getBlogBySlug } from '../services/blogService'
 import SEO from '../components/SEO'
@@ -103,7 +103,7 @@ const BlogDetail = () => {
     <>
       <SEO 
         title={`${blog.title} - Tech Waglogy Blog`}
-        description={blog.description.substring(0, 160)}
+        description={blog.excerpt ? blog.excerpt.substring(0, 160) : blog.content?.replace(/<[^>]*>/g, '').substring(0, 160)}
         keywords={blog.tags || []}
         canonical={`/blog/${blog.slug}`}
         type="article"
@@ -179,17 +179,39 @@ const BlogDetail = () => {
                   <FaCalendar />
                   <span>{formatDate(blog.date)}</span>
                 </div>
+                {blog.readTime && (
+                  <div className="flex items-center gap-2">
+                    <FaClock />
+                    <span>{blog.readTime} min read</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <FaEye />
                   <span>{blog.views} views</span>
                 </div>
               </div>
 
+              {/* Excerpt (if available) */}
+              {blog.excerpt && (
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
+                  <p className="text-gray-700 italic text-lg">
+                    {blog.excerpt}
+                  </p>
+                </div>
+              )}
+
               {/* Content */}
               <div className="prose prose-lg max-w-none mb-8">
-                <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {blog.description}
-                </div>
+                {blog.contentType === 'html' ? (
+                  <div 
+                    className="blog-content text-gray-700 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: blog.content }}
+                  />
+                ) : (
+                  <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                    {blog.content}
+                  </div>
+                )}
               </div>
 
               {/* Share Buttons */}

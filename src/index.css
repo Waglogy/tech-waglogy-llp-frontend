@@ -37,3 +37,199 @@
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background: #1873cc;
 }
+
+/* TipTap Editor Customization */
+.tiptap-editor {
+  background: white;
+}
+
+.tiptap-editor .ProseMirror {
+  background: white;
+  color: #374151;
+  line-height: 1.75;
+}
+
+.tiptap-editor .ProseMirror:focus {
+  outline: none;
+}
+
+.tiptap-editor .ProseMirror::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tiptap-editor .ProseMirror::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+.tiptap-editor .ProseMirror::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.tiptap-editor .ProseMirror::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* TipTap Content Styling */
+.tiptap-editor .ProseMirror h1,
+.tiptap-editor .ProseMirror h2,
+.tiptap-editor .ProseMirror h3,
+.tiptap-editor .ProseMirror h4,
+.tiptap-editor .ProseMirror h5,
+.tiptap-editor .ProseMirror h6,
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.tiptap-editor .ProseMirror h1, .blog-content h1 { font-size: 2em; }
+.tiptap-editor .ProseMirror h2, .blog-content h2 { font-size: 1.75em; }
+.tiptap-editor .ProseMirror h3, .blog-content h3 { font-size: 1.5em; }
+.tiptap-editor .ProseMirror h4, .blog-content h4 { font-size: 1.25em; }
+.tiptap-editor .ProseMirror h5, .blog-content h5 { font-size: 1.1em; }
+.tiptap-editor .ProseMirror h6, .blog-content h6 { font-size: 1em; }
+
+.tiptap-editor .ProseMirror p,
+.blog-content p {
+  margin-bottom: 1em;
+}
+
+.tiptap-editor .ProseMirror a,
+.blog-content a {
+  color: var(--brand-primary);
+  text-decoration: underline;
+}
+
+.tiptap-editor .ProseMirror a:hover,
+.blog-content a:hover {
+  color: #1873cc;
+}
+
+.tiptap-editor .ProseMirror img,
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  border-radius: 0.5rem;
+}
+
+.tiptap-editor .ProseMirror blockquote,
+.blog-content blockquote {
+  border-left: 4px solid var(--brand-primary);
+  padding-left: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+  color: #6b7280;
+  background: #f9fafb;
+  padding: 1em;
+  border-radius: 0.25rem;
+  margin: 1em 0;
+}
+
+.tiptap-editor .ProseMirror pre,
+.blog-content pre {
+  background: #1f2937;
+  color: #f3f4f6;
+  padding: 1em;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.tiptap-editor .ProseMirror code,
+.blog-content code {
+  background: #f3f4f6;
+  color: #ef4444;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.tiptap-editor .ProseMirror pre code,
+.blog-content pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.tiptap-editor .ProseMirror ul,
+.tiptap-editor .ProseMirror ol,
+.blog-content ul,
+.blog-content ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.tiptap-editor .ProseMirror li,
+.blog-content li {
+  margin-bottom: 0.5em;
+}
+
+.tiptap-editor .ProseMirror ul,
+.blog-content ul {
+  list-style-type: disc;
+}
+
+.tiptap-editor .ProseMirror ol,
+.blog-content ol {
+  list-style-type: decimal;
+}
+
+.tiptap-editor .ProseMirror strong,
+.blog-content strong {
+  font-weight: 700;
+}
+
+.tiptap-editor .ProseMirror em,
+.blog-content em {
+  font-style: italic;
+}
+
+.tiptap-editor .ProseMirror u,
+.blog-content u {
+  text-decoration: underline;
+}
+
+.tiptap-editor .ProseMirror s,
+.blog-content s {
+  text-decoration: line-through;
+}
+
+/* TipTap placeholder */
+.tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Modal Scrollbar for Blog Editor */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

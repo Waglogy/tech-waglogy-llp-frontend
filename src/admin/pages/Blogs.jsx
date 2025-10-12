@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { FaPlus, FaEdit, FaTrash, FaEye, FaEyeSlash, FaSearch, FaTimes, FaSpinner } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaEye, FaEyeSlash, FaSearch, FaTimes, FaSpinner, FaClock } from 'react-icons/fa'
 import { getAllBlogs, createBlog, updateBlog, deleteBlog, togglePublishStatus, getBlogStats } from '../../services/blogService'
+import TipTapEditor from '../../components/TipTapEditor'
 
 const AdminBlogs = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,7 +15,9 @@ const AdminBlogs = () => {
   const [totalPages, setTotalPages] = useState(1)
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
+    content: '',
+    excerpt: '',
+    contentType: 'html',
     author: '',
     image: '',
     date: new Date().toISOString().split('T')[0],
@@ -66,7 +69,9 @@ const AdminBlogs = () => {
       setEditingBlog(blog)
       setFormData({
         title: blog.title,
-        description: blog.description,
+        content: blog.content || '',
+        excerpt: blog.excerpt || '',
+        contentType: blog.contentType || 'html',
         author: blog.author || '',
         image: blog.image || '',
         date: blog.date ? new Date(blog.date).toISOString().split('T')[0] : '',
@@ -77,7 +82,9 @@ const AdminBlogs = () => {
       setEditingBlog(null)
       setFormData({
         title: '',
-        description: '',
+        content: '',
+        excerpt: '',
+        contentType: 'html',
         author: '',
         image: '',
         date: new Date().toISOString().split('T')[0],
@@ -111,12 +118,18 @@ const AdminBlogs = () => {
     try {
       const blogData = {
         title: formData.title,
-        description: formData.description,
+        content: formData.content,
+        contentType: formData.contentType,
         author: formData.author,
         image: formData.image,
         date: formData.date ? new Date(formData.date).toISOString() : undefined,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
         isPublished: formData.isPublished
+      }
+
+      // Add excerpt if provided, otherwise backend will auto-generate from content
+      if (formData.excerpt.trim()) {
+        blogData.excerpt = formData.excerpt
       }
 
       if (editingBlog) {
@@ -299,8 +312,14 @@ const AdminBlogs = () => {
                           <div>
                             <div className="text-sm font-medium text-gray-900">{blog.title}</div>
                             <div className="text-sm text-gray-500 truncate max-w-xs">
-                              {blog.description.substring(0, 60)}...
+                              {blog.excerpt ? blog.excerpt.substring(0, 60) : 'No excerpt'}...
                             </div>
+                            {blog.readTime && (
+                              <div className="text-xs text-blue-600 flex items-center gap-1 mt-1">
+                                <FaClock />
+                                {blog.readTime} min read
+                              </div>
+                            )}
                           </div>
                         </div>
                       </td>
@@ -422,20 +441,52 @@ const AdminBlogs = () => {
                   />
                 </div>
 
-                {/* Description */}
+                {/* Content Type */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description <span className="text-red-500">*</span>
+                    Content Type
+                  </label>
+                  <select
+                    name="contentType"
+                    value={formData.contentType}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="html">HTML (Rich Text)</option>
+                    <option value="markdown">Markdown</option>
+                    <option value="text">Plain Text</option>
+                  </select>
+                </div>
+
+                {/* Content - Rich Text Editor */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Content <span className="text-red-500">*</span>
+                  </label>
+                  <TipTapEditor
+                    content={formData.content}
+                    onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                    placeholder="Write your blog content using the rich text editor..."
+                  />
+                </div>
+
+                {/* Excerpt */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Excerpt (Optional)
                   </label>
                   <textarea
-                    name="description"
-                    value={formData.description}
+                    name="excerpt"
+                    value={formData.excerpt}
                     onChange={handleInputChange}
-                    required
-                    rows="6"
+                    rows="3"
+                    maxLength="500"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Write your blog content..."
+                    placeholder="Brief summary (auto-generated from content if not provided)"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {formData.excerpt.length}/500 characters
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
