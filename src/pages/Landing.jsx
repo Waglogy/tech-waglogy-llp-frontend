@@ -154,7 +154,7 @@ const Landing = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           <a
-            className="inline-block w-full sm:w-auto text-center rounded-lg px-6 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
+            className="inline-block w-auto max-w-xs text-center rounded-lg px-4 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
             style={{ backgroundColor: 'var(--brand-primary)' }}
             href="/contact"
           >
@@ -170,7 +170,7 @@ const Landing = () => {
     </section>
  
  
-     <section className="py-8 sm:py-12 lg:py-18">
+     <section className="py-4 sm:py-12 lg:py-18">
   <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="md:grid md:grid-cols-4 md:gap-8">
     <aside className="md:col-span-1 flex md:h-[80vh] flex-col justify-between border-b md:border-b-0 md:border-e border-gray-100 bg-white mb-6 md:mb-0">

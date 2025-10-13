@@ -23,12 +23,14 @@ const Header = () => {
   // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && !event.target.closest('.mobile-menu-container')) {
+      if (isMobileMenuOpen && !event.target.closest('.mobile-menu-container') && !event.target.closest('.mobile-menu-dropdown')) {
         setIsMobileMenuOpen(false)
       }
     }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [isMobileMenuOpen])
 
   const handleGetQuote = () => {
@@ -193,7 +195,7 @@ const Header = () => {
 
 {/* Mobile Menu */}
 {isMobileMenuOpen && (
-  <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+  <div className="md:hidden bg-white border-t border-gray-200 shadow-lg relative z-50 mobile-menu-dropdown">
     <div className="px-4 py-6 space-y-4">
       {/* Navigation Links */}
       <nav className="space-y-3">

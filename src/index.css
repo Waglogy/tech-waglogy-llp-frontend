@@ -45,6 +45,18 @@
     position: relative;
   }
   
+  /* Ensure mobile menu links are clickable */
+  .mobile-menu-dropdown a {
+    display: block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .mobile-menu-dropdown button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   /* Smooth mobile menu transitions */
   .mobile-menu-enter {
     opacity: 0;
