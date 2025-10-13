@@ -103,13 +103,24 @@ const Landing = () => {
     <SEO page="home" />
     <StructuredData schemas={[generateFAQSchema(faqData)]} />
     
-    <section className="bg-white py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
-    <div className="mx-auto max-w-screen-xl">
+    <section className="bg-white py-6 sm:py-8 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div className="w-full max-w-screen-xl mx-auto">
     <div
       className="pt-4 pb-8 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-8 lg:pt-2 lg:pb-8"
     >
+      {/* Image - First on mobile, second on desktop */}
       <motion.div 
-        className="max-w-3xl text-left"
+        className="mx-auto mt-0 mb-8 md:mt-0 md:mb-0 max-w-md md:order-2"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <img src="/banner.png" alt="Waglogy banner" className="w-full h-auto object-contain" />
+      </motion.div>
+
+      {/* Text Content - Second on mobile, first on desktop */}
+      <motion.div 
+        className="max-w-3xl text-left md:order-1"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -151,15 +162,6 @@ const Landing = () => {
           </a>
         </motion.div>
       </motion.div>
-  
-      <motion.div 
-        className="mx-auto mt-8 md:mt-0 max-w-md md:block"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-      >
-        <img src="/banner.png" alt="Waglogy banner" className="w-full h-auto object-contain" />
-      </motion.div>
         
          
         
@@ -169,7 +171,7 @@ const Landing = () => {
  
  
      <section className="py-8 sm:py-12 lg:py-18">
-  <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+  <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="md:grid md:grid-cols-4 md:gap-8">
     <aside className="md:col-span-1 flex md:h-[80vh] flex-col justify-between border-b md:border-b-0 md:border-e border-gray-100 bg-white mb-6 md:mb-0">
   <div className="px-2 sm:px-4 py-6">
@@ -300,7 +302,7 @@ const Landing = () => {
            <img
              src="/3.png"
              alt="Web development"
-            className="mt-6 rounded shadow-lg"
+            className="mt-6 rounded"
            />
          </div>
        )}
@@ -345,7 +347,7 @@ const Landing = () => {
            <img
              src="/4.png"
              alt="App development"
-            className="mt-6 rounded shadow-lg"
+            className="mt-6 rounded"
            />
          </div>
        )}
@@ -390,7 +392,7 @@ const Landing = () => {
            <img
              src="/6.png"
              alt="Software development"
-            className="mt-6 rounded shadow-lg"
+            className="mt-6 rounded"
            />
          </div>
        )}
@@ -435,7 +437,7 @@ const Landing = () => {
            <img
              src="/7.png"
              alt="Graphic design workspace"
-            className="mt-6 rounded shadow-lg"
+            className="mt-6 rounded"
            />
          </div>
        )}
@@ -480,7 +482,7 @@ const Landing = () => {
            <img
              src="/5.png"
              alt="AI and machine learning"
-            className="mt-6 rounded shadow-lg"
+            className="mt-6 rounded"
            />
          </div>
        )}
@@ -525,7 +527,7 @@ const Landing = () => {
           <img
             src="/8.png"
             alt="AI Automation workflow"
-            className="mt-6 rounded shadow-lg"
+            className="mt-6 rounded"
           />
         </div>
       )}
@@ -540,7 +542,7 @@ const Landing = () => {
 
  {/* USP Section - Growth-Friendly Technology */}
  <section className="bg-gradient-to-br from-gray-50 to-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
-  <div className="mx-auto max-w-screen-xl">
+  <div className="w-full max-w-screen-xl mx-auto">
     <motion.div 
       className="text-center mb-8 sm:mb-12"
       initial={{ opacity: 0, y: 20 }}
@@ -855,7 +857,7 @@ const Landing = () => {
 </section> */}
 
 <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-  <div className="mx-auto max-w-screen-xl">
+  <div className="w-full max-w-screen-xl mx-auto">
     <header className="text-center mb-8 sm:mb-12 animate-[fadeIn_0.8s_ease-out]">
       <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 lg:text-4xl">Our Project Timeline</h2>
     </header>
@@ -1072,7 +1074,7 @@ const Landing = () => {
 
 
 <section className="py-12 md:py-18">
-  <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+  <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
       
       {/* Left side - FAQ heading */}

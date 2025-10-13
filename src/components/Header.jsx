@@ -6,6 +6,7 @@ const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [isContactDropdownOpen, setIsContactDropdownOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const dropdownRef = useRef(null)
 
   // Close dropdown when clicking outside
@@ -18,6 +19,17 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.mobile-menu-container')) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isMobileMenuOpen])
 
   const handleGetQuote = () => {
     // If we're on the contact page, scroll to the form
@@ -42,7 +54,7 @@ const Header = () => {
   return (
     <>
     <header className="bg-white">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex h-20 items-center justify-between">
             <div className="md:flex md:items-center md:gap-12">
                 <a className="block" href="/">
@@ -157,8 +169,9 @@ const Header = () => {
                 </div>
                 </div>
 
-                <div className="block md:hidden">
+                <div className="block md:hidden mobile-menu-container">
                 <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     className="rounded-sm bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
                 >
                     <svg
@@ -177,6 +190,119 @@ const Header = () => {
             </div>
         </div>
 </header>
+
+{/* Mobile Menu */}
+{isMobileMenuOpen && (
+  <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+    <div className="px-4 py-6 space-y-4">
+      {/* Navigation Links */}
+      <nav className="space-y-3">
+        <a 
+          href="/about" 
+          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          About
+        </a>
+        <a 
+          href="/contact" 
+          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Contact Us
+        </a>
+        <a 
+          href="/pricing" 
+          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Pricing
+        </a>
+        <a 
+          href="/services" 
+          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Services
+        </a>
+        <a 
+          href="/blog" 
+          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Blog
+        </a>
+      </nav>
+
+      {/* Contact Options */}
+      <div className="pt-4 border-t border-gray-200">
+        <h3 className="text-sm font-semibold text-gray-900 mb-3">Get in Touch</h3>
+        <div className="space-y-3">
+          {/* WhatsApp */}
+          <a
+            href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md transition-colors"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
+              <FaWhatsapp className="w-4 h-4 text-green-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">WhatsApp</p>
+              <p className="text-xs text-gray-500">9733814168</p>
+            </div>
+          </a>
+
+          {/* Call */}
+          <a
+            href="tel:9733814168"
+            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md transition-colors"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100">
+              <FaPhone className="w-3 h-3 text-blue-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">Call Us</p>
+              <p className="text-xs text-gray-500">9733814168</p>
+            </div>
+          </a>
+
+          {/* Email */}
+          <a
+            href="mailto:contact@waglogy.in"
+            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md transition-colors"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-100">
+              <FaEnvelope className="w-3 h-3 text-purple-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">Email</p>
+              <p className="text-xs text-gray-500">contact@waglogy.in</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {/* Get Quote Button */}
+      <div className="pt-4">
+        <button
+          onClick={() => {
+            handleGetQuote()
+            setIsMobileMenuOpen(false)
+          }}
+          className="w-full rounded-md px-4 py-3 text-sm font-medium text-white shadow-sm hover:shadow-md transition-shadow"
+          style={{ backgroundColor: 'var(--brand-primary)' }}
+        >
+          Get a Quote
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </>
   )
 }

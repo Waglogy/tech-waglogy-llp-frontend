@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer className="bg-gray-100">
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="w-full max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
       <div className="flex justify-center items-center gap-4">
         <div className="h-20 overflow-hidden">
           <img src="/logo.png" alt="Waglogy logo" className="h-28 w-auto object-cover object-center" />

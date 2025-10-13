@@ -4,6 +4,71 @@
   --brand-primary: #1e90ff;
 }
 
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Ensure full width on mobile for all containers */
+  .w-full {
+    width: 100% !important;
+  }
+  
+  /* Remove excessive margins on mobile for max-width containers */
+  .max-w-screen-xl.mx-auto {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  /* Ensure sections use full width on mobile */
+  section {
+    width: 100%;
+  }
+  
+  /* Remove any centering that creates white space */
+  .text-center {
+    text-align: left;
+  }
+  
+  /* Ensure proper mobile padding */
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Mobile menu animations */
+  .mobile-menu-container {
+    position: relative;
+  }
+  
+  /* Smooth mobile menu transitions */
+  .mobile-menu-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .mobile-menu-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .mobile-menu-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .mobile-menu-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
