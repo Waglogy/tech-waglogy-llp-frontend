@@ -9,68 +9,72 @@ const About = () => {
 
     <>
     <SEO page="about" />
-    <div
-      className="pt-0 pb-4 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:pt-2 lg:pb-8 mb-12"
-    >
-      <motion.div 
-        className="max-w-3xl text-left"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <motion.h1 
-          className="text-4xl font-bold text-gray-900 sm:text-5xl"
+    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <motion.div 
+          className="text-left"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6 }}
         >
-         About Us 
-          {/* <span style={{ color: 'var(--brand-primary)' }}> Tech Waglogy LLP</span> */}
-        </motion.h1>
+          <motion.h1 
+            className="text-4xl font-bold text-gray-900 sm:text-5xl lg:text-6xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            About Us 
+            {/* <span style={{ color: 'var(--brand-primary)' }}> Tech Waglogy LLP</span> */}
+          </motion.h1>
 
-        <motion.p 
-          className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          <motion.p 
+            className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            Founded in 2024, Tech Waglogy LLP was born from a vision to transform how businesses in India embrace digital technology. What began as a passionate team of developers has today evolved into a full-service technology partner for startups, SMEs, and enterprises across India.
+          </motion.p>
+
+          <motion.p 
+            className="mt-3 text-base text-pretty text-gray-700 sm:text-lg/relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            At Tech Waglogy, we believe that technology should empower growth, not overwhelm it. That's why we design every solution to be modern, scalable, and cost-effective. We're proudly registered in Sikkim and serve clients nationwide with our innovative growth-friendly approach.
+          </motion.p>
+
+          <motion.div 
+            className="mt-6 flex flex-wrap gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
+              <span className="text-sm font-semibold text-gray-900">Status:</span>
+              <span className="text-sm text-green-600 font-medium">● Active</span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
+              <span className="text-sm font-semibold text-gray-900">LLPIN:</span>
+              <span className="text-sm font-mono" style={{ color: 'var(--brand-primary)' }}>ACI-0335</span>
+            </div>
+          </motion.div>
+        </motion.div>
+    
+        <motion.div 
+          className="flex items-center justify-center md:justify-end"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          Founded in 2024, Tech Waglogy LLP was born from a vision to transform how businesses in India embrace digital technology. What began as a passionate team of developers has today evolved into a full-service technology partner for startups, SMEs, and enterprises across India.
-        </motion.p>
-
-        <motion.p 
-          className="mt-3 text-base text-pretty text-gray-700 sm:text-lg/relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          At Tech Waglogy, we believe that technology should empower growth, not overwhelm it. That's why we design every solution to be modern, scalable, and cost-effective. We're proudly registered in Sikkim and serve clients nationwide with our innovative growth-friendly approach.
-        </motion.p>
-
-        <motion.div 
-          className="mt-6 flex flex-wrap gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
-            <span className="text-sm font-semibold text-gray-900">Status:</span>
-            <span className="text-sm text-green-600 font-medium">● Active</span>
-          </div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
-            <span className="text-sm font-semibold text-gray-900">LLPIN:</span>
-            <span className="text-sm font-mono" style={{ color: 'var(--brand-primary)' }}>ACI-0335</span>
-          </div>
+          <img 
+            src="/8.png" 
+            alt="Waglogy banner" 
+            className="w-full max-w-md h-auto object-contain"
+          />
         </motion.div>
-      </motion.div>
-  
-      <motion.div 
-        className="mx-auto hidden max-w-md md:block"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-      >
-        <img src="/8.png" alt="Waglogy banner" className="w-full h-auto object-contain" />
-      </motion.div>
+      </div>
     </div>
 
 {/* Mission & Vision Section */}
