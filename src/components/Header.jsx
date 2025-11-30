@@ -86,9 +86,9 @@ const Header = () => {
                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/services"> Services </a>
                     </li>
 
-                    {/* <li>
+                    <li>
                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/projects"> Projects </a>
-                    </li> */}
+                    </li>
 
                     <li>
                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/blog"> Blog </a>
@@ -226,6 +226,13 @@ const Header = () => {
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Services
+        </a>
+        <a 
+          href="/projects" 
+          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Projects
         </a>
         <a 
           href="/blog" 

@@ -1,382 +1,351 @@
 import React, { useState } from 'react'
+import { FaEnvelope, FaCheckCircle, FaMountain, FaRobot, FaRoute, FaClock } from 'react-icons/fa'
+import { submitWaitlist } from '../services/waitlistService'
 import SEO from '../components/SEO'
 
 const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState('all')
-  const [selectedProject, setSelectedProject] = useState(null)
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null) // 'success' or 'error'
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const categories = [
-    { id: 'all', name: 'All Projects' },
-    { id: 'web', name: 'Web Development' },
-    { id: 'mobile', name: 'Mobile Apps' },
-    { id: 'ai', name: 'AI Solutions' },
-    { id: 'ecommerce', name: 'E-commerce' }
-  ]
-
-  const projects = [
-    {
-      id: 1,
-      title: 'BudBeaver',
-      description: 'Budgeting web app that helps SMBs plan, track, and optimize spend with intelligent insights.',
-      image: '/banner.png',
-      category: 'web',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Chart.js'],
-      status: 'Live',
-      link: '#',
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'NovaCart',
-      description: 'Headless e-commerce storefront with blazing-fast checkout and seamless payment integration.',
-      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1974&auto=format&fit=crop',
-      category: 'ecommerce',
-      technologies: ['Next.js', 'Stripe', 'PostgreSQL', 'Redis'],
-      status: 'Live',
-      link: '#',
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'PulseFit',
-      description: 'Cross-platform fitness app with real-time coaching, analytics, and social features.',
-      image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1974&auto=format&fit=crop',
-      category: 'mobile',
-      technologies: ['React Native', 'Firebase', 'Redux', 'Expo'],
-      status: 'Live',
-      link: '#',
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'InsightAI',
-      description: 'LLM-powered dashboard turning raw data into actionable insights with natural language queries.',
-      image: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=1974&auto=format&fit=crop',
-      category: 'ai',
-      technologies: ['Python', 'OpenAI API', 'FastAPI', 'PostgreSQL'],
-      status: 'Live',
-      link: '#',
-      featured: true
-    },
-    {
-      id: 5,
-      title: 'TaskFlow Pro',
-      description: 'Advanced project management tool with AI-powered task prioritization and team collaboration.',
-      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?q=80&w=1974&auto=format&fit=crop',
-      category: 'web',
-      technologies: ['Vue.js', 'Laravel', 'MySQL', 'WebSockets'],
-      status: 'In Development',
-      link: '#',
-      featured: false
-    },
-    {
-      id: 6,
-      title: 'HealthTracker',
-      description: 'Mobile health monitoring app with AI-driven health insights and doctor connectivity.',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?q=80&w=1974&auto=format&fit=crop',
-      category: 'mobile',
-      technologies: ['Flutter', 'Firebase', 'TensorFlow Lite', 'HealthKit'],
-      status: 'Live',
-      link: '#',
-      featured: false
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    if (!email.trim()) {
+      setSubmitStatus('error')
+      setErrorMessage('Please enter your email address')
+      return
     }
-  ]
 
-  const filteredProjects = activeCategory === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === activeCategory)
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setSubmitStatus('error')
+      setErrorMessage('Please enter a valid email address')
+      return
+    }
 
-  const featuredProjects = projects.filter(project => project.featured)
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+    setErrorMessage('')
+
+    try {
+      await submitWaitlist({ 
+        email: email.trim()
+      })
+      
+      setSubmitStatus('success')
+      setEmail('') // Reset form
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus(null)
+      }, 5000)
+    } catch (error) {
+      console.error('Error submitting waitlist:', error)
+      setSubmitStatus('error')
+      setErrorMessage(error.message || 'Failed to join waitlist. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <>
       <SEO page="projects" />
+      
       {/* Hero Section */}
-      <section className="bg-white py-8">
-        <div className="pt-0 pb-4 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:pt-2 lg:pb-8">
-          <div className="max-w-3xl text-left">
-            <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-              Our
-              <span style={{ color: 'var(--brand-primary)' }}> Projects</span>
+      <section className="relative bg-white py-16 sm:py-24 overflow-hidden">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-6">
+                <FaMountain className="w-4 h-4" />
+                <span>Built by Waglogy</span>
+              </div>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                Welcome to{' '}
+                <span style={{ color: 'var(--brand-primary)' }}>Himato</span>
             </h1>
-            <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-              Explore our portfolio of modern web applications, mobile apps, and AI-powered solutions. 
-              Each project showcases our commitment to clean design, performance, and user experience.
-            </p>
-            <div className="mt-4 sm:mt-6">
-              <a
-                className="inline-block rounded-lg px-5 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                style={{ backgroundColor: 'var(--brand-primary)' }}
-                href="#contact"
-              >
-                Start Your Project
-              </a>
+              
+              <p className="text-xl sm:text-2xl text-gray-700 mb-8 leading-relaxed">
+                Where artificial intelligence meets the mystical mountains of Sikkim
+              </p>
+              
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Himato is not just another travel platform. It is an intelligent travel companion that transforms how people discover, plan, and experience one of India's most stunning destinations.
+              </p>
+
+              {/* Key Features */}
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                <div className="flex items-start gap-3 p-4 bg-white rounded-lg shadow-sm">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <FaRobot className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">AI-Powered Planning</h3>
+                    <p className="text-sm text-gray-600">Personalized itineraries in seconds</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3 p-4 bg-white rounded-lg shadow-sm">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <FaRoute className="w-5 h-5" style={{ color: 'var(--brand-primary)' }} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">24/7 Travel Expert</h3>
+                    <p className="text-sm text-gray-600">Get instant answers & insights</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="mx-auto hidden max-w-md md:block">
-            <img src="/banner.png" alt="Waglogy projects" className="w-full h-auto object-contain" />
+
+            {/* Right Column - Image */}
+            <div className="relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/himato.png" 
+                  alt="Himato - AI Travel Companion for Sikkim" 
+                  className="w-full h-auto object-cover"
+                  onError={(e) => {
+                    // Fallback if image doesn't exist yet
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'flex'
+                  }}
+                />
+                <div className="hidden absolute inset-0 bg-gray-900 flex items-center justify-center">
+                  <div className="text-center text-white p-8">
+                    <FaMountain className="w-24 h-24 mx-auto mb-4 opacity-50" />
+                    <p className="text-xl font-semibold">Himato</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Projects Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      {/* Problem & Solution Section */}
+      <section className="py-16 bg-white">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Featured Projects</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Our most impactful work that demonstrates our expertise and innovation
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              The Problem We Solve
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Planning a trip to Sikkim can be overwhelming. Travelers face endless questions, scattered information, and generic packages that don't match their interests or budget.
             </p>
           </div>
           
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
-              <div key={project.id} className="group relative overflow-hidden rounded-lg bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-4 right-4">
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
-                      project.status === 'Live' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {project.status}
-                    </span>
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="p-6 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 className="font-semibold text-gray-900 mb-3">Traditional Challenges</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-900 mt-1">•</span>
+                  <span>Endless research across multiple websites</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-900 mt-1">•</span>
+                  <span>Generic packages that don't match your style</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-900 mt-1">•</span>
+                  <span>High fees for basic itineraries</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-900 mt-1">•</span>
+                  <span>Scattered Google results</span>
+                </li>
+              </ul>
                   </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{project.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.slice(0, 3).map((tech) => (
-                      <span
-                        key={tech}
-                        className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <span className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                        +{project.technologies.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="w-full rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors"
-                    style={{ backgroundColor: 'var(--brand-primary)' }}
-                  >
-                    View Details
-                  </button>
-                </div>
+
+            <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+              <h3 className="font-semibold text-gray-900 mb-3">Himato's Solution</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--brand-primary)' }} className="mt-1">•</span>
+                  <span>AI-powered personalized itineraries in seconds</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--brand-primary)' }} className="mt-1">•</span>
+                  <span>24/7 AI travel expert with deep Sikkim knowledge</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--brand-primary)' }} className="mt-1">•</span>
+                  <span>Free planning tools for travelers</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span style={{ color: 'var(--brand-primary)' }} className="mt-1">•</span>
+                  <span>Stories, legends, and hidden spots</span>
+                </li>
+              </ul>
               </div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* All Projects Section */}
-      <section className="py-12">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      {/* Features Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">All Projects</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Browse through our complete portfolio of digital solutions
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Why Choose Himato?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Experience the future of personalized, AI-driven travel planning
             </p>
           </div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeCategory === category.id
-                    ? 'text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                style={{
-                  backgroundColor: activeCategory === category.id ? 'var(--brand-primary)' : 'transparent'
-                }}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Projects Grid */}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredProjects.map((project) => (
-              <div key={project.id} className="group block overflow-hidden rounded-lg border border-gray-200 bg-white hover:shadow-lg transition-shadow duration-300">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                      project.status === 'Live' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {project.status}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{project.title}</h3>
-                  <p className="text-gray-600 mb-4 text-sm line-clamp-2">{project.description}</p>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.technologies.slice(0, 2).map((tech) => (
-                      <span
-                        key={tech}
-                        className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 2 && (
-                      <span className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700">
-                        +{project.technologies.length - 2}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setSelectedProject(project)}
-                      className="flex-1 rounded-lg px-3 py-2 text-sm font-medium text-white transition-colors"
-                      style={{ backgroundColor: 'var(--brand-primary)' }}
-                    >
-                      View Details
-                    </button>
-                    <a
-                      href={project.link}
-                      className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors text-center"
-                    >
-                      Visit Site
-                    </a>
-                  </div>
-                </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                <FaRobot className="w-7 h-7 text-blue-600" />
               </div>
-            ))}
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Intelligent Itineraries</h3>
+              <p className="text-gray-600">
+                Our AI creates personalized, day-by-day travel plans tailored to your interests—whether you're an adventure lover, spiritual traveler, family, or photographer.
+              </p>
           </div>
 
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No projects found in this category.</p>
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                <FaClock className="w-7 h-7" style={{ color: 'var(--brand-primary)' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">24/7 Travel Expert</h3>
+              <p className="text-gray-600">
+                Get instant answers about permits, weather, road conditions, hidden spots, local food, and cultural insights. Himato tells stories, not just facts.
+              </p>
+          </div>
+
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                <FaMountain className="w-7 h-7" style={{ color: 'var(--brand-primary)' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Deep Sikkim Expertise</h3>
+              <p className="text-gray-600">
+                While others cover hundreds of destinations shallowly, Himato masters Sikkim deeply—from Gurudongmar Lake legends to Rumtek Monastery's peaceful energy.
+              </p>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
-      {/* Project Details Modal */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-screen items-center justify-center p-4">
-            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setSelectedProject(null)} />
-            <div className="relative w-full max-w-4xl rounded-lg bg-white shadow-xl">
-              <div className="flex">
-                <div className="w-1/2">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    className="h-full w-full object-cover rounded-l-lg"
+      {/* Waitlist Section */}
+      <section id="waitlist" className="py-20 text-white relative overflow-hidden" style={{ backgroundColor: 'var(--brand-primary)' }}>
+        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            Join the Waitlist
+          </h2>
+          <p className="text-xl sm:text-2xl mb-2 text-white opacity-90">
+            Be among the first to experience Himato
+          </p>
+          <p className="text-lg mb-12 text-white opacity-80 max-w-2xl mx-auto">
+            Get early access to the future of travel planning. Launching soon!
+          </p>
+
+          {/* Waitlist Form */}
+          <div className="max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="w-full pl-12 pr-4 py-4 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                    disabled={isSubmitting}
                   />
                 </div>
-                <div className="w-1/2 p-8">
                   <button
-                    onClick={() => setSelectedProject(null)}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-8 py-4 bg-white font-semibold rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl whitespace-nowrap"
+                  style={{ color: 'var(--brand-primary)' }}
                   >
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                  {isSubmitting ? 'Joining...' : 'Get Early Access'}
                   </button>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{selectedProject.title}</h3>
-                  <p className="text-gray-600 mb-6">{selectedProject.description}</p>
-                  
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Technologies Used</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Status</h4>
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
-                      selectedProject.status === 'Live' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {selectedProject.status}
-                    </span>
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="flex items-center justify-center gap-2 p-4 bg-white rounded-lg text-gray-900 border-2" style={{ borderColor: 'var(--brand-primary)' }}>
+                  <FaCheckCircle className="w-5 h-5" style={{ color: 'var(--brand-primary)' }} />
+                  <span>Successfully joined! Check your email for confirmation.</span>
                   </div>
+              )}
 
-                  <div className="flex gap-3">
-                    <a
-                      href={selectedProject.link}
-                      className="flex-1 rounded-lg px-4 py-2 text-center font-medium text-white transition-colors"
-                      style={{ backgroundColor: 'var(--brand-primary)' }}
-                    >
-                      Visit Project
-                    </a>
-                    <button
-                      onClick={() => setSelectedProject(null)}
-                      className="flex-1 rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
+              {submitStatus === 'error' && (
+                <div className="p-4 bg-white rounded-lg text-gray-900 border-2 border-gray-900">
+                  <p>{errorMessage}</p>
                 </div>
-              </div>
+              )}
+            </form>
+
+            <p className="mt-6 text-sm text-white opacity-80">
+              We respect your privacy. No spam, unsubscribe anytime.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Impact Section */}
+      <section className="py-16 bg-white">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              More Than Just Technology
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Himato creates positive social impact while making travel planning intelligent and accessible
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="p-6 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 className="font-semibold text-gray-900 mb-3">Supporting Local Communities</h3>
+              <p className="text-gray-700">
+                Himato promotes lesser-known regions like Dzongu, Uttarey, and Ravangla, helping distribute tourism and support local communities. Small travel businesses gain digital visibility they could never achieve alone.
+              </p>
+            </div>
+
+            <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+              <h3 className="font-semibold text-gray-900 mb-3">Responsible Travel</h3>
+              <p className="text-gray-700">
+                We encourage respecting monasteries, reducing plastic waste, and choosing local homestays. Himato ensures every traveler experiences Sikkim's stories while preserving its beauty for future generations.
+              </p>
             </div>
           </div>
         </div>
-      )}
+      </section>
 
       {/* CTA Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              Ready to Start Your Project?
-            </h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-              Let's discuss your ideas and bring your vision to life with our expertise in modern web development, 
-              mobile apps, and AI-powered solutions.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:contact@waglogy.in"
-                className="inline-flex items-center justify-center rounded-lg px-6 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                style={{ backgroundColor: 'var(--brand-primary)' }}
-              >
-                Get Started Today
-              </a>
-              <a
-                href="#about"
-                className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-3 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Learn More About Us
-              </a>
-            </div>
-          </div>
+      <section className="py-16 bg-gray-900 text-white">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            The Mountains of Sikkim Have Stories to Tell
+          </h2>
+          <p className="text-xl text-gray-300 mb-8">
+            Himato ensures every traveler hears them.
+          </p>
+          <p className="text-lg text-gray-400 mb-8">
+            Welcome to the future of travel. Welcome to Himato.
+          </p>
+          <a
+            href="#waitlist"
+            onClick={(e) => {
+              e.preventDefault()
+              document.querySelector('section:has(form)')?.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="inline-block px-8 py-4 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl"
+          >
+            Join the Waitlist Now
+          </a>
         </div>
       </section>
     </>
@@ -384,4 +353,3 @@ const Projects = () => {
 }
 
 export default Projects
-
