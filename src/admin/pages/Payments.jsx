@@ -141,14 +141,22 @@ const Payments = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    if (!dateString) return 'N/A';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Invalid Date';
+    }
   };
 
   const formatCurrency = (amount) => {
+    if (amount === null || amount === undefined || isNaN(amount)) {
+      return '₹0.00';
+    }
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR'
@@ -156,6 +164,9 @@ const Payments = () => {
   };
 
   const formatMethod = (method) => {
+    if (!method || typeof method !== 'string') {
+      return method || 'N/A';
+    }
     return method.split('_').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
