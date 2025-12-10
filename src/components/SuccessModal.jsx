@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { FaCheckCircle, FaTimes } from 'react-icons/fa';
+import { FaCheckCircle, FaTimes, FaEnvelope, FaPhone, FaBuilding, FaUser, FaMoneyBillWave, FaCommentAlt } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SuccessModal = ({ isOpen, onClose, submittedData }) => {
   // Close modal on Escape key press
@@ -25,172 +26,133 @@ const SuccessModal = ({ isOpen, onClose, submittedData }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[95vh] overflow-y-auto animate-scale-in my-auto">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="sticky top-4 right-4 float-right z-10 text-gray-400 hover:text-gray-600 transition-colors bg-white rounded-full p-1"
-          aria-label="Close modal"
-        >
-          <FaTimes className="w-5 h-5" />
-        </button>
-
-        {/* Content */}
-        <div className="p-6 sm:p-8 clear-both">
-          {/* Success Icon */}
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center animate-bounce-in">
-              <FaCheckCircle className="w-12 h-12 text-green-500" />
-            </div>
-          </div>
-
-          {/* Title */}
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
-            Thank You!
-          </h2>
-          
-          {/* Message */}
-          <p className="text-gray-600 text-center mb-6">
-            Your message has been successfully submitted. We will contact you soon!
-          </p>
-
-          {/* Submitted Details */}
-          {submittedData && (
-            <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-6 overflow-hidden">
-              <h3 className="font-semibold text-gray-900 text-sm mb-3">Submitted Details:</h3>
-              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2"
-                style={{
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: '#CBD5E0 #F7FAFC'
-                }}
-              >
-              
-              {submittedData.fullName && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm font-medium min-w-[70px] sm:min-w-[80px] flex-shrink-0">Name:</span>
-                  <span className="text-gray-900 text-sm break-words flex-1">{submittedData.fullName}</span>
-                </div>
-              )}
-              
-              {submittedData.email && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm font-medium min-w-[70px] sm:min-w-[80px] flex-shrink-0">Email:</span>
-                  <span className="text-gray-900 text-sm break-all flex-1">{submittedData.email}</span>
-                </div>
-              )}
-              
-              {submittedData.phone && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm font-medium min-w-[70px] sm:min-w-[80px] flex-shrink-0">Phone:</span>
-                  <span className="text-gray-900 text-sm break-words flex-1">{submittedData.phone}</span>
-                </div>
-              )}
-              
-              {submittedData.organizationName && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm font-medium min-w-[70px] sm:min-w-[80px] flex-shrink-0">Company:</span>
-                  <span className="text-gray-900 text-sm break-words flex-1">{submittedData.organizationName}</span>
-                </div>
-              )}
-              
-              {submittedData.budgetRange && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm font-medium min-w-[70px] sm:min-w-[80px] flex-shrink-0">Budget:</span>
-                  <span className="text-gray-900 text-sm break-words flex-1">{submittedData.budgetRange}</span>
-                </div>
-              )}
-              
-              {submittedData.projectDetails && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm font-medium min-w-[70px] sm:min-w-[80px] flex-shrink-0">Message:</span>
-                  <span className="text-gray-900 text-sm break-words flex-1 whitespace-pre-wrap">{submittedData.projectDetails}</span>
-                </div>
-              )}
-              </div>
-            </div>
-          )}
-
-          {/* Response Time Info */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-blue-800 text-sm text-center">
-              <strong>Expected Response Time:</strong> Within 24 hours
-            </p>
-          </div>
-
-          {/* Action Button */}
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={onClose}
-            className="w-full rounded-lg px-6 py-3 font-medium text-white transition-colors hover:opacity-90"
-            style={{ backgroundColor: 'var(--brand-primary)' }}
-          >
-            Close
-          </button>
-        </div>
-      </div>
+          />
 
-      {/* Add animations and custom scrollbar styles */}
-      <style>{`
-        @keyframes scale-in {
-          from {
-            opacity: 0;
-            transform: scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        @keyframes bounce-in {
-          0% {
-            transform: scale(0);
-          }
-          50% {
-            transform: scale(1.1);
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
-        
-        .animate-scale-in {
-          animation: scale-in 0.3s ease-out;
-        }
-        
-        .animate-bounce-in {
-          animation: bounce-in 0.6s ease-out;
-        }
-        
-        /* Custom scrollbar for webkit browsers */
-        .overflow-y-auto::-webkit-scrollbar {
-          width: 6px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-track {
-          background: #F7FAFC;
-          border-radius: 3px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-thumb {
-          background: #CBD5E0;
-          border-radius: 3px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-          background: #A0AEC0;
-        }
-      `}</style>
-    </div>
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-lg glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl"
+          >
+            {/* Header / Success Icon */}
+            <div className="bg-gradient-to-b from-blue-600/20 to-transparent p-8 text-center border-b border-white/5">
+              <div className="w-20 h-20 mx-auto bg-blue-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+                <FaCheckCircle className="w-10 h-10 text-blue-400" />
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-2">Message Sent!</h2>
+              <p className="text-slate-400">We've received your inquiry and will get back to you shortly.</p>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+            >
+              <FaTimes />
+            </button>
+
+            {/* Content */}
+            <div className="p-6 md:p-8">
+              {submittedData && (
+                <div className="bg-white/5 rounded-xl border border-white/10 p-5 mb-6">
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Submission Summary</h3>
+                  <div className="space-y-4 max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+
+                    {submittedData.fullName && (
+                      <div className="flex items-start gap-3 text-sm">
+                        <FaUser className="mt-1 text-blue-400 flex-shrink-0" />
+                        <div>
+                          <span className="block text-xs text-slate-500">Name</span>
+                          <span className="text-slate-200">{submittedData.fullName}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {submittedData.email && (
+                      <div className="flex items-start gap-3 text-sm">
+                        <FaEnvelope className="mt-1 text-sky-400 flex-shrink-0" />
+                        <div>
+                          <span className="block text-xs text-slate-500">Email</span>
+                          <span className="text-slate-200 break-all">{submittedData.email}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {submittedData.phone && (
+                      <div className="flex items-start gap-3 text-sm">
+                        <FaPhone className="mt-1 text-indigo-400 flex-shrink-0" />
+                        <div>
+                          <span className="block text-xs text-slate-500">Phone</span>
+                          <span className="text-slate-200">{submittedData.phone}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {submittedData.organizationName && (
+                      <div className="flex items-start gap-3 text-sm">
+                        <FaBuilding className="mt-1 text-slate-400 flex-shrink-0" />
+                        <div>
+                          <span className="block text-xs text-slate-500">Company</span>
+                          <span className="text-slate-200">{submittedData.organizationName}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {submittedData.budgetRange && (
+                      <div className="flex items-start gap-3 text-sm">
+                        <FaMoneyBillWave className="mt-1 text-green-400 flex-shrink-0" />
+                        <div>
+                          <span className="block text-xs text-slate-500">Budget</span>
+                          <span className="text-slate-200">{submittedData.budgetRange}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {submittedData.projectDetails && (
+                      <div className="flex items-start gap-3 text-sm">
+                        <FaCommentAlt className="mt-1 text-slate-400 flex-shrink-0" />
+                        <div>
+                          <span className="block text-xs text-slate-500">Message</span>
+                          <span className="text-slate-200 whitespace-pre-wrap">{submittedData.projectDetails}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Response Time Info */}
+              <div className="flex items-center gap-3 bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
+                <p className="text-blue-300 text-sm">
+                  <strong>Expected Response:</strong> Within 24-48 hours
+                </p>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={onClose}
+                className="w-full rounded-xl px-6 py-4 font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
+              >
+                Close Window
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };
 
 export default SuccessModal;
-

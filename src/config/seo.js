@@ -4,6 +4,7 @@
 export const SITE_CONFIG = {
   siteName: 'Tech Waglogy LLP',
   siteUrl: 'https://waglogy.in',
+  siteLogo: 'https://waglogy.in/logo.svg', // Added based on user's Code Edit snippet
   defaultTitle: 'Tech Waglogy LLP - Web & App Development Company in Sikkim, India',
   defaultDescription: 'Leading web development, mobile app development, and AI solutions company in Gangtok, Sikkim. We serve businesses across Northeast India with modern, scalable technology solutions. Trusted by Sikkim businesses for digital transformation.',
   defaultKeywords: [
@@ -18,7 +19,7 @@ export const SITE_CONFIG = {
     'tech company Northeast India',
     'website development Gangtok',
     'software development Sikkim',
-    
+
     // Service-based keywords
     'web development services',
     'mobile app development',
@@ -28,7 +29,7 @@ export const SITE_CONFIG = {
     'e-commerce development',
     'custom software development',
     'digital transformation',
-    
+
     // Regional expansion
     'IT services Darjeeling',
     'web development Siliguri',
@@ -41,7 +42,7 @@ export const SITE_CONFIG = {
   facebook: 'waglogy',
   linkedin: 'company/tech-waglogy-llp',
   instagram: 'waglogy',
-  
+
   // Business Information
   business: {
     name: 'Tech Waglogy LLP',
@@ -97,7 +98,7 @@ export const PAGE_SEO = {
     ],
     canonical: '/'
   },
-  
+
   about: {
     title: 'About Us - Tech Waglogy LLP | Leading IT Company in Sikkim',
     description: 'Learn about Tech Waglogy LLP, Sikkim\'s trusted web and app development company. Based in Gangtok, we serve businesses across Northeast India with innovative technology solutions since our inception.',
@@ -110,7 +111,7 @@ export const PAGE_SEO = {
     ],
     canonical: '/about'
   },
-  
+
   services: {
     title: 'Our Services - Web Development, App Development & AI Solutions | Sikkim',
     description: 'Complete web development, mobile app development, software development, UI/UX design, and AI automation services in Sikkim. Serving Gangtok, Darjeeling, Siliguri, and Northeast India. Affordable pricing, professional quality.',
@@ -126,7 +127,7 @@ export const PAGE_SEO = {
     ],
     canonical: '/services'
   },
-  
+
   pricing: {
     title: 'Pricing & Packages - Affordable Web & App Development in Sikkim',
     description: 'Transparent pricing for web development, app development, and software services in Sikkim. Growth-friendly packages starting from ₹40,000. Serving businesses in Gangtok, Darjeeling, Siliguri, and Northeast India.',
@@ -139,7 +140,7 @@ export const PAGE_SEO = {
     ],
     canonical: '/pricing'
   },
-  
+
   contact: {
     title: 'Contact Us - Get Free Consultation | Tech Waglogy Sikkim',
     description: 'Contact Tech Waglogy LLP in Gangtok, Sikkim for web development, app development & IT services. Call +91 9733814168 or visit us at Tadong Metro Point. Serving Sikkim, Darjeeling, Siliguri & Northeast India.',
@@ -152,7 +153,7 @@ export const PAGE_SEO = {
     ],
     canonical: '/contact'
   },
-  
+
   projects: {
     title: 'Our Projects & Portfolio - Website & App Development Works | Sikkim',
     description: 'Explore our portfolio of web development, app development, and software projects delivered to clients in Sikkim, Darjeeling, Siliguri, and Northeast India. See our work quality and client success stories.',
@@ -164,7 +165,7 @@ export const PAGE_SEO = {
     ],
     canonical: '/projects'
   },
-  
+
   blog: {
     title: 'Blog - Web Development Tips & Tech News | Tech Waglogy Sikkim',
     description: 'Latest articles on web development, app development, digital marketing, and technology trends. Expert insights from Tech Waglogy LLP, Sikkim\'s leading IT company.',
@@ -185,7 +186,7 @@ export const generateOrganizationSchema = () => ({
   name: SITE_CONFIG.business.name,
   legalName: SITE_CONFIG.business.legalName,
   url: SITE_CONFIG.siteUrl,
-  logo: `${SITE_CONFIG.siteUrl}/logo.png`,
+  logo: `${SITE_CONFIG.siteUrl}/logo.svg`,
   description: SITE_CONFIG.business.description,
   email: SITE_CONFIG.business.email,
   telephone: SITE_CONFIG.business.phone,
@@ -210,7 +211,7 @@ export const generateLocalBusinessSchema = () => ({
   '@type': 'LocalBusiness',
   '@id': `${SITE_CONFIG.siteUrl}/#localbusiness`,
   name: SITE_CONFIG.business.name,
-  image: `${SITE_CONFIG.siteUrl}/logo.png`,
+  image: `${SITE_CONFIG.siteUrl}/logo.svg`,
   description: SITE_CONFIG.defaultDescription,
   url: SITE_CONFIG.siteUrl,
   telephone: SITE_CONFIG.business.phone,

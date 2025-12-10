@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FaWhatsapp, FaEnvelope, FaPhone, FaChevronDown } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -34,284 +35,228 @@ const Header = () => {
   }, [isMobileMenuOpen])
 
   const handleGetQuote = () => {
-    // If we're on the contact page, scroll to the form
     if (location.pathname === '/contact') {
       const contactForm = document.getElementById('contact-form')
       if (contactForm) {
         contactForm.scrollIntoView({ behavior: 'smooth' })
-        // Focus on the first input field after scrolling
         setTimeout(() => {
           const nameInput = document.getElementById('name')
-          if (nameInput) {
-            nameInput.focus()
-          }
+          if (nameInput) nameInput.focus()
         }, 800)
       }
     } else {
-      // Navigate to contact page with quote parameter
       navigate('/contact?quote=true')
     }
   }
 
+  const navLinks = [
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Pricing', path: '/pricing' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Contact Us', path: '/contact' },
+  ]
+
   return (
     <>
-    <header className="bg-white">
+      <header
+        className="absolute top-0 left-0 right-0 z-50 bg-transparent py-4"
+      >
         <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex h-20 items-center justify-between">
+          <div className="flex h-20 items-center justify-between">
             <div className="md:flex md:items-center md:gap-12">
-                <a className="block" href="/">
+              <a className="block" href="/">
                 <span className="sr-only">Home</span>
-                <div className="h-20 overflow-hidden">
-                  <img src="/logo.png" alt="Waglogy logo" className="h-28 w-auto object-cover object-center" />
+                <div className="h-20 overflow-hidden flex items-center">
+                  <img src="/logo.svg" alt="Waglogy logo" className="h-20 w-auto object-contain" />
                 </div>
-                </a>
+              </a>
             </div>
 
             <div className="hidden md:block">
-                <nav aria-label="Global">
-                <ul className="flex items-center gap-6 text-sm">
-                    <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/about"> About </a>
+              <nav aria-label="Global">
+                <ul className="flex items-center gap-8 text-sm font-medium">
+                  {navLinks.map((link) => (
+                    <li key={link.name}>
+                      <a
+                        className="text-slate-300 transition hover:text-white hover:text-glow"
+                        href={link.path}
+                      >
+                        {link.name}
+                      </a>
                     </li>
-
-                    <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/contact"> Contact Us </a>
-                    </li>
-
-                    <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/pricing"> Pricing </a>
-                    </li>
-
-                    <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/services"> Services </a>
-                    </li>
-
-                    <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/projects"> Projects </a>
-                    </li>
-
-                    <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/blog"> Blog </a>
-                    </li>
+                  ))}
                 </ul>
-                </nav>
+              </nav>
             </div>
 
             <div className="flex items-center gap-4">
-                <div className="sm:flex sm:gap-4">
-                <button
-                    onClick={handleGetQuote}
-                    className="rounded-md px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:shadow-md transition-shadow"
-                    style={{ backgroundColor: 'var(--brand-primary)' }}
+              <div className="sm:flex sm:gap-4 items-center">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleGetQuote}
+                  className="hidden sm:block rounded-full px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-500/30 bg-blue-600 hover:bg-blue-500 transition-all"
                 >
-                    Get a Quote
-                </button>
+                  Get a Quote
+                </motion.button>
 
                 <div className="hidden sm:flex relative" ref={dropdownRef}>
-                    <button
-                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2"
-                    style={{ color: 'var(--brand-primary)' }}
+                  <button
+                    className="rounded-full bg-white/5 border border-white/10 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10 transition-colors flex items-center gap-2"
                     onClick={() => setIsContactDropdownOpen(!isContactDropdownOpen)}
-                    >
-                    Contact Us
+                  >
+                    Quick Connect
                     <FaChevronDown className={`w-3 h-3 transition-transform ${isContactDropdownOpen ? 'rotate-180' : ''}`} />
-                    </button>
+                  </button>
 
-                    {/* Dropdown Menu */}
+                  <AnimatePresence>
                     {isContactDropdownOpen && (
-                      <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
-                        {/* WhatsApp */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className="absolute top-full right-0 mt-3 w-64 glass-card rounded-xl border border-white/10 py-2 shadow-2xl overflow-hidden"
+                      >
+                        <div className="px-4 py-2 border-b border-white/5 mb-2">
+                          <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Reach Out</p>
+                        </div>
+
                         <a
-                          href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services."
+                          href="https://wa.me/919733814168"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
-                          onClick={() => setIsContactDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors group"
                         >
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
-                            <FaWhatsapp className="w-5 h-5 text-green-600" />
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20 group-hover:bg-cyan-500/30 transition-colors">
+                            <FaWhatsapp className="w-4 h-4 text-cyan-400" />
                           </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-semibold text-gray-900">WhatsApp</p>
-                            <p className="text-xs text-gray-500">9733814168</p>
+                          <div>
+                            <p className="text-sm font-semibold text-white">WhatsApp</p>
+                            <p className="text-xs text-slate-400">Chat with us instantly</p>
                           </div>
                         </a>
 
-                        {/* Call */}
                         <a
                           href="tel:9733814168"
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
-                          onClick={() => setIsContactDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors group"
                         >
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
-                            <FaPhone className="w-4 h-4 text-blue-600" />
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
+                            <FaPhone className="w-3 h-3 text-blue-400" />
                           </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-semibold text-gray-900">Call Us</p>
-                            <p className="text-xs text-gray-500">9733814168</p>
+                          <div>
+                            <p className="text-sm font-semibold text-white">Call Us</p>
+                            <p className="text-xs text-slate-400">+91 97338 14168</p>
                           </div>
                         </a>
 
-                        {/* Email */}
                         <a
                           href="mailto:contact@waglogy.in"
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
-                          onClick={() => setIsContactDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors group"
                         >
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100">
-                            <FaEnvelope className="w-4 h-4 text-purple-600" />
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-sky-500/20 group-hover:bg-sky-500/30 transition-colors">
+                            <FaEnvelope className="w-3 h-3 text-sky-400" />
                           </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-semibold text-gray-900">Email</p>
-                            <p className="text-xs text-gray-500">contact@waglogy.in</p>
+                          <div>
+                            <p className="text-sm font-semibold text-white">Email</p>
+                            <p className="text-xs text-slate-400">contact@waglogy.in</p>
                           </div>
                         </a>
-                      </div>
+                      </motion.div>
                     )}
+                  </AnimatePresence>
                 </div>
-                </div>
+              </div>
 
-                <div className="block md:hidden mobile-menu-container">
+              <div className="block md:hidden mobile-menu-container">
                 <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="rounded-sm bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="rounded-lg bg-white/5 p-2 text-white transition hover:bg-white/10"
                 >
-                    <svg
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="size-5"
+                    className="size-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     strokeWidth="2"
-                    >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+                  </svg>
                 </button>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-</header>
+      </header>
 
-{/* Mobile Menu */}
-{isMobileMenuOpen && (
-  <div className="md:hidden bg-white border-t border-gray-200 shadow-lg relative z-50 mobile-menu-dropdown">
-    <div className="px-4 py-6 space-y-4">
-      {/* Navigation Links */}
-      <nav className="space-y-3">
-        <a 
-          href="/about" 
-          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          About
-        </a>
-        <a 
-          href="/contact" 
-          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Contact Us
-        </a>
-        <a 
-          href="/pricing" 
-          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Pricing
-        </a>
-        <a 
-          href="/services" 
-          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Services
-        </a>
-        <a 
-          href="/projects" 
-          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Projects
-        </a>
-        <a 
-          href="/blog" 
-          className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Blog
-        </a>
-      </nav>
-
-      {/* Contact Options */}
-      <div className="pt-4 border-t border-gray-200">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Get in Touch</h3>
-        <div className="space-y-3">
-          {/* WhatsApp */}
-          <a
-            href="https://wa.me/919733814168?text=Hi%20Waglogy%20Team!%20I%27m%20interested%20in%20your%20services."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-[#0f172a] border-l border-white/10 shadow-2xl p-6 mobile-menu-dropdown flex flex-col"
           >
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
-              <FaWhatsapp className="w-4 h-4 text-green-600" />
+            <div className="flex items-center justify-between mb-8">
+              <img src="/logo.png" alt="Waglogy" className="h-10 w-auto" />
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">WhatsApp</p>
-              <p className="text-xs text-gray-500">9733814168</p>
-            </div>
-          </a>
 
-          {/* Call */}
-          <a
-            href="tel:9733814168"
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100">
-              <FaPhone className="w-3 h-3 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">Call Us</p>
-              <p className="text-xs text-gray-500">9733814168</p>
-            </div>
-          </a>
+            <nav className="space-y-2 flex-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.path}
+                  className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
 
-          {/* Email */}
-          <a
-            href="mailto:contact@waglogy.in"
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-100">
-              <FaEnvelope className="w-3 h-3 text-purple-600" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">Email</p>
-              <p className="text-xs text-gray-500">contact@waglogy.in</p>
-            </div>
-          </a>
-        </div>
-      </div>
+            <div className="mt-8 space-y-4 pt-8 border-t border-white/10">
+              <button
+                onClick={() => {
+                  handleGetQuote()
+                  setIsMobileMenuOpen(false)
+                }}
+                className="w-full rounded-xl px-4 py-3.5 text-sm font-bold text-white shadow-lg bg-blue-600 hover:bg-blue-500 transition-all"
+              >
+                Get a Quote
+              </button>
 
-      {/* Get Quote Button */}
-      <div className="pt-4">
-        <button
-          onClick={() => {
-            handleGetQuote()
-            setIsMobileMenuOpen(false)
-          }}
-          className="w-full rounded-md px-4 py-3 text-sm font-medium text-white shadow-sm hover:shadow-md transition-shadow"
-          style={{ backgroundColor: 'var(--brand-primary)' }}
-        >
-          Get a Quote
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              <div className="flex justify-center gap-6 pt-4">
+                <a href="https://wa.me/919733814168" className="text-slate-400 hover:text-cyan-400 transition-colors"><FaWhatsapp size={24} /></a>
+                <a href="tel:9733814168" className="text-slate-400 hover:text-blue-400 transition-colors"><FaPhone size={20} /></a>
+                <a href="mailto:contact@waglogy.in" className="text-slate-400 hover:text-sky-400 transition-colors"><FaEnvelope size={22} /></a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Backdrop for mobile menu */}
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+        />
+      )}
     </>
   )
 }

@@ -1,10 +1,48 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useRef } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { FaRupeeSign, FaDollarSign, FaCheckCircle, FaArrowRight, FaTimes, FaRocket } from 'react-icons/fa'
-import { MdWeb, MdPhoneAndroid, MdComputer, MdPalette, MdConstruction } from 'react-icons/md'
+import { MdWeb, MdPhoneAndroid, MdComputer, MdPalette, MdConstruction, MdClose } from 'react-icons/md'
 import { HiChip } from 'react-icons/hi'
 import { RiRobotFill } from 'react-icons/ri'
 import SEO from '../components/SEO'
+
+// Shared animated section component
+const ScrollFadeSection = ({ children, className }) => {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  })
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9])
+
+  return (
+    <motion.section
+      ref={ref}
+      style={{ opacity, scale }}
+      className={className}
+    >
+      {children}
+    </motion.section>
+  )
+}
+
+const FloatingShape = ({ delay = 0, className }) => (
+  <motion.div
+    className={`absolute rounded-full blur-3xl opacity-30 ${className}`}
+    animate={{
+      y: [0, -20, 0],
+      scale: [1, 1.1, 1],
+      rotate: [0, 10, 0],
+    }}
+    transition={{
+      duration: 8,
+      repeat: Infinity,
+      delay,
+      ease: "easeInOut"
+    }}
+  />
+)
 
 const Pricing = () => {
   const [currency, setCurrency] = useState('INR') // INR or USD
@@ -22,86 +60,61 @@ const Pricing = () => {
     message: ''
   })
 
-  const exchangeRate = 83 // 1 USD = 83 INR (approximate)
-
+  // Data Definitions
   const services = [
     {
       id: 'web-development',
       name: 'Web Development',
       IconComponent: MdWeb,
-      iconColor: '#3B82F6',
+      iconColor: 'text-blue-400',
       description: 'Modern, responsive websites',
       basePrice: { INR: 40000, USD: 500 },
-      complexityMultiplier: {
-        simple: 1,
-        medium: 2,
-        complex: 3.5
-      }
+      complexityMultiplier: { simple: 1, medium: 2, complex: 3.5 }
     },
     {
       id: 'app-development',
-      name: 'Application Development',
+      name: 'App Development',
       IconComponent: MdPhoneAndroid,
-      iconColor: '#8B5CF6',
+      iconColor: 'text-sky-400',
       description: 'iOS, Android & cross-platform apps',
       basePrice: { INR: 150000, USD: 1800 },
-      complexityMultiplier: {
-        simple: 1,
-        medium: 2.5,
-        complex: 4
-      }
+      complexityMultiplier: { simple: 1, medium: 2.5, complex: 4 }
     },
     {
       id: 'software-development',
-      name: 'Software Development',
+      name: 'Custom Software',
       IconComponent: MdComputer,
-      iconColor: '#10B981',
+      iconColor: 'text-indigo-400',
       description: 'Custom software solutions',
       basePrice: { INR: 120000, USD: 1500 },
-      complexityMultiplier: {
-        simple: 1,
-        medium: 2.8,
-        complex: 4.5
-      }
+      complexityMultiplier: { simple: 1, medium: 2.8, complex: 4.5 }
     },
     {
       id: 'graphics-uiux',
-      name: 'Graphics & UI/UX Design',
+      name: 'UI/UX Design',
       IconComponent: MdPalette,
-      iconColor: '#F59E0B',
+      iconColor: 'text-white',
       description: 'Eye-catching designs',
       basePrice: { INR: 30000, USD: 350 },
-      complexityMultiplier: {
-        simple: 1,
-        medium: 1.8,
-        complex: 2.5
-      }
+      complexityMultiplier: { simple: 1, medium: 1.8, complex: 2.5 }
     },
     {
       id: 'ai-chatbots',
-      name: 'AI Solutions & Chatbots',
+      name: 'AI Solutions',
       IconComponent: RiRobotFill,
-      iconColor: '#EF4444',
+      iconColor: 'text-cyan-400',
       description: 'Smart AI-powered solutions',
       basePrice: { INR: 80000, USD: 1000 },
-      complexityMultiplier: {
-        simple: 1,
-        medium: 2.2,
-        complex: 3.8
-      }
+      complexityMultiplier: { simple: 1, medium: 2.2, complex: 3.8 }
     },
     {
       id: 'ai-automations',
       name: 'AI Automations',
       IconComponent: HiChip,
-      iconColor: '#EC4899',
-      description: 'Workflow automation & optimization',
+      iconColor: 'text-blue-300',
+      description: 'Workflow automation',
       basePrice: { INR: 100000, USD: 1200 },
-      complexityMultiplier: {
-        simple: 1,
-        medium: 2.5,
-        complex: 4
-      }
+      complexityMultiplier: { simple: 1, medium: 2.5, complex: 4 }
     }
   ]
 
@@ -152,7 +165,6 @@ const Pricing = () => {
 
     let total = service.basePrice[currency] * service.complexityMultiplier[projectComplexity]
 
-    // Add selected features
     const serviceFeatures = availableFeatures[selectedService] || []
     features.forEach(featureId => {
       const feature = serviceFeatures.find(f => f.id === featureId)
@@ -161,550 +173,329 @@ const Pricing = () => {
       }
     })
 
-    // Timeline adjustments
-    if (timeline === 'urgent') {
-      total *= 1.3 // 30% rush fee
-    } else if (timeline === 'flexible') {
-      total *= 0.9 // 10% discount
-    }
+    if (timeline === 'urgent') total *= 1.3
+    else if (timeline === 'flexible') total *= 0.9
 
     return Math.round(total)
   }
 
-  const formatCurrency = (amount) => {
-    if (currency === 'INR') {
-      return `₹${amount.toLocaleString('en-IN')}`
-    } else {
-      return `$${amount.toLocaleString('en-US')}`
-    }
-  }
+  const formatCurrency = amount => currency === 'INR' ? `₹${amount.toLocaleString('en-IN')}` : `$${amount.toLocaleString('en-US')}`
 
   const handleFeatureToggle = (featureId) => {
-    setFeatures(prev =>
-      prev.includes(featureId)
-        ? prev.filter(id => id !== featureId)
-        : [...prev, featureId]
-    )
+    setFeatures(prev => prev.includes(featureId) ? prev.filter(id => id !== featureId) : [...prev, featureId])
   }
 
   const resetCalculator = () => {
-    setCurrentStep(1)
-    setSelectedService('')
-    setProjectComplexity('')
-    setFeatures([])
-    setTimeline('')
-    setShowEstimate(false)
+    setCurrentStep(1); setSelectedService(''); setProjectComplexity(''); setFeatures([]); setTimeline(''); setShowEstimate(false);
   }
 
   const selectedServiceData = services.find(s => s.id === selectedService)
   const estimatedPrice = calculateEstimate()
-  const priceRange = {
-    min: estimatedPrice * 0.85,
-    max: estimatedPrice * 1.15
-  }
+  const priceRange = { min: estimatedPrice * 0.85, max: estimatedPrice * 1.15 }
 
   return (
     <>
-    <SEO page="pricing" />
-      {/* Hero Section */}
-      <section className="bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-screen-xl">
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.h1 
-              className="text-4xl font-bold text-gray-900 sm:text-5xl mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              Transparent
-              <span style={{ color: 'var(--brand-primary)' }}> Pricing</span>
-            </motion.h1>
-            
-            <motion.p 
-              className="text-base sm:text-lg text-gray-700 mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Get an instant estimate for your project. Our pricing calculator helps you understand costs based on your specific requirements. Remember our USP: <strong style={{ color: 'var(--brand-primary)' }}>Start Small, Scale Smart, Pay as You Grow</strong> — you don't need everything at once!
-            </motion.p>
+      <SEO page="pricing" />
+
+      <div className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#000] to-[#000] text-slate-100 min-h-screen selection:bg-blue-500 selection:text-white overflow-hidden">
+
+        {/* Animated Background */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+          <FloatingShape className="bg-indigo-600 top-[-20%] left-[20%] w-[600px] h-[600px] opacity-15" />
+          <FloatingShape className="bg-blue-600 bottom-[-10%] right-[-10%] w-[500px] h-[500px] opacity-10" delay={2} />
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] animate-pulse"></div>
+        </div>
+
+        {/* Header Section */}
+        <section className="relative z-10 pt-32 pb-12 px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Transparent <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Pricing</span>
+            </h1>
+            <p className="text-slate-400 text-lg mb-8">
+              Get an instant estimate. No hidden fees. <strong className="text-white">Start Small, Scale Smart.</strong>
+            </p>
 
             {/* Currency Toggle */}
-            <motion.div 
-              className="flex items-center justify-center gap-4 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <span className="text-sm font-medium text-gray-700">Select Currency:</span>
-              <div className="inline-flex rounded-lg border border-gray-300 bg-white p-1">
-              <button
-                  onClick={() => setCurrency('INR')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    currency === 'INR'
-                      ? 'text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                  style={currency === 'INR' ? { backgroundColor: 'var(--brand-primary)' } : {}}
-                >
-                  <FaRupeeSign className="w-4 h-4" />
-                  INR
-              </button>
+            <div className="inline-flex rounded-lg border border-white/10 bg-white/5 p-1 backdrop-blur-md">
+              {['INR', 'USD'].map(curr => (
                 <button
-                  onClick={() => setCurrency('USD')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    currency === 'USD'
-                      ? 'text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                  style={currency === 'USD' ? { backgroundColor: 'var(--brand-primary)' } : {}}
+                  key={curr}
+                  onClick={() => setCurrency(curr)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold transition-all ${currency === curr ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    }`}
                 >
-                  <FaDollarSign className="w-4 h-4" />
-                  USD
+                  {curr === 'INR' ? <FaRupeeSign size={12} /> : <FaDollarSign size={12} />} {curr}
                 </button>
+              ))}
             </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        </section>
 
-      {/* Interactive Pricing Calculator */}
-      <section className="py-12 bg-gray-50">
-          <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            
-            {/* Progress Steps */}
-            <div className="mb-12">
-              <div className="flex items-center justify-center gap-2 sm:gap-4">
-                {[1, 2, 3, 4].map((step) => (
-                  <div key={step} className="flex items-center">
-                    <div className={`flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold ${
-                      currentStep >= step
-                        ? 'text-white'
-                        : 'bg-gray-200 text-gray-500'
-                    }`} style={currentStep >= step ? { backgroundColor: 'var(--brand-primary)' } : {}}>
-                      {step}
-                    </div>
-                    {step < 4 && (
-                      <div className={`w-12 sm:w-24 h-1 mx-1 ${
-                        currentStep > step ? 'bg-blue-500' : 'bg-gray-200'
-                      }`} style={currentStep > step ? { backgroundColor: 'var(--brand-primary)' } : {}}></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-center gap-8 sm:gap-16 mt-4 text-xs sm:text-sm text-gray-600">
-                <span className={currentStep >= 1 ? 'font-semibold' : ''}>Service</span>
-                <span className={currentStep >= 2 ? 'font-semibold' : ''}>Complexity</span>
-                <span className={currentStep >= 3 ? 'font-semibold' : ''}>Features</span>
-                <span className={currentStep >= 4 ? 'font-semibold' : ''}>Timeline</span>
-              </div>
-          </div>
+        {/* Calculator Section */}
+        <section className="relative z-10 py-12 px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="glass-card rounded-2xl border border-white/10 bg-[#0f172a]/80 backdrop-blur-xl shadow-2xl overflow-hidden">
 
-            {/* Step 1: Select Service */}
-            {currentStep === 1 && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
-              >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Select Your Service</h2>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {services.map((service) => {
-                    const IconComponent = service.IconComponent
-                    return (
-              <div
-                key={service.id}
-                        onClick={() => {
-                          setSelectedService(service.id)
-                          setCurrentStep(2)
-                        }}
-                        className={`cursor-pointer rounded-xl p-6 border-2 transition-all hover:shadow-lg text-left ${
-                          selectedService === service.id
-                            ? 'border-blue-500 bg-blue-50 shadow-md'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
-                }`}
-              >
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{ backgroundColor: `${service.iconColor}15` }}>
-                          <IconComponent className="w-8 h-8" style={{ color: service.iconColor }} />
-                        </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{service.name}</h3>
-                    <p className="text-sm text-gray-600 mb-4">{service.description}</p>
-                        <div className="text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>
-                          Starting from {formatCurrency(service.basePrice[currency])}
-                        </div>
+              {/* Progress Bar */}
+              <div className="bg-black/20 p-6 border-b border-white/5">
+                <div className="flex items-center justify-center gap-4">
+                  {[1, 2, 3, 4].map((step) => (
+                    <div key={step} className="flex items-center">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${currentStep >= step ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 'bg-white/5 text-slate-500'
+                        }`}>
+                        {step}
                       </div>
-                    )
-                  })}
-                  </div>
-              </motion.div>
-            )}
-
-            {/* Step 2: Project Complexity */}
-            {currentStep === 2 && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Select Project Complexity</h2>
-                <div className="grid gap-4 md:grid-cols-3">
-                  {[
-                    { id: 'simple', name: 'Simple', desc: 'Basic features, standard design', example: 'Basic website or simple app' },
-                    { id: 'medium', name: 'Medium', desc: 'Multiple features, custom design', example: 'Business website with CMS' },
-                    { id: 'complex', name: 'Complex', desc: 'Advanced features, integrations', example: 'Enterprise solution with AI' }
-                  ].map((complexity) => (
-                    <div
-                      key={complexity.id}
-                      onClick={() => {
-                        setProjectComplexity(complexity.id)
-                        setCurrentStep(3)
-                      }}
-                      className={`cursor-pointer rounded-xl p-6 border-2 transition-all hover:shadow-lg text-left ${
-                        projectComplexity === complexity.id
-                          ? 'border-blue-500 bg-blue-50 shadow-md'
-                          : 'border-gray-200 bg-white hover:border-gray-300'
-                      }`}
-                    >
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{complexity.name}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{complexity.desc}</p>
-                      <p className="text-xs text-gray-500 italic">Example: {complexity.example}</p>
+                      {step < 4 && (
+                        <div className={`w-12 sm:w-20 h-1 mx-2 rounded-full ${currentStep > step ? 'bg-blue-600' : 'bg-white/5'
+                          }`}></div>
+                      )}
                     </div>
                   ))}
                 </div>
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="text-sm text-gray-600 hover:text-gray-900 underline"
-                  >
-                    ← Back to Services
-                  </button>
+                <div className="flex justify-center gap-14 sm:gap-24 mt-2 text-xs text-slate-500 font-mono uppercase tracking-widest">
+                  <span>Service</span>
+                  <span>Scale</span>
+                  <span>Features</span>
+                  <span>Timeline</span>
                 </div>
-              </motion.div>
-            )}
+              </div>
 
-            {/* Step 3: Select Features */}
-            {currentStep === 3 && selectedService && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Add Features (Optional)</h2>
-                <p className="text-center text-gray-600 mb-8">Select additional features to enhance your project</p>
-                
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {availableFeatures[selectedService]?.map((feature) => (
-                    <div
-                      key={feature.id}
-                      onClick={() => handleFeatureToggle(feature.id)}
-                      className={`cursor-pointer rounded-lg p-4 border-2 transition-all hover:shadow-md ${
-                        features.includes(feature.id)
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 bg-white hover:border-gray-300'
-                      }`}
+              <div className="p-8 sm:p-12 min-h-[400px]">
+                <AnimatePresence mode="wait">
+
+                  {/* Step 1: Select Service */}
+                  {currentStep === 1 && (
+                    <motion.div
+                      key="step1"
+                      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
                     >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-gray-900 mb-1">{feature.name}</h4>
-                          <p className="text-sm font-medium" style={{ color: 'var(--brand-primary)' }}>
-                            +{formatCurrency(feature.price[currency])}
-                          </p>
-                        </div>
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                          features.includes(feature.id)
-                      ? 'border-blue-500 bg-blue-500'
-                      : 'border-gray-300'
-                  }`}>
-                          {features.includes(feature.id) && (
-                            <FaCheckCircle className="w-4 h-4 text-white" />
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-                </div>
+                      <h2 className="text-2xl font-bold text-white mb-8 text-center">Select Your Service</h2>
+                      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {services.map((service) => (
+                          <div
+                            key={service.id}
+                            onClick={() => { setSelectedService(service.id); setCurrentStep(2) }}
+                            className={`cursor-pointer rounded-xl p-6 border transition-all hover:scale-[1.02] ${selectedService === service.id
+                                ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]'
+                                : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10'
+                              }`}
+                          >
+                            <div className={`w-12 h-12 rounded-lg bg-black/30 flex items-center justify-center mb-4 text-2xl ${service.iconColor}`}>
+                              <service.IconComponent />
+                            </div>
+                            <h3 className="text-lg font-bold text-white mb-2">{service.name}</h3>
+                            <p className="text-sm text-slate-400 mb-4 h-10">{service.description}</p>
+                            <div className="text-xs font-mono text-blue-400 bg-blue-500/10 py-1 px-2 rounded w-fit">
+                              From {formatCurrency(service.basePrice[currency])}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
 
-                <div className="mt-8 flex justify-center gap-4">
-                  <button
-                    onClick={() => setCurrentStep(2)}
-                    className="px-6 py-3 rounded-lg border border-gray-300 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    onClick={() => setCurrentStep(4)}
-                    className="px-6 py-3 rounded-lg font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                    style={{ backgroundColor: 'var(--brand-primary)' }}
-                  >
-                    Continue →
-                  </button>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Step 4: Timeline */}
-            {currentStep === 4 && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Select Timeline</h2>
-                <div className="grid gap-4 md:grid-cols-3">
-                  {[
-                    { id: 'urgent', name: 'Urgent', desc: '2-4 weeks', note: '+30% rush fee', icon: '⚡' },
-                    { id: 'standard', name: 'Standard', desc: '4-8 weeks', note: 'Recommended', icon: '📅' },
-                    { id: 'flexible', name: 'Flexible', desc: '8+ weeks', note: '10% discount', icon: '🎯' }
-                  ].map((time) => (
-                    <div
-                      key={time.id}
-                      onClick={() => {
-                        setTimeline(time.id)
-                        setShowEstimate(true)
-                      }}
-                      className={`cursor-pointer rounded-xl p-6 border-2 transition-all hover:shadow-lg text-center ${
-                        timeline === time.id
-                          ? 'border-blue-500 bg-blue-50 shadow-md'
-                          : 'border-gray-200 bg-white hover:border-gray-300'
-                      }`}
+                  {/* Step 2: Complexity */}
+                  {currentStep === 2 && (
+                    <motion.div
+                      key="step2"
+                      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
                     >
-                      <div className="text-4xl mb-3">{time.icon}</div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{time.name}</h3>
-                      <p className="text-gray-600 mb-2">{time.desc}</p>
-                      <p className="text-sm font-medium" style={{ color: 'var(--brand-primary)' }}>{time.note}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={() => setCurrentStep(3)}
-                    className="text-sm text-gray-600 hover:text-gray-900 underline"
-                  >
-                    ← Back to Features
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Price Estimate */}
-      {showEstimate && estimatedPrice > 0 && (
-        <motion.section 
-          className="py-12 bg-white"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-              <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-xl p-8 border-t-4" style={{ borderColor: 'var(--brand-primary)' }}>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Your Estimated Price</h2>
-                
-                {/* Price Breakdown */}
-                <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center pb-3 border-b border-gray-200">
-                      <span className="font-medium text-gray-700">Service:</span>
-                      <span className="font-semibold text-gray-900">{selectedServiceData?.name}</span>
-                    </div>
-                    <div className="flex justify-between items-center pb-3 border-b border-gray-200">
-                      <span className="font-medium text-gray-700">Complexity:</span>
-                      <span className="font-semibold text-gray-900 capitalize">{projectComplexity}</span>
-                    </div>
-                    {features.length > 0 && (
-                      <div className="pb-3 border-b border-gray-200">
-                        <span className="font-medium text-gray-700 block mb-2">Additional Features:</span>
-                        <ul className="space-y-1">
-                          {features.map(featureId => {
-                            const feature = availableFeatures[selectedService]?.find(f => f.id === featureId)
-                            return feature ? (
-                              <li key={featureId} className="flex justify-between text-sm">
-                                <span className="text-gray-600">• {feature.name}</span>
-                                <span className="text-gray-900 font-medium">+{formatCurrency(feature.price[currency])}</span>
-                              </li>
-                            ) : null
-                          })}
-                        </ul>
+                      <h2 className="text-2xl font-bold text-white mb-8 text-center">Select Complexity</h2>
+                      <div className="grid gap-6 md:grid-cols-3">
+                        {[
+                          { id: 'simple', name: 'MVP / Simple', desc: 'Core features only', example: 'Landing page, basic app' },
+                          { id: 'medium', name: 'Standard', desc: 'Custom features & design', example: 'Business site with CMS' },
+                          { id: 'complex', name: 'Enterprise', desc: 'Advanced Logic & AI', example: 'SaaS, AI Platform' }
+                        ].map((c) => (
+                          <div
+                            key={c.id}
+                            onClick={() => { setProjectComplexity(c.id); setCurrentStep(3) }}
+                            className={`cursor-pointer rounded-xl p-6 border transition-all text-center group ${projectComplexity === c.id
+                                ? 'border-blue-500 bg-blue-500/10'
+                                : 'border-white/10 bg-white/5 hover:border-white/30'
+                              }`}
+                          >
+                            <h3 className="text-xl font-bold text-white mb-2">{c.name}</h3>
+                            <p className="text-slate-400 text-sm mb-4">{c.desc}</p>
+                            <div className="text-xs text-slate-500 py-2 border-t border-white/5">Ex: {c.example}</div>
+                          </div>
+                        ))}
                       </div>
-                    )}
-                    <div className="flex justify-between items-center pb-3 border-b border-gray-200">
-                      <span className="font-medium text-gray-700">Timeline:</span>
-                      <span className="font-semibold text-gray-900 capitalize">{timeline}</span>
-                    </div>
-                  </div>
+                      <button onClick={() => setCurrentStep(1)} className="block mx-auto mt-8 text-slate-500 hover:text-white transition-colors text-sm">← Back</button>
+                    </motion.div>
+                  )}
 
-                  {/* Total Price */}
-                  <div className="mt-6 pt-6 border-t-2 border-gray-300">
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">Estimated Price Range:</p>
-                      <div className="text-4xl font-bold mb-2" style={{ color: 'var(--brand-primary)' }}>
-                        {formatCurrency(priceRange.min)} - {formatCurrency(priceRange.max)}
+                  {/* Step 3: Features */}
+                  {currentStep === 3 && (
+                    <motion.div
+                      key="step3"
+                      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                    >
+                      <h2 className="text-2xl font-bold text-white mb-8 text-center">Add Features</h2>
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        {availableFeatures[selectedService]?.map((f) => (
+                          <div
+                            key={f.id}
+                            onClick={() => handleFeatureToggle(f.id)}
+                            className={`cursor-pointer rounded-xl p-4 border transition-all flex items-center justify-between ${features.includes(f.id)
+                                ? 'border-blue-500 bg-blue-500/10'
+                                : 'border-white/10 bg-white/5 hover:bg-white/10'
+                              }`}
+                          >
+                            <div>
+                              <h4 className="font-bold text-white">{f.name}</h4>
+                              <p className="text-blue-400 text-sm font-mono mt-1">+{formatCurrency(f.price[currency])}</p>
+                            </div>
+                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${features.includes(f.id) ? 'border-blue-500 bg-blue-500' : 'border-slate-600'
+                              }`}>
+                              {features.includes(f.id) && <FaCheckCircle className="text-white text-xs" />}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      <p className="text-xs text-gray-500 italic">
-                        * This is an estimate. Final pricing may vary based on detailed requirements.
-                      </p>
-                    </div>
-                  </div>
-              </div>
-
-                {/* USP Reminder */}
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg">
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">💡</span>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900 mb-1">Remember: Growth-Friendly Technology</p>
-                      <p className="text-xs text-gray-700">
-                        You don't need to build everything at once! Start with essentials, then add features as your business grows. This estimate can be phased over time.
-                      </p>
-                    </div>
-                  </div>
-              </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <button
-                    onClick={() => {
-                      // Pre-fill the modal with estimate details
-                      setQuoteFormData({
-                        ...quoteFormData,
-                        message: `I'm interested in ${selectedServiceData?.name}.\n\nProject Details:\n- Complexity: ${projectComplexity}\n- Timeline: ${timeline}\n- Estimated Budget: ${formatCurrency(estimatedPrice)}\n\nPlease send me a detailed proposal.`
-                      })
-                      setShowQuoteModal(true)
-                    }}
-                    className="flex-1 text-center rounded-lg px-6 py-3 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                  style={{ backgroundColor: 'var(--brand-primary)' }}
-                >
-                    Send Quote Request
-                  </button>
-                <button
-                    onClick={resetCalculator}
-                    className="px-6 py-3 rounded-lg border border-gray-300 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                    Start Over
-                </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-      )}
-
-      {/* Growth-Friendly Pricing Model */}
-      <section className="py-12 bg-gray-50">
-          <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
-              Our <span style={{ color: 'var(--brand-primary)' }}>Growth-Friendly</span> Pricing Model
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Unlike traditional agencies, we don't believe in overwhelming you with costs. Here's how we make technology affordable:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-xl shadow-md text-left hover:shadow-xl transition-shadow">
-              <div className="flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}>
-                <MdConstruction className="w-7 h-7" style={{ color: 'var(--brand-primary)' }} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Phase 1: Foundation</h3>
-              <p className="text-gray-700 text-sm mb-4">Start with essential features only. Get your product live quickly at minimal cost.</p>
-              <p className="text-xs text-gray-500 italic">Example: Basic website → ₹40,000 - ₹80,000</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md text-left hover:shadow-xl transition-shadow">
-              <div className="flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}>
-                <FaRocket className="w-6 h-6" style={{ color: 'var(--brand-primary)' }} />
-                        </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Phase 2: Growth</h3>
-              <p className="text-gray-700 text-sm mb-4">Add advanced features and integrations as your user base grows.</p>
-              <p className="text-xs text-gray-500 italic">Example: Add CMS + Analytics → ₹25,000</p>
-                        </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md text-left hover:shadow-xl transition-shadow">
-              <div className="flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}>
-                <HiChip className="w-7 h-7" style={{ color: 'var(--brand-primary)' }} />
+                      <div className="flex justify-center gap-4 mt-8">
+                        <button onClick={() => setCurrentStep(2)} className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5">Back</button>
+                        <button onClick={() => setCurrentStep(4)} className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-lg">Continue</button>
                       </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Phase 3: Scale with AI</h3>
-              <p className="text-gray-700 text-sm mb-4">When ready, integrate AI automation to reduce costs and boost efficiency.</p>
-              <p className="text-xs text-gray-500 italic">Example: AI Chatbot → ₹80,000</p>
-                  </div>
-                </div>
+                    </motion.div>
+                  )}
 
-          <div className="mt-10 text-center bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
-            <p className="text-lg font-semibold text-gray-900 mb-2">
-              💡 Total Savings: Pay only when you're ready
-            </p>
-            <p className="text-gray-600 text-sm">
-              Instead of investing ₹1,45,000 upfront, start with ₹40,000 and scale in phases based on revenue and growth.
-            </p>
+                  {/* Step 4: Timeline */}
+                  {currentStep === 4 && (
+                    <motion.div
+                      key="step4"
+                      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                    >
+                      <h2 className="text-2xl font-bold text-white mb-8 text-center">Timeline</h2>
+                      <div className="grid gap-6 md:grid-cols-3">
+                        {[
+                          { id: 'urgent', name: 'Proty', desc: 'Need it yesterday', note: '+30% Rush Fee', icon: '⚡' },
+                          { id: 'standard', name: 'Standard', desc: 'Balanced pace', note: 'Standard Rate', icon: '📅' },
+                          { id: 'flexible', name: 'Relaxed', desc: 'No rush', note: '-10% Discount', icon: '🍃' }
+                        ].map((t) => (
+                          <div
+                            key={t.id}
+                            onClick={() => { setTimeline(t.id); setShowEstimate(true) }}
+                            className={`cursor-pointer rounded-xl p-6 border transition-all text-center ${timeline === t.id
+                                ? 'border-blue-500 bg-blue-500/10'
+                                : 'border-white/10 bg-white/5 hover:bg-white/10'
+                              }`}
+                          >
+                            <div className="text-4xl mb-4">{t.icon}</div>
+                            <h3 className="font-bold text-white mb-2">{t.name}</h3>
+                            <p className="text-slate-400">{t.desc}</p>
+                            <p className="text-blue-400 text-xs mt-2 font-mono">{t.note}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <button onClick={() => setCurrentStep(3)} className="block mx-auto mt-8 text-slate-500 hover:text-white transition-colors text-sm">← Back</button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Need a Custom Quote?
-            </h2>
-            <p className="text-gray-600 mb-8">
-              Every project is unique. Share your requirements and we'll send you a detailed, customized proposal within 24 hours—completely free with no obligations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => setShowQuoteModal(true)}
-                className="inline-flex items-center justify-center gap-2 rounded-lg px-8 py-4 font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                style={{ backgroundColor: 'var(--brand-primary)' }}
-              >
-                Get Custom Quote
-                <FaArrowRight />
-              </button>
-              <a
-                href="https://wa.me/919733814168?text=Hi! I'd like to discuss pricing for my project."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border-2 px-8 py-4 font-medium hover:bg-gray-50 transition-colors"
-                style={{ borderColor: 'var(--brand-primary)', color: 'var(--brand-primary)' }}
-              >
-                WhatsApp Us
-              </a>
+        {/* Estimation Result */}
+        <AnimatePresence>
+          {showEstimate && estimatedPrice > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              className="py-12 px-4 relative z-20"
+            >
+              <div className="max-w-3xl mx-auto">
+                <div className="glass-card p-1 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 p-[1px]">
+                  <div className="bg-[#0f172a] rounded-2xl p-8">
+                    <h2 className="text-2xl font-bold text-white mb-6 text-center">Estimated Investment</h2>
+
+                    <div className="flex flex-col items-center justify-center py-8 border-y border-white/10 mb-6">
+                      <span className="text-slate-400 text-sm mb-2">Estimated Range</span>
+                      <div className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
+                        {formatCurrency(priceRange.min)} - {formatCurrency(priceRange.max)}
+                      </div>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-4 text-sm text-slate-300 mb-8">
+                      <div className="flex justify-between p-3 bg-white/5 rounded-lg">
+                        <span>Service</span> <span className="text-white">{selectedServiceData?.name}</span>
+                      </div>
+                      <div className="flex justify-between p-3 bg-white/5 rounded-lg">
+                        <span>Complexity</span> <span className="text-white capitalize">{projectComplexity}</span>
+                      </div>
+                      <div className="flex justify-between p-3 bg-white/5 rounded-lg">
+                        <span>Timeline</span> <span className="text-white capitalize">{timeline}</span>
+                      </div>
+                      <div className="flex justify-between p-3 bg-white/5 rounded-lg">
+                        <span>Add-ons</span> <span className="text-white">{features.length} selected</span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => {
+                          setQuoteFormData({
+                            ...quoteFormData,
+                            message: `Project Estimate: ${formatCurrency(priceRange.min)} - ${formatCurrency(priceRange.max)}\nService: ${selectedServiceData?.name}\nComplexity: ${projectComplexity}\nTimeline: ${timeline}`
+                          })
+                          setShowQuoteModal(true)
+                        }}
+                        className="flex-1 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/25 transition-all"
+                      >
+                        Book Consultation
+                      </button>
+                      <button onClick={resetCalculator} className="px-6 py-4 rounded-xl border border-white/10 text-white hover:bg-white/5">
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
+
+        {/* Growth Model Grid */}
+        <ScrollFadeSection className="py-24 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { icon: MdConstruction, title: 'Foundation', price: '₹40k - ₹80k', desc: 'MVP / Basic Site. Get live fast.' },
+                { icon: FaRocket, title: 'Growth', price: '+ ₹25k additions', desc: 'Add CMS, Analytics as you grow.' },
+                { icon: HiChip, title: 'Scale', price: '+ ₹80k AI', desc: 'Automation & Chatbots when needed.' }
+              ].map((Box, i) => (
+                <div key={i} className="glass-card p-6 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-4">
+                    <Box.icon />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{Box.title}</h3>
+                  <p className="text-blue-400 font-mono text-sm mb-2">{Box.price}</p>
+                  <p className="text-slate-400 text-sm">{Box.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </ScrollFadeSection>
 
-      {/* Quote Modal */}
-      {showQuoteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <motion.div 
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-2xl">
-              <h3 className="text-2xl font-bold text-gray-900">Request Custom Quote</h3>
-              <button
-                onClick={() => setShowQuoteModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <FaTimes className="w-5 h-5 text-gray-500" />
-              </button>
-            </div>
+        {/* Quote Modal */}
+        {showQuoteModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowQuoteModal(false)}></div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="relative bg-[#0f172a] border border-white/10 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+            >
+              <div className="bg-gradient-to-r from-blue-600/20 to-indigo-600/20 p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 className="text-xl font-bold text-white">Save Estimate</h3>
+                <button onClick={() => setShowQuoteModal(false)} className="text-slate-400 hover:text-white"><MdClose size={24} /></button>
+              </div>
 
-            <div className="p-6">
-              <p className="text-gray-600 mb-6 text-center">
-                Fill out this form and we'll send you a detailed, customized proposal within 24 hours.
-              </p>
-
-              <form className="space-y-5" onSubmit={(e) => {
+              <form className="p-6 space-y-4" onSubmit={(e) => {
                 e.preventDefault()
-                // Send email with form data
                 const subject = encodeURIComponent('Custom Quote Request')
                 const body = encodeURIComponent(
                   `Name: ${quoteFormData.name}\nEmail: ${quoteFormData.email}\nPhone: ${quoteFormData.phone}\n\nMessage:\n${quoteFormData.message}`
@@ -713,76 +504,52 @@ const Pricing = () => {
                 setShowQuoteModal(false)
               }}>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                  <label className="block text-slate-400 text-xs uppercase mb-2">Name</label>
                   <input
-                    type="text"
                     required
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
                     value={quoteFormData.name}
-                    onChange={(e) => setQuoteFormData({...quoteFormData, name: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your full name"
+                    onChange={e => setQuoteFormData({ ...quoteFormData, name: e.target.value })}
                   />
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                    <label className="block text-slate-400 text-xs uppercase mb-2">Email</label>
                     <input
-                      type="email"
-                      required
+                      required type="email"
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
                       value={quoteFormData.email}
-                      onChange={(e) => setQuoteFormData({...quoteFormData, email: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="your@email.com"
+                      onChange={e => setQuoteFormData({ ...quoteFormData, email: e.target.value })}
                     />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                    <label className="block text-slate-400 text-xs uppercase mb-2">Phone</label>
                     <input
-                      type="tel"
-                      required
+                      required type="tel"
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
                       value={quoteFormData.phone}
-                      onChange={(e) => setQuoteFormData({...quoteFormData, phone: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="+91 9876543210"
+                      onChange={e => setQuoteFormData({ ...quoteFormData, phone: e.target.value })}
                     />
                   </div>
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Project Details *</label>
+                  <label className="block text-slate-400 text-xs uppercase mb-2">Project Details</label>
                   <textarea
-                    required
+                    required rows="4"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none resize-none"
                     value={quoteFormData.message}
-                    onChange={(e) => setQuoteFormData({...quoteFormData, message: e.target.value})}
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                    placeholder="Tell us about your project requirements, goals, and any specific features you need..."
-                  />
+                    onChange={e => setQuoteFormData({ ...quoteFormData, message: e.target.value })}
+                  ></textarea>
                 </div>
-
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setShowQuoteModal(false)}
-                    className="flex-1 px-6 py-3 rounded-lg border border-gray-300 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-6 py-3 rounded-lg font-medium text-white shadow-lg hover:shadow-xl transition-shadow"
-                    style={{ backgroundColor: 'var(--brand-primary)' }}
-                  >
-                    Send Quote Request
-                  </button>
-                </div>
+                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg shadow-lg">
+                  Request Formal Quote
+                </button>
               </form>
-            </div>
-          </motion.div>
-        </div>
-      )}
+            </motion.div>
+          </div>
+        )}
+
+      </div>
     </>
   )
 }

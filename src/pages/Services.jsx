@@ -1,12 +1,65 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import { MdWeb, MdPhoneAndroid, MdComputer, MdPalette } from 'react-icons/md'
+import React, { useState, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { MdWeb, MdPhoneAndroid, MdComputer, MdPalette, MdClose } from 'react-icons/md'
 import { RiRobotFill } from 'react-icons/ri'
 import { HiChip } from 'react-icons/hi'
 import { FaTimes, FaCheckCircle, FaArrowRight } from 'react-icons/fa'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
 import { generateServiceSchema } from '../config/seo'
+
+// Shared animated section component
+const ScrollFadeSection = ({ children, className }) => {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  })
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9])
+
+  return (
+    <motion.section
+      ref={ref}
+      style={{ opacity, scale }}
+      className={className}
+    >
+      {children}
+    </motion.section>
+  )
+}
+
+// 3D Card Component
+const Card3D = ({ children, className = '', onClick }) => {
+  return (
+    <motion.div
+      onClick={onClick}
+      className={`glass-card rounded-2xl p-8 relative overflow-hidden group preserve-3d perspective-1000 border border-white/10 bg-white/5 backdrop-blur-md ${className}`}
+      whileHover={{ scale: 1.02, rotateX: 2, rotateY: 2 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-sky-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {children}
+    </motion.div>
+  )
+}
+
+const FloatingShape = ({ delay = 0, className }) => (
+  <motion.div
+    className={`absolute rounded-full blur-3xl opacity-30 ${className}`}
+    animate={{
+      y: [0, -20, 0],
+      scale: [1, 1.1, 1],
+      rotate: [0, 10, 0],
+    }}
+    transition={{
+      duration: 8,
+      repeat: Infinity,
+      delay,
+      ease: "easeInOut"
+    }}
+  />
+)
 
 const Services = () => {
   const [showQuoteModal, setShowQuoteModal] = useState(false)
@@ -18,15 +71,15 @@ const Services = () => {
     message: ''
   })
 
+  // Same services data, just keeping structure
   const services = [
     {
       id: 'web-development',
       title: 'Web Development',
       tagline: 'Modern, responsive, and user-friendly websites that create impact',
       IconComponent: MdWeb,
-      iconColor: '#3B82F6',
-      bgGradient: 'from-blue-50 to-blue-100',
-      description: 'Your website is often the first impression customers have of your business. We build modern, lightning-fast, and fully responsive websites that not only look stunning but also drive real business results.',
+      iconColor: 'text-blue-400',
+      description: 'Your website is often the first impression. We build modern, lightning-fast, and fully responsive websites using Next.js and React that look stunning and drive real business results.',
       features: [
         'Responsive Design - Perfect on all devices',
         'Fast Performance - Optimized for speed & SEO',
@@ -36,114 +89,103 @@ const Services = () => {
         'SEO Optimization - Rank higher on Google'
       ],
       technologies: ['React', 'Next.js', 'Tailwind CSS', 'WordPress', 'Shopify'],
-      pricing: { INR: '₹40,000', USD: '$500' },
-      timeline: '2-6 weeks',
-      useCases: ['Business Websites', 'E-commerce Stores', 'Landing Pages', 'Portfolios']
+      pricing: { INR: '₹40,000' },
+      timeline: '2-6 weeks'
     },
     {
       id: 'app-development',
-      title: 'Application Development',
+      title: 'App Development',
       tagline: 'Secure, scalable apps tailored to your business goals',
       IconComponent: MdPhoneAndroid,
-      iconColor: '#8B5CF6',
-      bgGradient: 'from-purple-50 to-purple-100',
-      description: 'Whether you need a mobile app for iOS, Android, or a cross-platform solution, we build applications that are intuitive, secure, and designed to scale with your business. From concept to deployment, we handle it all.',
+      iconColor: 'text-sky-400',
+      description: 'Whether iOS, Android, or cross-platform, we build intuitive, secure apps designed to scale. From concept to deployment, we handle it all with Flutter and React Native.',
       features: [
         'Native & Cross-Platform - iOS, Android, or both',
         'Intuitive UX - Beautiful interfaces users love',
         'Secure Backend - Protected data & APIs',
-        'Real-time Features - Push notifications & live updates',
+        'Real-time Features - Push notifications & updates',
         'Offline Functionality - Works without internet',
         'App Store Optimization - Better visibility'
       ],
       technologies: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Firebase'],
-      pricing: { INR: '₹1,50,000', USD: '$1,800' },
-      timeline: '6-12 weeks',
-      useCases: ['Business Apps', 'E-commerce Apps', 'Social Apps', 'Fitness & Health']
+      pricing: { INR: '₹1,50,000' },
+      timeline: '6-12 weeks'
     },
     {
       id: 'software-development',
-      title: 'Software Development',
+      title: 'Custom Software',
       tagline: 'Custom solutions to automate and streamline operations',
       IconComponent: MdComputer,
-      iconColor: '#10B981',
-      bgGradient: 'from-green-50 to-green-100',
-      description: 'Every business has unique challenges. We create custom software solutions that automate manual processes, integrate disparate systems, and eliminate operational bottlenecks—helping you save time, reduce costs, and focus on growth.',
+      iconColor: 'text-indigo-400',
+      description: 'We create custom software solutions that automate manual processes, integrate disparate systems, and eliminate operational bottlenecks.',
       features: [
         'Custom Workflows - Tailored to your processes',
-        'API Integrations - Connect existing tools seamlessly',
+        'API Integrations - Connect existing tools',
         'Process Automation - Eliminate repetitive tasks',
-        'Data Management - Centralized dashboards & reports',
+        'Data Management - Centralized dashboards',
         'Cloud Deployment - Scalable & secure',
         'System Integration - Unify your tech stack'
       ],
       technologies: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'AWS'],
-      pricing: { INR: '₹1,20,000', USD: '$1,500' },
-      timeline: '8-16 weeks',
-      useCases: ['CRM Systems', 'Inventory Management', 'Booking Systems', 'Data Analytics']
+      pricing: { INR: '₹1,20,000' },
+      timeline: '8-16 weeks'
     },
     {
       id: 'graphics-uiux',
-      title: 'Graphics & UI/UX Design',
+      title: 'UI/UX Design',
       tagline: 'Eye-catching designs that build trust and engagement',
       IconComponent: MdPalette,
-      iconColor: '#F59E0B',
-      bgGradient: 'from-amber-50 to-amber-100',
-      description: 'First impressions matter. We create visually stunning designs that not only capture attention but also build trust and guide users seamlessly through their journey. From brand identity to digital experiences, we make your business memorable.',
+      iconColor: 'text-white',
+      description: 'We create visually stunning designs that capture attention and build trust. From brand identity to digital experiences, we make your business memorable.',
       features: [
-        'Brand Identity - Logos, color palettes & guidelines',
-        'UI/UX Design - Intuitive interfaces for conversions',
-        'Marketing Graphics - Social media & promotional',
-        'Design Systems - Consistent, scalable components',
-        'Wireframing & Prototyping - Visualize before building',
-        'User Research - Data-driven design decisions'
+        'Brand Identity - Logos & guidelines',
+        'UI/UX Design - Intuitive interfaces',
+        'Marketing Graphics - Social media & ads',
+        'Design Systems - Consistent components',
+        'Wireframing - Visualize before building',
+        'User Research - Data-driven decisions'
       ],
-      technologies: ['Figma', 'Adobe XD', 'Illustrator', 'Photoshop', 'Sketch'],
-      pricing: { INR: '₹30,000', USD: '$350' },
-      timeline: '2-4 weeks',
-      useCases: ['Brand Identity', 'Website Design', 'App UI', 'Marketing Materials']
+      technologies: ['Figma', 'Adobe XD', 'Illustrator', 'Photoshop'],
+      pricing: { INR: '₹30,000' },
+      timeline: '2-4 weeks'
     },
     {
       id: 'ai-chatbots',
-      title: 'AI Solutions & Chatbots',
+      title: 'AI Solutions',
       tagline: 'Smarter customer interactions, increased efficiency',
       IconComponent: RiRobotFill,
-      iconColor: '#EF4444',
-      bgGradient: 'from-red-50 to-red-100',
-      description: 'Transform how you interact with customers using intelligent AI-powered solutions. From 24/7 customer support chatbots to advanced AI applications that understand context and deliver personalized experiences—we help you harness the power of artificial intelligence.',
+      iconColor: 'text-cyan-400',
+      description: 'Transform customer interactions with intelligent AI. From 24/7 support chatbots to advanced AI apps that understand context and deliver personalized experiences.',
       features: [
-        'Smart Chatbots - 24/7 customer support',
+        'Smart Chatbots - 24/7 support',
         'LLM Integration - GPT, Claude & more',
-        'Voice Assistants - Natural language interfaces',
-        'Intelligent Search - AI-powered recommendations',
-        'Sentiment Analysis - Understand customer emotions',
-        'Multilingual Support - Reach global audiences'
+        'Voice Assistants - Natural language',
+        'Intelligent Search - AI recommendations',
+        'Sentiment Analysis - Understand emotions',
+        'Multilingual Support - Global reach'
       ],
       technologies: ['OpenAI API', 'Claude', 'LangChain', 'Python', 'FastAPI'],
-      pricing: { INR: '₹80,000', USD: '$1,000' },
-      timeline: '4-10 weeks',
-      useCases: ['Customer Support Bots', 'Lead Qualification', 'Virtual Assistants', 'Content Generation']
+      pricing: { INR: '₹80,000' },
+      timeline: '4-10 weeks'
     },
     {
       id: 'ai-automations',
       title: 'AI Automations',
-      tagline: 'From lead management to workflow optimization, powered by AI',
+      tagline: 'From lead management to workflow optimization',
       IconComponent: HiChip,
-      iconColor: '#EC4899',
-      bgGradient: 'from-pink-50 to-pink-100',
-      description: 'Stop wasting time on repetitive tasks. Our AI automation solutions handle everything from lead capture to customer follow-ups, data entry to report generation—freeing up your team to focus on what truly matters: growing your business.',
+      iconColor: 'text-blue-300',
+      description: 'Stop wasting time on repetitive tasks. Our AI automation solutions handle everything from lead capture to data entry—freeing up your team.',
       features: [
-        'Lead Management - Automated capture, scoring & nurturing',
-        'Workflow Automation - Streamline approvals & tasks',
-        'Data Processing - AI-powered extraction & analysis',
-        'Smart Scheduling - Intelligent booking & allocation',
-        'Email Automation - Personalized campaigns at scale',
-        'Document Processing - Extract insights from files'
+        'Lead Management - Automated capture',
+        'Workflow Automation - Streamline tasks',
+        'Data Processing - AI extraction',
+        'Smart Scheduling - Intelligent booking',
+        'Email Automation - Personalized campaigns',
+        'Document Processing - Extract insights'
       ],
-      technologies: ['Make.com', 'Zapier', 'Python', 'AI APIs', 'Custom Scripts'],
-      pricing: { INR: '₹1,00,000', USD: '$1,200' },
-      timeline: '4-12 weeks',
-      useCases: ['Lead Generation', 'Email Marketing', 'Data Entry', 'Report Generation']
+      technologies: ['Make.com', 'Zapier', 'Python', 'AI APIs'],
+      pricing: { INR: '₹1,00,000' },
+      timeline: '4-12 weeks'
     }
   ]
 
@@ -151,7 +193,7 @@ const Services = () => {
     setSelectedService(service)
     setQuoteFormData({
       ...quoteFormData,
-      message: `I'm interested in ${service.title}.\n\nPlease provide more information about this service.`
+      message: `I'm interested in ${service.title}.\n\nPlease provide more information regarding this.`
     })
     setShowQuoteModal(true)
   }
@@ -164,12 +206,11 @@ const Services = () => {
     )
     window.location.href = `mailto:contact@waglogy.in?subject=${subject}&body=${body}`
     setShowQuoteModal(false)
-    // Reset form
     setQuoteFormData({ name: '', email: '', phone: '', message: '' })
   }
 
-  // Generate service schemas for structured data
-  const serviceSchemas = services.slice(0, 3).map(service => 
+  // Schema gen
+  const serviceSchemas = services.slice(0, 3).map(service =>
     generateServiceSchema({
       name: service.title,
       description: service.description,
@@ -181,351 +222,251 @@ const Services = () => {
     <>
       <SEO page="services" />
       <StructuredData schemas={serviceSchemas} />
-      
-      {/* Hero Section */}
-      <section className="bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-screen-xl">
-          <div className="pt-4 pb-8 sm:pt-2 sm:pb-12 md:grid md:grid-cols-2 md:items-center md:gap-8">
-            <motion.div 
-              className="max-w-3xl text-left"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+
+      <div className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#000] to-[#000] text-slate-100 min-h-screen selection:bg-blue-500 selection:text-white overflow-hidden">
+
+        {/* Animated Background */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+          <FloatingShape className="bg-sky-600 top-[-10%] right-[-10%] w-[500px] h-[500px] opacity-20" />
+          <FloatingShape className="bg-blue-600 bottom-[20%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] animate-pulse"></div>
+        </div>
+
+        {/* Hero Section */}
+        <section className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-[50vh] flex items-center">
+          <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl mb-4">
-                Our
-                <span style={{ color: 'var(--brand-primary)' }}> Services</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-6 backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                SERVICES
+              </div>
+              <h1 className="text-5xl md:text-7xl font-bold leading-none mb-6 tracking-tight">
+                Start Small. <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-600">Scale Big.</span>
               </h1>
-              <p className="text-base text-gray-700 sm:text-lg leading-relaxed mb-6">
-                From concept to deployment, we provide comprehensive digital solutions that drive business growth. 
-                Our expert team delivers modern, scalable, and user-focused applications with our unique <strong>Growth-Friendly Technology</strong> approach.
+              <p className="text-slate-400 text-lg md:text-xl mb-8 leading-relaxed max-w-lg">
+                We don't just build software; we engineer growth systems. Start with essentials and scale your tech as you grow.
               </p>
-              
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border-l-4" style={{ borderColor: 'var(--brand-primary)' }}>
-                <p className="text-sm font-semibold text-gray-900 mb-2">💡 Our Promise:</p>
-                <p className="text-sm text-gray-700">
-                  Start with essentials, scale as you grow, and pay only for what you need. No overwhelming features. No unnecessary costs.
-                </p>
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => {
+                    setSelectedService(null)
+                    setQuoteFormData({ ...quoteFormData, message: 'I want to discuss a project.' })
+                    setShowQuoteModal(true)
+                  }}
+                  className="px-8 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] flex items-center gap-2"
+                >
+                  Start Project <FaArrowRight />
+                </button>
               </div>
             </motion.div>
-            
-            <motion.div 
-              className="mx-auto mt-8 md:mt-0 max-w-md"
-              initial={{ opacity: 0, scale: 0.9 }}
+            <motion.div
+              className="hidden lg:block"
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 1 }}
             >
-              <img src="/banner.png" alt="Waglogy services" className="w-full h-auto object-contain" />
+              <div className="relative">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl blur opacity-30"></div>
+                <div className="glass-card p-2 rounded-2xl border border-white/10 relative">
+                  <img src="/banner.png" alt="Services Hero" className="rounded-xl w-full h-auto object-contain" />
+                </div>
+              </div>
             </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services Grid */}
-      <section className="py-12 bg-gray-50">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Our Core Services</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Comprehensive digital solutions designed to help your business thrive in the modern digital landscape
-            </p>
-          </motion.div>
-          
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, index) => {
-              const IconComponent = service.IconComponent
-              return (
+        {/* Services Grid */}
+        <ScrollFadeSection className="py-24 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">Our <span className="text-blue-500">Core Services</span></h2>
+              <p className="text-slate-400">Comprehensive digital solutions engineered for growth.</p>
+            </motion.div>
+
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {services.map((service, index) => {
+                const IconComponent = service.IconComponent
+                return (
+                  <Card3D key={service.id} className="cursor-pointer" onClick={() => handleGetQuote(service)}>
+                    <div className={`w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center mb-6 text-2xl ${service.iconColor} shadow-inner`}>
+                      <IconComponent />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">{service.title}</h3>
+                    <p className="text-slate-400 text-sm mb-6 min-h-[60px]">{service.tagline}</p>
+
+                    <div className="space-y-3 mb-6">
+                      {service.features.slice(0, 3).map((f, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-slate-300">
+                          <FaCheckCircle className={`text-xs ${service.iconColor}`} />
+                          <span>{f.split(' - ')[0]}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-auto">
+                      <div>
+                        <div className="text-xs text-slate-500 uppercase tracking-wider">Starting</div>
+                        <div className="text-lg font-bold text-white">{service.pricing.INR}</div>
+                      </div>
+                      <button className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-colors">
+                        <FaArrowRight size={14} />
+                      </button>
+                    </div>
+                  </Card3D>
+                )
+              })}
+            </div>
+          </div>
+        </ScrollFadeSection>
+
+        {/* Growth Approach */}
+        <ScrollFadeSection className="py-24 bg-black/30 relative z-10 border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold mb-4">The <span className="text-sky-500">Growth-Friendly</span> Protocol</h2>
+              <p className="text-slate-400">We don't overwhelm you. We help you grow step-by-step.</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { num: "01", title: "Start Small", desc: "Launch with essentials. Get live quickly without breaking the bank." },
+                { num: "02", title: "Scale Smart", desc: "Add complexity, apps, and integrations only as your user base grows." },
+                { num: "03", title: "Automate", desc: "Deploy AI and advanced automation when you are ready to dominate." }
+              ].map((step, i) => (
                 <motion.div
-                  key={service.id}
-                  className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                  key={i}
+                  className="glass-card p-8 rounded-2xl relative border border-white/5 hover:border-blue-500/30 transition-colors group"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ delay: i * 0.2 }}
                 >
-                  {/* Header with gradient background */}
-                  <div className={`bg-gradient-to-br ${service.bgGradient} p-6 text-center`}>
-                    <div className="flex items-center justify-center w-20 h-20 mx-auto rounded-full bg-white shadow-lg mb-4 group-hover:scale-110 transition-transform">
-                      <IconComponent className="w-10 h-10" style={{ color: service.iconColor }} />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                    <p className="text-sm font-medium text-gray-700">{service.tagline}</p>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 text-left">
-                    <p className="text-sm text-gray-700 leading-relaxed mb-6 text-left">
-                      {service.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="mb-6">
-                      <h4 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide text-left">What's Included:</h4>
-                      <ul className="space-y-2 text-left">
-                        {service.features.slice(0, 4).map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 text-left">
-                            <FaCheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: service.iconColor }} />
-                            <span className="text-left">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      {service.features.length > 4 && (
-                        <p className="text-xs text-gray-500 mt-2 text-left">+ {service.features.length - 4} more features</p>
-                      )}
-                    </div>
-
-                    {/* Technologies */}
-                    <div className="mb-6">
-                      <h4 className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Technologies:</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {service.technologies.map((tech, idx) => (
-                          <span
-                            key={idx}
-                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Pricing & Timeline */}
-                    <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <p className="text-xs text-gray-500 mb-1">Starting from</p>
-                        <p className="text-lg font-bold" style={{ color: service.iconColor }}>
-                          {service.pricing.INR}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-500 mb-1">Timeline</p>
-                        <p className="text-lg font-bold text-gray-900">{service.timeline}</p>
-                      </div>
-                    </div>
-
-                    {/* CTA Button */}
-                    <button
-                      onClick={() => handleGetQuote(service)}
-                      className="w-full flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-medium text-white shadow-md hover:shadow-lg transition-all group-hover:scale-105"
-                      style={{ backgroundColor: service.iconColor }}
-                    >
-                      Get Quote
-                      <FaArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
+                  <div className="text-6xl font-bold text-white/5 absolute top-4 right-4 group-hover:text-blue-500/10 transition-colors">{step.num}</div>
+                  <h3 className="text-xl font-bold text-white mb-4 relative z-10">{step.title}</h3>
+                  <p className="text-slate-400 text-sm relative z-10 leading-relaxed">{step.desc}</p>
                 </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Growth-Friendly Approach */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
-              Our <span style={{ color: 'var(--brand-primary)' }}>Growth-Friendly</span> Approach
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              We don't believe in overwhelming you with costs. Here's how we help you grow sustainably:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-md text-center">
-              <div className="text-4xl mb-4">1️⃣</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Start Small</h3>
-              <p className="text-gray-700 text-sm">
-                Begin with only the essentials you need today. Get live quickly without breaking the bank.
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-xl shadow-md text-center">
-              <div className="text-4xl mb-4">2️⃣</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Scale Smart</h3>
-              <p className="text-gray-700 text-sm">
-                Add features and integrations as your business grows and user base expands.
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-green-50 to-white p-8 rounded-xl shadow-md text-center">
-              <div className="text-4xl mb-4">3️⃣</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Pay As You Grow</h3>
-              <p className="text-gray-700 text-sm">
-                Invest in advanced features and AI only when you're ready to scale big.
-              </p>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </ScrollFadeSection>
 
-      {/* Why Choose Our Services */}
-      <section className="py-12 bg-gray-50">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
-              Why Choose Tech Waglogy?
-            </h2>
-          </div>
+        {/* CTA Banner */}
+        <section className="py-24 relative z-10">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="relative rounded-3xl overflow-hidden p-12 text-center border border-blue-500/30">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-sky-900/40 backdrop-blur-xl"></div>
+              {/* Animated Glow */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-500/20 blur-[100px] pointer-events-none"></div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: '⚡', title: 'Fast Delivery', desc: 'Agile methodology for quick turnarounds' },
-              { icon: '🎯', title: 'Quality Focused', desc: 'Clean code, tested & optimized' },
-              { icon: '💬', title: 'Clear Communication', desc: 'Regular updates & transparency' },
-              { icon: '🤝', title: 'Long-term Support', desc: 'We grow with your business' }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl transition-shadow">
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <h4 className="font-semibold text-gray-900 mb-2">{item.title}</h4>
-                <p className="text-sm text-gray-600">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-12 text-center text-white shadow-2xl">
-            <h2 className="text-3xl font-bold mb-4">
-              Ready to Transform Your Business?
-            </h2>
-            <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-              Let's discuss your requirements and create a custom solution that drives your business forward. 
-              Get a free consultation and detailed proposal within 24 hours.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => {
-                  setSelectedService(null)
-                  setQuoteFormData({ ...quoteFormData, message: 'I would like to discuss my project requirements.' })
-                  setShowQuoteModal(true)
-                }}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-8 py-4 font-medium shadow-lg hover:shadow-xl transition-shadow"
-                style={{ color: 'var(--brand-primary)' }}
-              >
-                Get Free Consultation
-                <FaArrowRight />
-              </button>
-              <a
-                href="/pricing"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-4 font-medium text-white hover:bg-white/10 transition-colors"
-              >
-                View Pricing
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quote Modal */}
-      {showQuoteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-          <motion.div 
-            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full"
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Modal Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-t-2xl text-white relative">
-              <button
-                onClick={() => setShowQuoteModal(false)}
-                className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
-              >
-                <FaTimes className="w-5 h-5" />
-              </button>
-              <h3 className="text-2xl font-bold mb-2">Get a Quote</h3>
-              {selectedService && (
-                <p className="text-sm opacity-90">Service: {selectedService.title}</p>
-              )}
-            </div>
-
-            {/* Modal Body */}
-            <form onSubmit={handleSubmitQuote} className="p-6 space-y-5">
-              <p className="text-sm text-gray-600 text-center">
-                Fill out this quick form and we'll send you a detailed proposal within 24 hours.
-              </p>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Your Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={quoteFormData.name}
-                  onChange={(e) => setQuoteFormData({...quoteFormData, name: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="John Doe"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                  <input
-                    type="email"
-                    required
-                    value={quoteFormData.email}
-                    onChange={(e) => setQuoteFormData({...quoteFormData, email: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
-                  <input
-                    type="tel"
-                    required
-                    value={quoteFormData.phone}
-                    onChange={(e) => setQuoteFormData({...quoteFormData, phone: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="+91 9876543210"
-                  />
+              <div className="relative z-10">
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">Transform?</span></h2>
+                <p className="text-slate-300 mb-8 max-w-2xl mx-auto text-lg">
+                  Get a comprehensive digital strategy within 24 hours. No hidden costs, just clear growth paths.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button
+                    onClick={() => {
+                      setSelectedService(null)
+                      setQuoteFormData({ ...quoteFormData, message: 'I want to build something amazing.' })
+                      setShowQuoteModal(true)
+                    }}
+                    className="px-8 py-3 rounded-full bg-white text-blue-900 font-bold hover:scale-105 transition-transform shadow-xl"
+                  >
+                    Get Free Consultation
+                  </button>
+                  <a href="/pricing" className="px-8 py-3 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors backdrop-blur-md">
+                    View Pricing
+                  </a>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Your Message *</label>
-                <textarea
-                  required
-                  value={quoteFormData.message}
-                  onChange={(e) => setQuoteFormData({...quoteFormData, message: e.target.value})}
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all"
-                  placeholder="Tell us about your project requirements..."
-                />
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowQuoteModal(false)}
-                  className="flex-1 px-6 py-3 rounded-lg border-2 border-gray-300 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 px-6 py-3 rounded-lg font-medium text-white shadow-lg hover:shadow-xl transition-all"
-                  style={{ backgroundColor: 'var(--brand-primary)' }}
-                >
-                  Send Request
+        {/* Quote Modal */}
+        {showQuoteModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowQuoteModal(false)}></div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="relative bg-[#0f172a] border border-white/10 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden"
+            >
+              <div className="bg-gradient-to-r from-blue-600/20 to-sky-600/20 p-6 border-b border-white/5 flex justify-between items-center">
+                <div>
+                  <h3 className="text-xl font-bold text-white">Start Your Project</h3>
+                  {selectedService && <p className="text-sky-400 text-sm mt-1">{selectedService.title}</p>}
+                </div>
+                <button onClick={() => setShowQuoteModal(false)} className="text-slate-400 hover:text-white transition-colors">
+                  <MdClose size={24} />
                 </button>
               </div>
-            </form>
-          </motion.div>
-        </div>
-      )}
+
+              <form onSubmit={handleSubmitQuote} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-slate-400 text-xs uppercase tracking-wider mb-2">Name</label>
+                  <input
+                    type="text"
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder="Enter your name"
+                    value={quoteFormData.name}
+                    onChange={e => setQuoteFormData({ ...quoteFormData, name: e.target.value })}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-slate-400 text-xs uppercase tracking-wider mb-2">Email</label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                      placeholder="john@example.com"
+                      value={quoteFormData.email}
+                      onChange={e => setQuoteFormData({ ...quoteFormData, email: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-400 text-xs uppercase tracking-wider mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      required
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                      placeholder="+91..."
+                      value={quoteFormData.phone}
+                      onChange={e => setQuoteFormData({ ...quoteFormData, phone: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-slate-400 text-xs uppercase tracking-wider mb-2">Details</label>
+                  <textarea
+                    required
+                    rows="4"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                    placeholder="Tell us about your project..."
+                    value={quoteFormData.message}
+                    onChange={e => setQuoteFormData({ ...quoteFormData, message: e.target.value })}
+                  ></textarea>
+                </div>
+                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-blue-500/25 transition-all mt-4">
+                  Submit Request
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </div>
     </>
   )
 }
