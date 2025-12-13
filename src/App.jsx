@@ -13,6 +13,7 @@ import Contact from './pages/Contact'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 import NotFound from './pages/NotFound'
+import ProjectDetailContainer from './pages/ProjectDetailContainer'
 
 // Admin Imports
 import AdminLogin from './admin/Login'
@@ -31,16 +32,20 @@ function App() {
       {/* Public Routes */}
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
-        <Route path="about" element={<About />} /> 
-        <Route path = "blog" element={<Blog/>}/>
-        <Route path = "blog/:slug" element={<BlogDetail/>}/>
-        <Route path = "projects" element={<Projects/>}/>
-        <Route path = "services" element={<Services/>}/>
-        <Route path = "contact" element={<Contact/>}/>
-        <Route path = "pricing" element={<Pricing/>}/>
-        <Route path = "privacy-policy" element={<PrivacyPolicy/>}/>
-        <Route path = "terms-conditions" element={<TermsConditions/>}/>
+        <Route path="about" element={<About />} />
+        <Route path="blog" element={<Blog />} />
+        {/* Blog Detail Moved Outside */}
+        <Route path="projects" element={<Projects />} />
+        <Route path="services" element={<Services />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="pricing" element={<Pricing />} />
+        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="terms-conditions" element={<TermsConditions />} />
       </Route>
+
+      {/* Detail Pages (No Navbar/Footer) */}
+      <Route path="/projects/:id" element={<ProjectDetailContainer />} />
+      <Route path="/blog/:slug" element={<BlogDetail />} />
 
       {/* Admin Routes */}
       <Route path="admin/login" element={<AdminLogin />} />
