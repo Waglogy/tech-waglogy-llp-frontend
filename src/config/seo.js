@@ -19,6 +19,14 @@ export const SITE_CONFIG = {
     'tech company Northeast India',
     'website development Gangtok',
     'software development Sikkim',
+    'web developers',
+    'web developer sikkim',
+    'web devloper sikkim',
+    'website development sikkim',
+    'website devlopment sikkim',
+    'ai sikkim',
+    'artificial intelligence sikkim',
+    'web development ai automation in sikkim',
 
     // Service-based keywords
     'web development services',
@@ -84,7 +92,7 @@ export const SITE_CONFIG = {
 export const PAGE_SEO = {
   home: {
     title: 'Tech Waglogy LLP - #1 Web & App Development Company in Sikkim | Gangtok',
-    description: 'Best web development, mobile app development, and AI solutions company in Gangtok, Sikkim. Serving Sikkim, Darjeeling, Siliguri & Northeast India. Get your website, app, or software built by local experts. Free consultation available.',
+    description: 'Best web development, mobile app development, and AI automation solutions company in Gangtok, Sikkim. Serving Sikkim, Darjeeling, Siliguri & Northeast India. Get your website, app, or software built by local experts utilizing AI solutions.',
     keywords: [
       'web development company Sikkim',
       'app development Gangtok',
@@ -94,7 +102,12 @@ export const PAGE_SEO = {
       'mobile app development Northeast India',
       'web design company Gangtok',
       'AI solutions Sikkim',
-      'digital agency Sikkim'
+      'digital agency Sikkim',
+      'web developers',
+      'web devloper sikkim',
+      'website devlopment sikkim',
+      'ai sikkim',
+      'web development ai automation in sikkim'
     ],
     canonical: '/'
   },
@@ -107,7 +120,9 @@ export const PAGE_SEO = {
       'IT company Sikkim history',
       'web development team Gangtok',
       'Sikkim software company',
-      'tech startup Sikkim'
+      'tech startup Sikkim',
+      'web developer sikkim',
+      'software engineers sikkim'
     ],
     canonical: '/about'
   },
