@@ -68,8 +68,8 @@ const Header = () => {
             <div className="md:flex md:items-center md:gap-12">
               <a className="block" href="/">
                 <span className="sr-only">Home</span>
-                <div className="h-20 overflow-hidden flex items-center">
-                  <img src="/logo.svg" alt="Waglogy logo" className="h-20 w-auto object-contain" />
+                <div className="h-16 md:h-20 overflow-hidden flex items-center">
+                  <img src="/logo.svg" alt="Waglogy logo" className="h-12 md:h-16 lg:h-20 w-auto object-contain" />
                 </div>
               </a>
             </div>

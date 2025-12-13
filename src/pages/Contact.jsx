@@ -134,7 +134,7 @@ const Contact = () => {
         </div>
 
         {/* Hero Section */}
-        <section className="relative z-10 pt-32 pb-16 px-4 text-center">
+        <section className="relative z-10 pt-40 lg:pt-60 pb-16 px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-6 backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>

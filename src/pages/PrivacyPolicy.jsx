@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] pointer-events-none"></div>
 
         {/* Hero Section */}
-        <section className="relative z-10 pt-32 pb-12 px-4 text-center">
+        <section className="relative z-10 pt-40 lg:pt-60 pb-12 px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               Privacy <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-400">Policy</span>

@@ -1,364 +1,299 @@
-import React, { useState, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { FaEnvelope, FaCheckCircle, FaMountain, FaRobot, FaRoute, FaClock, FaArrowRight } from 'react-icons/fa'
-import { submitWaitlist } from '../services/waitlistService'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaArrowRight, FaGlobe, FaLaptopCode, FaMobileAlt, FaRocket, FaExternalLinkAlt } from 'react-icons/fa'
+import { Link, useLocation } from 'react-router-dom'
 import SEO from '../components/SEO'
+import HimatoDetail from '../components/projects/HimatoDetail'
+import ClientProjectDetail from '../components/projects/ClientProjectDetail'
+import { FloatingShape } from '../components/projects/Shared'
 
-// Shared animated section component
-const ScrollFadeSection = ({ children, className }) => {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  })
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9])
-
-  return (
-    <motion.section
-      ref={ref}
-      style={{ opacity, scale }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  )
-}
-
-// 3D Card Component
-const Card3D = ({ children, className = '' }) => {
-  return (
-    <motion.div
-      className={`glass-card rounded-2xl p-8 relative overflow-hidden group preserve-3d perspective-1000 border border-white/10 bg-white/5 backdrop-blur-md ${className}`}
-      whileHover={{ scale: 1.02, rotateX: 2, rotateY: 2 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-sky-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      {children}
-    </motion.div>
-  )
-}
-
-const FloatingShape = ({ delay = 0, className }) => (
-  <motion.div
-    className={`absolute rounded-full blur-3xl opacity-30 ${className}`}
-    animate={{
-      y: [0, -20, 0],
-      scale: [1, 1.1, 1],
-      rotate: [0, 10, 0],
-    }}
-    transition={{
-      duration: 8,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut"
-    }}
-  />
-)
+// Project Data
+const PROJECTS = [
+  {
+    id: 'himato',
+    type: 'product',
+    name: 'Himato',
+    subtitle: 'AI-Powered Travel Companion',
+    description: 'Revolutionizing Himalayan tourism with personalized AI itineraries and real-time expert guidance.',
+    tags: ['AI/ML', 'React Native', 'Node.js', 'GenAI'],
+    image: '/himato.png', // Assuming this exists as it was in original file
+    accent: 'cyan',
+    url: 'https://himato.in'
+  },
+  {
+    id: 'daragharmaila',
+    type: 'client',
+    name: 'Daraghar Maila',
+    subtitle: 'Homestay & Glamping',
+    description: '"Where the hills whisper stories of our ancestors." A peaceful retreat nestled in the sunny slopes of Lower Luing, where time slows down and nature breathes life into every moment.',
+    url: 'https://daragharmaila.com',
+    industry: 'Hospitality',
+    address: 'Lower Luing, Gangtok, Sikkim',
+    image: '/daraghar.png',
+    tags: ['Next.js', 'Booking System', 'UI/UX'],
+    accent: 'green'
+  },
+  {
+    id: 'sbvidalaya',
+    type: 'client',
+    name: 'Saraswati Bal Vidyalaya',
+    subtitle: 'School Website',
+    description: 'Official website for Saraswati Bal Vidyalaya, located in Bermiok Budhbarey, West Sikkim. Facilitating digital communication and educational resources.',
+    url: 'https://sbvidalaya.in',
+    industry: 'Education',
+    address: 'Bermiok Budhbarey, West - Sikkim',
+    image: '/sbvidlaya.png',
+    tags: ['React', 'Content Management', 'Responsive'],
+    accent: 'yellow'
+  },
+  {
+    id: 'dhenterprises',
+    type: 'client',
+    name: 'DH Enterprises',
+    subtitle: 'Growing Geo-Tech Firm With Over 8 Years Of Expertise',
+    description: 'DH enterprise offers a comprehensive range of services, including slope stabilization, landslide restoration, hydropower projects, tunneling, geotechnical field investigations, topographical surveys, geophysical investigations, geological studies, project management, and non-destructive testing on concrete.',
+    url: 'https://dhenterprises.in',
+    industry: 'Construction & Engineering',
+    address: 'Nepalipatty, Tezpur - 784001 (Assam)',
+    image: '/dhenterprise.png',
+    tags: ['Web Design', 'Branding', 'Performance'],
+    accent: 'blue'
+  }
+]
 
 const Projects = () => {
-  const [email, setEmail] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [selectedProjectId, setSelectedProjectId] = useState(null)
+  const location = useLocation()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  // Scroll to top when switching views
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [selectedProjectId])
 
-    if (!email.trim()) {
-      setSubmitStatus('error')
-      setErrorMessage('Please enter your email address')
-      return
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      setSubmitStatus('error')
-      setErrorMessage('Please enter a valid email address')
-      return
-    }
-
-    setIsSubmitting(true)
-    setSubmitStatus(null)
-    setErrorMessage('')
-
-    try {
-      await submitWaitlist({ email: email.trim() })
-      setSubmitStatus('success')
-      setEmail('')
-      setTimeout(() => setSubmitStatus(null), 5000)
-    } catch (error) {
-      console.error('Error submitting waitlist:', error)
-      setSubmitStatus('error')
-      setErrorMessage(error.message || 'Failed to join waitlist. Please try again.')
-    } finally {
-      setIsSubmitting(false)
-    }
+  const handleProjectClick = (id) => {
+    setSelectedProjectId(id)
   }
 
-  return (
-    <>
-      <SEO page="projects" />
+  const handleBack = () => {
+    setSelectedProjectId(null)
+  }
 
-      <div className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#000] to-[#000] text-slate-100 min-h-screen selection:bg-blue-500 selection:text-white overflow-hidden">
+  // Render Logic
+  const renderContent = () => {
+    if (selectedProjectId === 'himato') {
+      return <HimatoDetail onBack={handleBack} />
+    }
 
+    const selectedProject = PROJECTS.find(p => p.id === selectedProjectId)
+    if (selectedProject) {
+      return <ClientProjectDetail project={selectedProject} onBack={handleBack} />
+    }
+
+    return (
+      <div className="relative min-h-screen bg-black text-white selection:bg-blue-500 selection:text-white pb-20 overflow-hidden">
         {/* Animated Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
           <FloatingShape className="bg-blue-600 top-[-10%] right-[30%] w-[500px] h-[500px] opacity-20" />
-          <FloatingShape className="bg-sky-600 bottom-[10%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] animate-pulse"></div>
+          <FloatingShape className="bg-purple-600 bottom-[10%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05]"></div>
         </div>
 
-        {/* Hero Section */}
-        <section className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-[60vh] flex items-center">
-          <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-6 backdrop-blur-md">
-                <FaMountain className="w-3 h-3" />
-                <span>BUILT BY WAGLOGY</span>
-              </div>
+        <div className="relative z-10 pt-40 lg:pt-60 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
-              <h1 className="text-5xl md:text-7xl font-bold leading-none mb-6 tracking-tight">
-                Welcome to{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 drop-shadow-[0_0_20px_rgba(56,189,248,0.3)]">
-                  Himato
-                </span>
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Work</span>
               </h1>
-
-              <p className="text-xl sm:text-2xl text-slate-300 mb-8 leading-relaxed font-light">
-                Where <span className="text-white font-medium">Artificial Intelligence</span> meets the mystical mountains of Sikkim.
+              <p className="text-xl text-slate-400 leading-relaxed">
+                We build digital products that matter. From our own innovative AI platforms to transformative solutions for our clients.
               </p>
-
-              <p className="text-lg text-slate-400 mb-8 leading-relaxed max-w-lg">
-                Not just another travel platform. An intelligent travel companion that transforms how you discover India's hidden gem.
-              </p>
-
-              {/* Key Features Mini-Grid */}
-              <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                <div className="glass-card p-4 rounded-xl border border-white/10 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 flex-shrink-0">
-                    <FaRobot />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1">AI-Powered</h3>
-                    <p className="text-xs text-slate-400">Personalized itineraries in seconds</p>
-                  </div>
-                </div>
-
-                <div className="glass-card p-4 rounded-xl border border-white/10 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
-                    <FaRoute />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1">24/7 Expert</h3>
-                    <p className="text-xs text-slate-400">Instant answers & insights</p>
-                  </div>
-                </div>
-              </div>
             </motion.div>
+          </div>
 
-            {/* Right Column - Image */}
+          {/* SECTION 1: Our Products */}
+          <div className="mb-32">
+            <div className="flex items-center gap-4 mb-12">
+              <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent flex-1" />
+              <h2 className="text-2xl font-bold text-cyan-400 uppercase tracking-widest shrink-0">Our Flagship Products</h2>
+              <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent flex-1" />
+            </div>
+
+            {/* Himato Featured Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
-              className="relative"
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              onClick={() => handleProjectClick('himato')}
+              className="group cursor-pointer relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-black hover:border-cyan-500/50 transition-all duration-500"
             >
-              <div className="relative group perspective-1000">
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
-                <div className="glass-card p-2 rounded-2xl border border-white/10 relative transform transition-transform duration-500 group-hover:rotate-1">
+              <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="grid lg:grid-cols-2 gap-8 p-1 sm:p-2">
+                {/* Content */}
+                <div className="p-8 sm:p-12 flex flex-col justify-center order-2 lg:order-1">
+                  <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold mb-6">
+                    <FaRocket className="w-3 h-3" />
+                    <span>PRODUCT INCUBATOR</span>
+                  </div>
+                  <h3 className="text-4xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">Himato</h3>
+                  <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+                    The future of travel planning in the Himalayas. An AI-native platform that generates personalized itineraries, connects travelers with local experts, and uncovers hidden gems in Sikkim.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {['AI/ML', 'Mobile App', 'Travel Tech'].map(tag => (
+                      <span key={tag} className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-400">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-6">
+                    <button className="flex items-center gap-2 text-white font-semibold group/btn">
+                      View Project Details
+                      <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform text-cyan-400" />
+                    </button>
+                    <a
+                      href="https://himato.in"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors z-20"
+                    >
+                      <FaExternalLinkAlt /> Visit Live Site
+                    </a>
+                  </div>
+                </div>
+
+                {/* Preview Image Area */}
+                <div className="relative min-h-[300px] lg:min-h-full rounded-2xl overflow-hidden order-1 lg:order-2 bg-black/50">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10" />
                   <img
                     src="/himato.png"
-                    alt="Himato App Interface"
-                    className="w-full h-auto object-cover rounded-xl shadow-2xl"
+                    alt="Himato Preview"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
                       e.target.style.display = 'none';
                       e.target.nextSibling.style.display = 'flex';
                     }}
                   />
-                  {/* Fallback if image fails */}
-                  <div className="hidden h-[400px] w-full bg-slate-800 rounded-xl items-center justify-center flex-col text-slate-500">
-                    <FaMountain className="text-6xl mb-4 opacity-20" />
-                    <p>Visualizing Ecosystem</p>
+                  {/* Fallback */}
+                  <div className="hidden absolute inset-0 w-full h-full bg-slate-800 items-center justify-center flex-col text-slate-500">
+                    <FaRocket className="text-6xl mb-4 opacity-20" />
                   </div>
                 </div>
               </div>
             </motion.div>
           </div>
-        </section>
 
-        {/* Problem/Solution Grid */}
-        <ScrollFadeSection className="py-24 relative z-10 bg-black/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-white mb-4">The Challenge vs <span className="text-cyan-400">Solution</span></h2>
-              <p className="text-slate-400">Rewriting the travel experience.</p>
+
+          {/* SECTION 2: Client Projects */}
+          <div>
+            <div className="flex items-center gap-4 mb-12">
+              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1" />
+              <h2 className="text-2xl font-bold text-slate-200 uppercase tracking-widest shrink-0">Client Success Stories</h2>
+              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1" />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Problem */}
-              <div className="glass-card p-8 rounded-2xl border border-slate-600/30 bg-slate-800/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <FaClock className="text-9xl text-slate-500" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-6 relative z-10">Traditional Chaos</h3>
-                <ul className="space-y-4 text-slate-300 relative z-10">
-                  <li className="flex items-start gap-3"><span className="text-slate-500 mt-1">✕</span> Endless research across scattered sites</li>
-                  <li className="flex items-start gap-3"><span className="text-slate-500 mt-1">✕</span> Generic packages that fit nobody</li>
-                  <li className="flex items-start gap-3"><span className="text-slate-500 mt-1">✕</span> Hidden costs and high agency fees</li>
-                </ul>
-              </div>
-
-              {/* Solution */}
-              <div className="glass-card p-8 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <FaCheckCircle className="text-9xl text-cyan-500" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-6 relative z-10">Himato's Clarity</h3>
-                <ul className="space-y-4 text-slate-300 relative z-10">
-                  <li className="flex items-start gap-3"><span className="text-cyan-400 mt-1">✓</span> Customized itineraries in seconds</li>
-                  <li className="flex items-start gap-3"><span className="text-cyan-400 mt-1">✓</span> Deep local stories & hidden spots</li>
-                  <li className="flex items-start gap-3"><span className="text-cyan-400 mt-1">✓</span> 100% Free planning tools</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </ScrollFadeSection>
-
-        {/* Why Choose Himato (Features) */}
-        <ScrollFadeSection className="py-24 relative z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Experience Future Travel</h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card3D>
-                <div className="w-14 h-14 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-2xl mb-6">
-                  <FaRobot />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">Intelligent Planning</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Our AI builds day-by-day plans tailored to your specific interests—adventure, spiritual, or leisure.
-                </p>
-              </Card3D>
-              <Card3D>
-                <div className="w-14 h-14 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-6">
-                  <FaClock />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">Real-Time Expert</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Get instant facts on permits, weather, and road conditions. It's like having a local guide in your pocket.
-                </p>
-              </Card3D>
-              <Card3D>
-                <div className="w-14 h-14 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-2xl mb-6">
-                  <FaMountain />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">Deep Expertise</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  We don't just skim the surface. We go deep into local legends, monasteries, and hidden trails.
-                </p>
-              </Card3D>
-            </div>
-          </div>
-        </ScrollFadeSection>
-
-        {/* Waitlist Section */}
-        <section id="waitlist" className="py-24 relative z-10">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="relative rounded-3xl overflow-hidden p-12 text-center border border-cyan-500/30 bg-black/40 backdrop-blur-xl">
-              <div className="absolute inset-0 bg-gradient-to-b from-cyan-900/20 to-transparent pointer-events-none"></div>
-
-              <div className="relative z-10">
-                <h2 className="text-4xl font-bold text-white mb-4">Join the Waitlist</h2>
-                <p className="text-cyan-200 mb-8 text-lg">Be the first to experience the future of Himalayan travel.</p>
-
-                <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
-                  <div className="relative group">
-                    <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email address"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:bg-white/10 transition-all"
-                      disabled={isSubmitting}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-white shadow-lg hover:shadow-cyan-500/25 hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {PROJECTS.filter(p => p.type === 'client').map((project, idx) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <div
+                    onClick={() => handleProjectClick(project.id)}
+                    className="group h-full bg-white/5 border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden cursor-pointer transition-all hover:bg-white/[0.07] flex flex-col"
                   >
-                    {isSubmitting ? 'Joining...' : 'Get Early Access'}
-                  </button>
+                    {/* Card Header / Image */}
+                    <div className={`h-48 relative overflow-hidden bg-gradient-to-br from-slate-800 to-black group-hover:scale-105 transition-transform duration-500`}>
+                      {project.image ? (
+                        <img
+                          src={project.image}
+                          alt={project.name}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 opacity-60 group-hover:opacity-100"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 opacity-20 bg-[url('/grid.svg')]"></div>
+                      )}
 
-                  {/* Status Messages */}
-                  {submitStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center justify-center gap-2 text-cyan-400 bg-cyan-500/10 p-3 rounded-lg border border-cyan-500/20"
-                    >
-                      <FaCheckCircle /> Successfully joined!
-                    </motion.div>
-                  )}
-                  {submitStatus === 'error' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-red-400 bg-red-500/10 p-3 rounded-lg border border-red-500/20"
-                    >
-                      {errorMessage}
-                    </motion.div>
-                  )}
-                </form>
+                      <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent`}></div>
 
-                <p className="mt-6 text-sm text-slate-500">No spam. Unsubscribe anytime.</p>
-              </div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">{project.name}</h3>
+                        <p className="text-xs text-slate-400 flex items-center gap-1">
+                          <FaGlobe className="w-3 h-3" /> {project.url.replace('https://', '')}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-6 flex flex-col flex-1">
+                      <p className="text-slate-400 text-sm mb-6 line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      <div className="mt-auto">
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.tags.slice(0, 3).map(tag => (
+                            <span key={tag} className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-500 uppercase tracking-wider">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                          <span className="text-xs text-slate-500 font-mono">CLIENT PROJECT</span>
+                          <span className="text-sm text-white font-medium flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                            Details <FaArrowRight className="w-3 h-3" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </section>
 
-        {/* Social Impact */}
-        <ScrollFadeSection className="py-24 bg-black/30 border-t border-white/5 relative z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-6">More Than Technology</h2>
-                <p className="text-slate-400 leading-relaxed mb-6">
-                  Himato isn't just an app; it's a bridge. We promote lesser-known regions like Dzongu and Uttarey, helping distribute tourism wealth to remote communities.
-                </p>
-                <div className="flex gap-4">
-                  <div className="flex-1 p-4 rounded-xl bg-white/5 border border-white/10">
-                    <h4 className="text-white font-bold mb-2">Community First</h4>
-                    <p className="text-xs text-slate-400">Supporting local homestays & guides</p>
-                  </div>
-                  <div className="flex-1 p-4 rounded-xl bg-white/5 border border-white/10">
-                    <h4 className="text-white font-bold mb-2">Eco-Conscious</h4>
-                    <p className="text-xs text-slate-400">Promoting responsible, trash-free travel</p>
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                <div className="absolute -inset-4 bg-cyan-500/20 blur-3xl rounded-full opacity-20 animate-pulse"></div>
-                <div className="glass-card p-8 rounded-2xl border border-white/10 text-center relative">
-                  <p className="text-xl text-white font-light italic">
-                    "The mountains of Sikkim have stories to tell. Himato ensures every traveler hears them."
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* CTA Footer */}
+          <div className="mt-32 mb-12 text-center">
+            <h2 className="text-3xl font-bold text-white mb-6">Have a project in mind?</h2>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-cyan-50 hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+            >
+              Let's Build It
+              <FaArrowRight />
+            </Link>
           </div>
-        </ScrollFadeSection>
 
+        </div>
       </div>
+    )
+  }
+
+  return (
+    <>
+      <SEO page="projects" title="Our Projects - Waglogy" />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={selectedProjectId ? 'detail' : 'list'}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {renderContent()}
+        </motion.div>
+      </AnimatePresence>
     </>
   )
 }

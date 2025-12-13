@@ -106,25 +106,10 @@ body {
     padding-right: 1.5rem;
   }
 
-  /* Ensure full width on mobile for all containers */
-  .w-full {
-    width: 100% !important;
-  }
-
   /* Remove excessive margins on mobile for max-width containers */
   .max-w-screen-xl.mx-auto {
     margin-left: 0;
     margin-right: 0;
-  }
-
-  /* Ensure sections use full width on mobile */
-  section {
-    width: 100%;
-  }
-
-  /* Remove any centering that creates white space */
-  .text-center {
-    text-align: left;
   }
 
   /* Ensure proper mobile padding */

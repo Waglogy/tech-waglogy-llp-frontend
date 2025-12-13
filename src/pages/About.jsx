@@ -70,7 +70,7 @@ const About = () => {
         </div>
 
         {/* 1. Hero Section */}
-        <section className="relative z-10 pt-44 pb-24 px-4 sm:px-6 lg:px-8 min-h-[70vh] flex flex-col justify-center">
+        <section className="relative z-10 pt-44 lg:pt-60 pb-24 px-4 sm:px-6 lg:px-8 min-h-[70vh] flex flex-col justify-center">
           <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}

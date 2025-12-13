@@ -256,7 +256,7 @@ const Landing = () => {
         {/* Hero Section - Parallax Exit */}
         <motion.section
           style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-          className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-[90vh] flex items-center"
+          className="relative z-10 pt-32 md:pt-40 lg:pt-60 pb-20 px-4 sm:px-6 lg:px-8 min-h-[90vh] flex items-center"
         >
           <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -274,7 +274,7 @@ const Landing = () => {
                 ACHIEVE DIGITAL EXCELLENCE
               </motion.div>
 
-              <h1 className="text-5xl md:text-7xl font-bold leading-none mb-6 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-none mb-6 tracking-tight">
                 We Forge <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-sky-300 to-white drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
                   Digital Reality
@@ -542,7 +542,7 @@ const Landing = () => {
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
-                    className={`relative flex items-center md:items-start gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                    className={`relative flex flex-col items-center md:items-start gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}

@@ -112,7 +112,7 @@ const Blogs = () => {
         </div>
 
         {/* Hero Section */}
-        <section className="relative z-10 pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-center">
+        <section className="relative z-10 pt-40 lg:pt-60 pb-16 px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-6 backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
@@ -162,8 +162,8 @@ const Blogs = () => {
                 <button
                   onClick={() => { setSelectedTag(''); setCurrentPage(1) }}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedTag === ''
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
-                      : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5'
                     }`}
                 >
                   All
@@ -173,8 +173,8 @@ const Blogs = () => {
                     key={tag}
                     onClick={() => { setSelectedTag(tag); setCurrentPage(1) }}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedTag === tag
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
-                        : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5'
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                      : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5'
                       }`}
                   >
                     {tag}
@@ -287,8 +287,8 @@ const Blogs = () => {
                           key={i + 1}
                           onClick={() => setCurrentPage(i + 1)}
                           className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${currentPage === i + 1
-                              ? 'bg-blue-600 text-white'
-                              : 'border border-white/10 text-slate-400 hover:bg-white/5'
+                            ? 'bg-blue-600 text-white'
+                            : 'border border-white/10 text-slate-400 hover:bg-white/5'
                             }`}
                         >
                           {i + 1}

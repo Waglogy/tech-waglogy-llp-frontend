@@ -207,7 +207,7 @@ const Pricing = () => {
         </div>
 
         {/* Header Section */}
-        <section className="relative z-10 pt-32 pb-12 px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto">
+        <section className="relative z-10 pt-40 lg:pt-60 pb-12 px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Transparent <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Pricing</span>
@@ -277,8 +277,8 @@ const Pricing = () => {
                             key={service.id}
                             onClick={() => { setSelectedService(service.id); setCurrentStep(2) }}
                             className={`cursor-pointer rounded-xl p-6 border transition-all hover:scale-[1.02] ${selectedService === service.id
-                                ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]'
-                                : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10'
+                              ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]'
+                              : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10'
                               }`}
                           >
                             <div className={`w-12 h-12 rounded-lg bg-black/30 flex items-center justify-center mb-4 text-2xl ${service.iconColor}`}>
@@ -312,8 +312,8 @@ const Pricing = () => {
                             key={c.id}
                             onClick={() => { setProjectComplexity(c.id); setCurrentStep(3) }}
                             className={`cursor-pointer rounded-xl p-6 border transition-all text-center group ${projectComplexity === c.id
-                                ? 'border-blue-500 bg-blue-500/10'
-                                : 'border-white/10 bg-white/5 hover:border-white/30'
+                              ? 'border-blue-500 bg-blue-500/10'
+                              : 'border-white/10 bg-white/5 hover:border-white/30'
                               }`}
                           >
                             <h3 className="text-xl font-bold text-white mb-2">{c.name}</h3>
@@ -339,8 +339,8 @@ const Pricing = () => {
                             key={f.id}
                             onClick={() => handleFeatureToggle(f.id)}
                             className={`cursor-pointer rounded-xl p-4 border transition-all flex items-center justify-between ${features.includes(f.id)
-                                ? 'border-blue-500 bg-blue-500/10'
-                                : 'border-white/10 bg-white/5 hover:bg-white/10'
+                              ? 'border-blue-500 bg-blue-500/10'
+                              : 'border-white/10 bg-white/5 hover:bg-white/10'
                               }`}
                           >
                             <div>
@@ -378,8 +378,8 @@ const Pricing = () => {
                             key={t.id}
                             onClick={() => { setTimeline(t.id); setShowEstimate(true) }}
                             className={`cursor-pointer rounded-xl p-6 border transition-all text-center ${timeline === t.id
-                                ? 'border-blue-500 bg-blue-500/10'
-                                : 'border-white/10 bg-white/5 hover:bg-white/10'
+                              ? 'border-blue-500 bg-blue-500/10'
+                              : 'border-white/10 bg-white/5 hover:bg-white/10'
                               }`}
                           >
                             <div className="text-4xl mb-4">{t.icon}</div>

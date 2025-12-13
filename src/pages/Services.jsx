@@ -233,7 +233,7 @@ const Services = () => {
         </div>
 
         {/* Hero Section */}
-        <section className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-[50vh] flex items-center">
+        <section className="relative z-10 pt-40 lg:pt-60 pb-20 px-4 sm:px-6 lg:px-8 min-h-[50vh] flex items-center">
           <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
