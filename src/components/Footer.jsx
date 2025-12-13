@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaFacebook, FaInstagram, FaTwitter, FaGithub, FaDribbble, FaLinkedin } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaTwitter, FaGithub, FaDribbble, FaLinkedin, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 const Footer = () => {
@@ -79,20 +79,20 @@ const Footer = () => {
             <h3 className="text-white font-bold text-lg mb-6">Contact</h3>
             <ul className="space-y-4 text-slate-400">
               <li className="flex items-start gap-3">
-                <span className="mt-1 text-blue-500">📍</span>
+                <FaMapMarkerAlt className="mt-1 text-blue-500 shrink-0" />
                 <span>
                   Tadong Metro Point,<br />
                   Gangtok, Sikkim - 737102
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="text-blue-500">📞</span>
+                <FaPhone className="text-blue-500 shrink-0" />
                 <a href="tel:+919733814168" className="hover:text-white transition-colors">
                   +91 97338 14168
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <span className="text-blue-500">📧</span>
+                <FaEnvelope className="text-blue-500 shrink-0" />
                 <a href="mailto:contact@waglogy.in" className="hover:text-white transition-colors">
                   contact@waglogy.in
                 </a>

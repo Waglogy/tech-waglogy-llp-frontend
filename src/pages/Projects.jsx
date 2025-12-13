@@ -20,7 +20,7 @@ const Projects = () => {
         {/* Animated Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
           <FloatingShape className="bg-blue-600 top-[-10%] right-[30%] w-[500px] h-[500px] opacity-20" />
-          <FloatingShape className="bg-purple-600 bottom-[10%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
+          <FloatingShape className="bg-indigo-600 bottom-[10%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05]"></div>
         </div>
 
