@@ -24,6 +24,7 @@ import Queries from './admin/pages/Queries'
 import Clients from './admin/pages/Clients'
 import Payments from './admin/pages/Payments'
 import AdminBlogs from './admin/pages/Blogs'
+import Invoice from './admin/pages/Invoice'
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="queries" element={<Queries />} />
         <Route path="clients" element={<Clients />} />
         <Route path="payments" element={<Payments />} />
+        <Route path="invoices" element={<Invoice />} />
         <Route path="blogs" element={<AdminBlogs />} />
       </Route>
 

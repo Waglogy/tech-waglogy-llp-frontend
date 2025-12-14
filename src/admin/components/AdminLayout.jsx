@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
-import { 
-  FiHome, 
-  FiUsers, 
-  FiMessageSquare, 
-  FiDollarSign, 
-  FiMenu, 
+import {
+  FiHome,
+  FiUsers,
+  FiMessageSquare,
+  FiDollarSign,
+  FiMenu,
   FiX,
   FiLogOut,
   FiMail,
-  FiFileText
+  FiFileText,
+  FiCreditCard
 } from 'react-icons/fi';
 import adminAuthService from '../../services/adminAuthService';
 
@@ -58,6 +59,7 @@ const AdminLayout = () => {
     { name: 'Queries', path: '/admin/queries', icon: FiMessageSquare },
     { name: 'Clients', path: '/admin/clients', icon: FiUsers },
     { name: 'Payments', path: '/admin/payments', icon: FiDollarSign },
+    { name: 'Invoices', path: '/admin/invoices', icon: FiCreditCard },
     { name: 'Blogs', path: '/admin/blogs', icon: FiFileText },
   ];
 
@@ -65,9 +67,8 @@ const AdminLayout = () => {
     <div className="min-h-screen">
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen transition-transform ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } bg-black w-64`}
+        className={`fixed top-0 left-0 z-40 h-screen transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } bg-black w-64`}
       >
         <div className="h-full px-3 py-4 overflow-y-auto">
           {/* Logo */}
@@ -93,10 +94,9 @@ const AdminLayout = () => {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    `flex items-center p-3 rounded-lg transition-colors ${
-                      isActive
-                        ? 'bg-white text-black'
-                        : 'text-white hover:bg-gray-800'
+                    `flex items-center p-3 rounded-lg transition-colors ${isActive
+                      ? 'bg-white text-black'
+                      : 'text-white hover:bg-gray-800'
                     }`
                   }
                 >
