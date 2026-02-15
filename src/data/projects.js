@@ -49,5 +49,44 @@ export const PROJECTS = [
         image: '/dhenterprise.png',
         tags: ['Web Design', 'Branding', 'Performance'],
         accent: 'blue'
+    },
+    {
+        id: 'mudbeaversikkim',
+        type: 'client',
+        name: 'Mud Beaver Sikkim',
+        subtitle: 'Earth-Based Building Technologies',
+        description: 'A socio-sustainable construction enterprise focusing on specialisation in research, development, promotion and transfer of earth based building technologies.',
+        url: 'https://www.mudbeaversikkim.in',
+        industry: 'Construction & Sustainability',
+        address: 'Sikkim',
+        image: '/mudbeaver.png',
+        tags: ['Web Development', 'Sustainability', 'Responsive'],
+        accent: 'amber'
+    },
+    {
+        id: 'turtlesrestaurant',
+        type: 'client',
+        name: "Turtle's Restaurant",
+        subtitle: 'Beachside Dining in Goa',
+        description: 'A restaurant from Goa, offering memorable dining experiences along the scenic Beach Road in Morjim.',
+        url: 'https://turtlesrestaurant.in',
+        industry: 'Hospitality & Restaurant',
+        address: 'Beach Road, Tembwada, Morjim, Goa 403512',
+        image: '/turtles.png',
+        tags: ['Web Design', 'Restaurant', 'UI/UX'],
+        accent: 'teal'
+    },
+    {
+        id: 'tghe',
+        type: 'client',
+        name: 'The Great Himalayan Escape',
+        subtitle: 'Your Trusted Travel Partner',
+        description: 'We are The Great Himalayan Escape, your trusted travel partner for exploring the breathtaking beauty of Sikkim and the Himalayas. Dedicated to creating unforgettable journeys, we specialize in customized travel packages that cater to adventure enthusiasts, nature lovers, and cultural explorers alike.',
+        url: 'https://tghe.in',
+        industry: 'Travel & Tourism',
+        address: 'Sikkim & Himalayas',
+        image: '/tghe.png',
+        tags: ['Travel', 'Custom Packages', 'Web Development'],
+        accent: 'emerald'
     }
 ]
