@@ -313,11 +313,7 @@ const Services = () => {
                       ))}
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-auto">
-                      <div>
-                        <div className="text-xs text-slate-500 uppercase tracking-wider">Starting</div>
-                        <div className="text-lg font-bold text-white">{service.pricing.INR}</div>
-                      </div>
+                    <div className="flex items-center justify-end border-t border-white/10 pt-4 mt-auto">
                       <button className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-colors">
                         <FaArrowRight size={14} />
                       </button>
