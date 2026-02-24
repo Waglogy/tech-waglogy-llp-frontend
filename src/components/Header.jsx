@@ -51,11 +51,11 @@ const Header = () => {
 
   const navLinks = [
     { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
+    { name: 'Our Systems', path: '/services' },
     { name: 'Projects', path: '/projects' },
     { name: 'Pricing', path: '/pricing' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Contact Us', path: '/contact' },
+    { name: 'Build a System', path: '/contact' },
   ]
 
   return (
@@ -99,7 +99,7 @@ const Header = () => {
                   onClick={handleGetQuote}
                   className="hidden sm:block rounded-full px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-500/30 bg-blue-600 hover:bg-blue-500 transition-all"
                 >
-                  Get a Quote
+                  Build Your System
                 </motion.button>
 
                 <div className="hidden sm:flex relative" ref={dropdownRef}>
@@ -234,7 +234,7 @@ const Header = () => {
                 }}
                 className="w-full rounded-xl px-4 py-3.5 text-sm font-bold text-white shadow-lg bg-blue-600 hover:bg-blue-500 transition-all"
               >
-                Get a Quote
+                Build Your System
               </button>
 
               <div className="flex justify-center gap-6 pt-4">

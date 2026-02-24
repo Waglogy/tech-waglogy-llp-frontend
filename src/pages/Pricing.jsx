@@ -63,97 +63,97 @@ const Pricing = () => {
   // Data Definitions
   const services = [
     {
-      id: 'web-development',
-      name: 'Web Development',
+      id: 'lead-capture',
+      name: 'Lead Capture System',
       IconComponent: MdWeb,
       iconColor: 'text-blue-400',
-      description: 'Modern, responsive websites',
+      description: 'Landing pages & high-conversion forms',
       basePrice: { INR: 40000, USD: 500 },
+      complexityMultiplier: { simple: 1, medium: 1.8, complex: 3 }
+    },
+    {
+      id: 'automated-followup',
+      name: 'Automated Follow-Up',
+      IconComponent: RiRobotFill,
+      iconColor: 'text-sky-400',
+      description: 'AI-driven nurture sequences',
+      basePrice: { INR: 60000, USD: 750 },
       complexityMultiplier: { simple: 1, medium: 2, complex: 3.5 }
     },
     {
-      id: 'app-development',
-      name: 'App Development',
-      IconComponent: MdPhoneAndroid,
-      iconColor: 'text-sky-400',
-      description: 'iOS, Android & cross-platform apps',
-      basePrice: { INR: 150000, USD: 1800 },
+      id: 'conversion-optimization',
+      name: 'Conversion Flows',
+      IconComponent: MdPalette,
+      iconColor: 'text-indigo-400',
+      description: 'User journey engineering',
+      basePrice: { INR: 50000, USD: 600 },
+      complexityMultiplier: { simple: 1, medium: 2, complex: 3 }
+    },
+    {
+      id: 'crm-dashboards',
+      name: 'CRM Dashboards',
+      IconComponent: MdComputer,
+      iconColor: 'text-white',
+      description: 'Custom lead management hubs',
+      basePrice: { INR: 100000, USD: 1200 },
       complexityMultiplier: { simple: 1, medium: 2.5, complex: 4 }
     },
     {
-      id: 'software-development',
-      name: 'Custom Software',
-      IconComponent: MdComputer,
-      iconColor: 'text-indigo-400',
-      description: 'Custom software solutions',
-      basePrice: { INR: 120000, USD: 1500 },
-      complexityMultiplier: { simple: 1, medium: 2.8, complex: 4.5 }
-    },
-    {
-      id: 'graphics-uiux',
-      name: 'UI/UX Design',
-      IconComponent: MdPalette,
-      iconColor: 'text-white',
-      description: 'Eye-catching designs',
-      basePrice: { INR: 30000, USD: 350 },
-      complexityMultiplier: { simple: 1, medium: 1.8, complex: 2.5 }
-    },
-    {
-      id: 'ai-chatbots',
-      name: 'AI Solutions',
-      IconComponent: RiRobotFill,
+      id: 'revenue-analytics',
+      name: 'Revenue Analytics',
+      IconComponent: HiChip,
       iconColor: 'text-cyan-400',
-      description: 'Smart AI-powered solutions',
+      description: 'ROI & conversion tracking',
       basePrice: { INR: 80000, USD: 1000 },
       complexityMultiplier: { simple: 1, medium: 2.2, complex: 3.8 }
     },
     {
-      id: 'ai-automations',
-      name: 'AI Automations',
+      id: 'ai-automation',
+      name: 'AI Automation',
       IconComponent: HiChip,
       iconColor: 'text-blue-300',
-      description: 'Workflow automation',
-      basePrice: { INR: 100000, USD: 1200 },
-      complexityMultiplier: { simple: 1, medium: 2.5, complex: 4 }
+      description: 'End-to-end workflow AI',
+      basePrice: { INR: 150000, USD: 1800 },
+      complexityMultiplier: { simple: 1, medium: 2.5, complex: 4.5 }
     }
   ]
 
   const availableFeatures = {
-    'web-development': [
-      { id: 'cms', name: 'CMS Integration', price: { INR: 15000, USD: 180 } },
-      { id: 'ecommerce', name: 'E-commerce', price: { INR: 35000, USD: 420 } },
-      { id: 'multilang', name: 'Multi-language', price: { INR: 20000, USD: 240 } },
-      { id: 'seo', name: 'Advanced SEO', price: { INR: 12000, USD: 150 } }
+    'lead-capture': [
+      { id: 'multistep', name: 'Multi-step Forms', price: { INR: 15000, USD: 180 } },
+      { id: 'tracking', name: 'Source Tracking', price: { INR: 10000, USD: 120 } },
+      { id: 'abtesting', name: 'A/B Test Setup', price: { INR: 20000, USD: 250 } },
+      { id: 'validation', name: 'Identity Validation', price: { INR: 12000, USD: 150 } }
     ],
-    'app-development': [
-      { id: 'backend', name: 'Backend API', price: { INR: 60000, USD: 720 } },
-      { id: 'realtime', name: 'Real-time Features', price: { INR: 40000, USD: 480 } },
-      { id: 'payment', name: 'Payment Gateway', price: { INR: 25000, USD: 300 } },
-      { id: 'analytics', name: 'Analytics Dashboard', price: { INR: 30000, USD: 360 } }
+    'automated-followup': [
+      { id: 'whatsapp', name: 'WhatsApp Sync', price: { INR: 20000, USD: 250 } },
+      { id: 'ai-voice', name: 'AI Voice Intro', price: { INR: 45000, USD: 550 } },
+      { id: 'nurture', name: 'Nurture Sequences', price: { INR: 25000, USD: 300 } },
+      { id: 'scheduling', name: 'Auto-Scheduling', price: { INR: 30000, USD: 360 } }
     ],
-    'software-development': [
-      { id: 'api', name: 'API Development', price: { INR: 45000, USD: 540 } },
-      { id: 'database', name: 'Database Design', price: { INR: 35000, USD: 420 } },
-      { id: 'cloud', name: 'Cloud Deployment', price: { INR: 25000, USD: 300 } },
-      { id: 'security', name: 'Advanced Security', price: { INR: 30000, USD: 360 } }
+    'conversion-optimization': [
+      { id: 'heatmap', name: 'Heatmap Setup', price: { INR: 15000, USD: 180 } },
+      { id: 'funnel', name: 'Funnel Analytics', price: { INR: 25000, USD: 300 } },
+      { id: 'visuals', name: 'Asset Optimization', price: { INR: 20000, USD: 250 } },
+      { id: 'behavior', name: 'Session Replay', price: { INR: 18000, USD: 220 } }
     ],
-    'graphics-uiux': [
-      { id: 'branding', name: 'Brand Identity', price: { INR: 20000, USD: 240 } },
-      { id: 'design-system', name: 'Design System', price: { INR: 25000, USD: 300 } },
-      { id: 'animation', name: 'Motion Design', price: { INR: 15000, USD: 180 } },
-      { id: 'prototype', name: 'Interactive Prototype', price: { INR: 18000, USD: 220 } }
+    'crm-dashboards': [
+      { id: 'pipelining', name: 'Custom Pipelines', price: { INR: 25000, USD: 300 } },
+      { id: 'api-sync', name: 'Third-party Sync', price: { INR: 40000, USD: 480 } },
+      { id: 'roles', name: 'Role Permissions', price: { INR: 20000, USD: 250 } },
+      { id: 'notifications', name: 'Real-time Alerts', price: { INR: 15000, USD: 180 } }
     ],
-    'ai-chatbots': [
-      { id: 'llm', name: 'LLM Integration', price: { INR: 40000, USD: 480 } },
-      { id: 'voice', name: 'Voice Assistant', price: { INR: 45000, USD: 540 } },
-      { id: 'multilang-ai', name: 'Multilingual Support', price: { INR: 30000, USD: 360 } },
-      { id: 'training', name: 'Custom AI Training', price: { INR: 50000, USD: 600 } }
+    'revenue-analytics': [
+      { id: 'roi', name: 'ROI Attribution', price: { INR: 30000, USD: 360 } },
+      { id: 'cac', name: 'CAC Tracking', price: { INR: 25000, USD: 300 } },
+      { id: 'reports', name: 'Automated Reports', price: { INR: 20000, USD: 250 } },
+      { id: 'forecasting', name: 'Growth Modeling', price: { INR: 35000, USD: 420 } }
     ],
-    'ai-automations': [
-      { id: 'workflow', name: 'Workflow Automation', price: { INR: 45000, USD: 540 } },
-      { id: 'lead-mgmt', name: 'Lead Management', price: { INR: 35000, USD: 420 } },
-      { id: 'data-process', name: 'Data Processing', price: { INR: 40000, USD: 480 } },
-      { id: 'integration', name: 'Third-party Integration', price: { INR: 30000, USD: 360 } }
+    'ai-automation': [
+      { id: 'llm-custom', name: 'Custom LLM Training', price: { INR: 60000, USD: 750 } },
+      { id: 'workflows', name: 'Advanced Workflows', price: { INR: 50000, USD: 600 } },
+      { id: 'extraction', name: 'Data Extraction', price: { INR: 40000, USD: 480 } },
+      { id: 'inventory', name: 'Live Stock Sync', price: { INR: 35000, USD: 420 } }
     ]
   }
 
@@ -463,9 +463,9 @@ const Pricing = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: MdConstruction, title: 'Foundation', price: '₹40k - ₹80k', desc: 'MVP / Basic Site. Get live fast.' },
-                { icon: FaRocket, title: 'Growth', price: '+ ₹25k additions', desc: 'Add CMS, Analytics as you grow.' },
-                { icon: HiChip, title: 'Scale', price: '+ ₹80k AI', desc: 'Automation & Chatbots when needed.' }
+                { icon: MdConstruction, title: 'Lead Capture', price: '₹40k - ₹80k', desc: 'Landing pages & forms. Start capturing ROI.' },
+                { icon: FaRocket, title: 'Automation', price: '+ ₹20k - ₹60k', desc: 'Automated follow-ups & nurture syncs.' },
+                { icon: HiChip, title: 'Growth Hub', price: '+ ₹100k systems', desc: 'CRMs & AI-driven revenue tracking.' }
               ].map((Box, i) => (
                 <div key={i} className="glass-card p-6 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
                   <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-4">

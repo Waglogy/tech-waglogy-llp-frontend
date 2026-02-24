@@ -34,10 +34,10 @@ const Projects = () => {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Work</span>
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Systems</span>
               </h1>
               <p className="text-xl text-slate-400 leading-relaxed">
-                We build digital products that matter. From our own innovative AI platforms to transformative solutions for our clients.
+                We build AI-powered revenue systems that matter. From our own flagship products to transformative growth engines for our clients.
               </p>
             </motion.div>
           </div>
@@ -193,7 +193,7 @@ const Projects = () => {
 
           {/* CTA Footer */}
           <div className="mt-32 mb-12 text-center">
-            <h2 className="text-3xl font-bold text-white mb-6">Have a project in mind?</h2>
+            <h2 className="text-3xl font-bold text-white mb-6">Ready to build your revenue system?</h2>
             <Link
               to="/contact"
               className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-cyan-50 hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]"

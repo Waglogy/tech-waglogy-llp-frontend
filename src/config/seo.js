@@ -5,13 +5,20 @@ export const SITE_CONFIG = {
   siteName: 'Tech Waglogy LLP',
   siteUrl: 'https://waglogy.in',
   siteLogo: 'https://waglogy.in/logo.svg', // Added based on user's Code Edit snippet
-  defaultTitle: 'Tech Waglogy LLP - Web & App Development Company in Sikkim, India',
-  defaultDescription: 'Leading web development, mobile app development, and AI solutions company in Gangtok, Sikkim. We serve businesses across Northeast India with modern, scalable technology solutions. Trusted by Sikkim businesses for digital transformation.',
+  defaultTitle: 'Waglogy - AI-Powered Revenue Systems for Service Businesses',
+  defaultDescription: 'Waglogy partners with service businesses to build AI-powered systems that increase leads, improve conversion, and create predictable revenue. We build lead capture, automated follow-up, and revenue analytics systems.',
   defaultKeywords: [
     // Location-based keywords
     'web development company in Sikkim',
-    'app development Gangtok',
-    'software company in Sikkim',
+    'AI revenue systems',
+    'automated follow-up systems',
+    'lead capture systems',
+    'conversion optimization Sikkim',
+    'CRM dashboards Gangtok',
+    'revenue analytics tracking',
+    'AI-driven automation systems',
+    'service business growth partner',
+    'predictable revenue systems',
     'IT company Sikkim',
     'web design Gangtok',
     'mobile app development Sikkim',
@@ -21,9 +28,6 @@ export const SITE_CONFIG = {
     'software development Sikkim',
     'web developers',
     'web developer sikkim',
-    'web devloper sikkim',
-    'website development sikkim',
-    'website devlopment sikkim',
     'ai sikkim',
     'artificial intelligence sikkim',
     'web development ai automation in sikkim',
@@ -55,7 +59,7 @@ export const SITE_CONFIG = {
   business: {
     name: 'Tech Waglogy LLP',
     legalName: 'Tech Waglogy LLP',
-    description: 'Professional web development, mobile app development, and AI solutions company',
+    description: 'AI-first growth partner designing AI-powered revenue systems for service businesses',
     email: 'contact@waglogy.in',
     phone: '+91 9733814168',
     address: {
@@ -91,8 +95,8 @@ export const SITE_CONFIG = {
 // Page-specific SEO configurations
 export const PAGE_SEO = {
   home: {
-    title: 'Tech Waglogy LLP - #1 Web & App Development Company in Sikkim | Gangtok',
-    description: 'Best web development, mobile app development, and AI automation solutions company in Gangtok, Sikkim. Serving Sikkim, Darjeeling, Siliguri & Northeast India. Get your website, app, or software built by local experts utilizing AI solutions.',
+    title: 'Waglogy - AI-Powered Revenue Systems & Growth Partner',
+    description: 'Waglogy designs AI-powered revenue systems for service businesses. Increase leads, improve conversion, and create predictable revenue with automated follow-ups, lead capture, and CRM dashboards.',
     keywords: [
       'web development company Sikkim',
       'app development Gangtok',
@@ -128,8 +132,8 @@ export const PAGE_SEO = {
   },
 
   services: {
-    title: 'Our Services - Web Development, App Development & AI Solutions | Sikkim',
-    description: 'Complete web development, mobile app development, software development, UI/UX design, and AI automation services in Sikkim. Serving Gangtok, Darjeeling, Siliguri, and Northeast India. Affordable pricing, professional quality.',
+    title: 'Our Systems - Lead Capture, Automated Follow-Up & Revenue Analytics',
+    description: 'Explore our AI-powered growth systems: lead capture, automated follow-up, conversion optimization, CRM dashboards, and revenue analytics for service businesses looking to scale.',
     keywords: [
       'web development services Sikkim',
       'app development services Gangtok',
