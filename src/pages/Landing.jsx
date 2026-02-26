@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { MdConstruction, MdWeb, MdPhoneIphone, MdDesktopWindows, MdBrush, MdSmartToy, MdAutoGraph, MdCode } from 'react-icons/md'
 import { FaRocket, FaSearch, FaBug } from 'react-icons/fa'
 import { HiChip } from 'react-icons/hi'
+import { RiRobotFill } from 'react-icons/ri'
 import { submitQuery } from '../services/queryService'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
@@ -65,14 +66,14 @@ const TerminalWindow = () => {
   const [charIndex, setCharIndex] = useState(0)
 
   const script = useMemo(() => [
-    { text: "> initializing_waglogy_protocol...", color: "text-slate-500" },
-    { text: "> check_system_integrity --force", color: "text-blue-400" },
-    { text: "[OK] Core Architecture: MODULAR", color: "text-sky-400" },
-    { text: "[OK] Scalability: UNLIMITED", color: "text-sky-400" },
-    { text: "> deploy_growth_engine -v 2.0", color: "text-white" },
-    { text: "Compiling assets... Optimizing SEO...", color: "text-slate-300" },
-    { text: "Integrating AI Neural Net...", color: "text-blue-300" },
-    { text: ">>> SYSTEM READY FOR MARKET DOMINATION", color: "text-sky-400 font-bold animate-pulse" },
+    { text: "> initializing_waglogy_protocol_2.0...", color: "text-slate-500" },
+    { text: "> loading_revenue_engine --optimized", color: "text-blue-400" },
+    { text: "[OK] Lead Capture: ACTIVE", color: "text-sky-400" },
+    { text: "[OK] AI Automation: SYNCED", color: "text-sky-400" },
+    { text: "> deploy_revenue_system -v 2.0", color: "text-white" },
+    { text: "Compiling CRM... Optimizing Flows...", color: "text-slate-300" },
+    { text: "Integrating Neural Growth Net...", color: "text-blue-300" },
+    { text: ">>> REVENUE SYSTEM READY FOR SCALE", color: "text-sky-400 font-bold animate-pulse" },
   ], [])
 
   useEffect(() => {
@@ -211,8 +212,8 @@ const Landing = () => {
   // FAQ data
   const faqData = [
     {
-      question: 'What makes Tech Waglogy different?',
-      answer: 'Our Growth-Friendly Technology approach sets us apart. We build your foundation first—website, branding, essential tools—then scale with AI & automation as you grow. You pay only for what you need.'
+      question: 'What makes Waglogy 2.0 different?',
+      answer: 'Waglogy is no longer just a web development agency. We are an AI-first growth partner that designs end-to-end revenue systems. From lead capture to automated follow-ups and CRM dashboards, we build the entire system that drives predictable revenue.'
     },
     {
       question: 'How long does a typical project take?',
@@ -225,12 +226,12 @@ const Landing = () => {
   ]
 
   const services = [
-    { id: 'web', title: 'Web Development', icon: MdWeb, desc: 'Modern, fast, and responsive websites.', details: 'Responsive Design, Fast Performance, SEO Optimized' },
-    { id: 'app', title: 'App Development', icon: MdPhoneIphone, desc: 'Native & cross-platform mobile apps.', details: 'iOS & Android, React Native/Flutter, Secure Backend' },
-    { id: 'software', title: 'Software Dev', icon: MdDesktopWindows, desc: 'Custom solutions for complex needs.', details: 'Automation, API Integration, Data Management' },
-    { id: 'design', title: 'UI/UX Design', icon: MdBrush, desc: 'Stunning interfaces that convert.', details: 'Brand Identity, Prototyping, Design Systems' },
-    { id: 'ai', title: 'AI Solutions', icon: MdSmartToy, desc: 'Chatbots & LLM integration.', details: 'Smart Chatbots, GPT Integration, Predictive AI' },
-    { id: 'automation', title: 'Automation', icon: MdAutoGraph, desc: 'Streamline workflows with AI.', details: 'Lead Management, Workflow Auth, Data Processing' },
+    { id: 'lead-capture', title: 'Lead Capture Systems', icon: FaSearch, desc: 'High-conversion systems designed to turn visitors into inquiries.', details: 'Dynamic Forms, Landing Pages, Intent Tracking' },
+    { id: 'automated-followup', title: 'Automated Follow-Up', icon: MdAutoGraph, desc: 'AI-driven follow-ups that ensure no lead goes cold.', details: 'Email/SMS Sequences, AI Response, Multi-Channel' },
+    { id: 'conversion-optimization', title: 'Conversion Flows', icon: MdWeb, desc: 'Optimizing every touchpoint in the user journey for revenue.', details: 'A/B Testing, Heatmaps, UX Optimization' },
+    { id: 'crm-dashboards', title: 'CRM & Inquiry Dashboards', icon: MdDesktopWindows, desc: 'Centralized hubs to manage all your leads and inquiries.', details: 'Real-time Tracking, Lead Scoring, Status Pipelines' },
+    { id: 'revenue-analytics', title: 'Revenue Analytics', icon: MdSmartToy, desc: 'Predictable tracking of how leads turn into actual revenue.', details: 'ROI Tracking, Conversion Metrics, Growth Forecasting' },
+    { id: 'ai-automation', title: 'AI-Driven Automation', icon: HiChip, desc: 'Custom AI workflows that streamline your entire business.', details: 'Smart Workflows, LLM Integration, Task Automation' },
   ]
 
   return (
@@ -256,7 +257,7 @@ const Landing = () => {
         {/* Hero Section - Parallax Exit */}
         <motion.section
           style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-          className="relative z-10 pt-32 md:pt-40 lg:pt-60 pb-20 px-4 sm:px-6 lg:px-8 min-h-[90vh] flex items-center"
+          className="relative z-10 pt-32 md:pt-40 lg:pt-60 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center"
         >
           <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -271,21 +272,20 @@ const Landing = () => {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-8 backdrop-blur-md"
               >
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                ACHIEVE DIGITAL EXCELLENCE
+                AI-POWERED GROWTH PARTNER
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-none mb-6 tracking-tight">
-                We Forge <br />
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.15] mb-6 tracking-tight">
+                AI-Powered <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-sky-300 to-white drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                  Digital Reality
+                  Revenue Systems
                 </span>
               </h1>
 
-              <p className="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
-                Transforming ambitious ideas into high-performance software.
-                <span className="text-white font-medium"> Web. App. AI.</span>
+              <p className="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-xl">
+                From Lead to Revenue — We Build the System in Between.
                 <br />
-                Scale your vision with precision engineering.
+                <span className="text-white font-medium">Waglogy partners with service businesses</span> to build AI-powered systems that increase leads, improve conversion, and create predictable revenue.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-5">
@@ -304,107 +304,99 @@ const Landing = () => {
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-4 glass-panel text-white rounded-xl font-bold hover:bg-white/10 transition-all border border-white/10 flex items-center justify-center"
                 >
-                  View Ecosystem
+                  View Growth Systems
                 </motion.a>
               </div>
 
               {/* Tech Stats */}
               <div className="mt-12 flex items-center gap-8 border-t border-white/10 pt-8 max-w-sm">
                 <div>
-                  <div className="text-2xl font-bold text-white font-mono">100+</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest">Projects</div>
+                  <div className="text-2xl font-bold text-white font-mono">50+</div>
+                  <div className="text-xs text-slate-500 uppercase tracking-widest">Global Partnerships</div>
                 </div>
                 <div className="w-px h-8 bg-white/10"></div>
                 <div>
-                  <div className="text-2xl font-bold text-white font-mono">99%</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest">Uptime</div>
+                  <div className="text-2xl font-bold text-white font-mono">1.2x</div>
+                  <div className="text-xs text-slate-500 uppercase tracking-widest">Avg Conversion</div>
                 </div>
                 <div className="w-px h-8 bg-white/10"></div>
                 <div>
                   <div className="text-2xl font-bold text-white font-mono">24/7</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest">Support</div>
+                  <div className="text-xs text-slate-500 uppercase tracking-widest">Nurture Loop</div>
                 </div>
               </div>
             </motion.div>
 
-            {/* 3D Hero Visual - Abstract Tech Core */}
+            {/* Premium Hero Visual - Revenue Pulse Portal */}
             <motion.div
-              className="relative h-[500px] hidden lg:flex items-center justify-center perspective-1000"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
+              className="relative h-[600px] hidden lg:flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.5 }}
             >
-              {/* Pulsing Core Glow */}
-              <div className="absolute w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[100px] animate-pulse" />
+              {/* Converging Light Beams (Psychology: Focus) */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent opacity-50" />
+              </div>
 
-              {/* Spinning Rings */}
+              {/* The "Revenue Center" - A solid, grounded hub */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[350px] h-[350px] rounded-full border border-blue-500/20 border-dashed"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[280px] h-[280px] rounded-full border border-sky-400/20 border-dotted"
-              />
-              <motion.div
-                animate={{ rotate: 180 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[450px] h-[450px] rounded-full border border-white/5"
-              />
-
-              {/* Central Glass Core */}
-              <motion.div
-                animate={{ y: [-15, 15, -15] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-20 glass-card w-48 h-48 rounded-3xl flex flex-col items-center justify-center border border-white/20 backdrop-blur-2xl shadow-[0_0_50px_rgba(59,130,246,0.3)]"
+                className="relative z-20"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
               >
-                <HiChip className="text-7xl text-blue-400 mb-2 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]" />
-                <div className="text-xs font-mono text-sky-300">SYSTEM ACTIVE</div>
-                <div className="flex gap-1 mt-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce"></span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce delay-75"></span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce delay-150"></span>
+                {/* Layered Glass Rings */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white/5 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-blue-500/5 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-sky-500/10 rounded-full bg-blue-500/[0.02] backdrop-blur-3xl" />
+
+                {/* Main Core */}
+                <div className="relative w-72 h-72 rounded-[3.5rem] overflow-hidden border border-white/10 bg-[#0a0f1d]/60 backdrop-blur-2xl p-1 shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-sky-500/5" />
+
+                  {/* Internal Growth Visualization (Abstract) */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-full h-full p-10 flex flex-col justify-between">
+                      <div className="flex justify-between items-start">
+                        <div className="h-1.5 w-10 bg-blue-500 rounded-full opacity-30" />
+                        <div className="h-6 w-6 rounded-lg bg-white/5 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 bg-blue-400/50 rounded-full" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="text-4xl font-bold tracking-tighter text-white/90">REVENUE</div>
+                        <div className="flex items-end gap-2 text-sky-400/80">
+                          <div className="h-6 w-2 bg-blue-400/10 rounded-sm" />
+                          <div className="h-10 w-2 bg-blue-400/20 rounded-sm" />
+                          <div className="h-14 w-2 bg-blue-400/30 rounded-sm" />
+                          <div className="h-18 w-2 bg-blue-400/40 rounded-sm" />
+                          <div className="text-sm font-mono font-medium mb-1 ml-2 opacity-60">SYSTEM 2.0</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+                {/* High-End Floating Indicators (Sophisticated, Not Technical) */}
+                <motion.div
+                  className="absolute -top-6 -right-6 px-4 py-2 rounded-full border border-white/5 bg-black/20 backdrop-blur-md text-[9px] font-bold text-blue-400/60 flex items-center gap-2 whitespace-nowrap"
+                >
+                  <span className="w-1 h-1 rounded-full bg-blue-500/40" />
+                  MARKET INTENT: CAPTURING
+                </motion.div>
+
+                <motion.div
+                  className="absolute -bottom-6 -left-6 px-4 py-2 rounded-full border border-white/5 bg-black/20 backdrop-blur-md text-[9px] font-bold text-sky-400/60 flex items-center gap-2 whitespace-nowrap"
+                >
+                  <span className="w-1 h-1 rounded-full bg-sky-500/40" />
+                  CONVERSION FLOW: ACTIVE
+                </motion.div>
               </motion.div>
 
-              {/* Orbiting Satellite Cards */}
-              <motion.div
-                className="absolute top-10 right-20 glass-card p-4 rounded-2xl border-l-4 border-blue-500 flex items-center gap-3 backdrop-blur-md"
-                animate={{ y: [-20, 20, -20] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 0 }}
-              >
-                <div className="p-2 bg-blue-500/20 rounded-lg"><MdWeb className="text-2xl text-blue-300" /></div>
-                <div>
-                  <div className="text-xs text-slate-400">Status</div>
-                  <div className="text-sm font-bold text-white">Deploying</div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="absolute bottom-20 left-10 glass-card p-4 rounded-2xl border-l-4 border-sky-500 flex items-center gap-3 backdrop-blur-md"
-                animate={{ y: [20, -20, 20] }}
-                transition={{ duration: 7, repeat: Infinity, delay: 1 }}
-              >
-                <div className="p-2 bg-sky-500/20 rounded-lg"><MdPhoneIphone className="text-2xl text-sky-300" /></div>
-                <div>
-                  <div className="text-xs text-slate-400">Platform</div>
-                  <div className="text-sm font-bold text-white">Mobile Native</div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="absolute top-1/2 right-[-20px] glass-card p-4 rounded-2xl border-l-4 border-white flex items-center gap-3 backdrop-blur-md"
-                animate={{ x: [-10, 10, -10] }}
-                transition={{ duration: 8, repeat: Infinity, delay: 2 }}
-              >
-                <div className="p-2 bg-white/10 rounded-lg"><MdSmartToy className="text-2xl text-white" /></div>
-                <div>
-                  <div className="text-xs text-slate-400">AI Core</div>
-                  <div className="text-sm font-bold text-white">Processing</div>
-                </div>
-              </motion.div>
+              {/* Static Background Flare */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/[0.03] blur-[120px] rounded-full pointer-events-none" />
             </motion.div>
           </div>
         </motion.section>
@@ -418,8 +410,8 @@ const Landing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">Our <span className="text-blue-500">Expertise</span></h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">Comprehensive digital solutions tailored to elevate your business.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">Our <span className="text-blue-500">Growth Systems</span></h2>
+              <p className="text-slate-400 max-w-2xl mx-auto">AI-powered infrastructure designed to scale your service business from inquiry to revenue.</p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -454,12 +446,12 @@ const Landing = () => {
               >
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-mono mb-6">
                   <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                  ENGINEERING STANDARDS
+                  AI-FIRST GROWTH PARTNER
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">Growth-Friendly <br className="hidden md:block" /> <span className="text-sky-500">Architecture</span></h2>
+                <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">Revenue-First <br className="hidden md:block" /> <span className="text-sky-500">Architecture</span></h2>
                 <p className="text-slate-300 mb-10 text-lg leading-relaxed">
-                  We don't just build websites; we engineer <span className="text-white font-medium">scalable systems</span>.
-                  Our development protocol ensures your foundation is solid enough to support massive growth without refactoring.
+                  We don't just build websites; we engineer <span className="text-white font-medium">revenue systems</span>.
+                  Our AI-first approach ensures your business grows predictably and scalably.
                 </p>
 
                 <div className="space-y-8">
@@ -482,8 +474,8 @@ const Landing = () => {
                   <div className="group flex items-start gap-5 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
                     <div className="p-4 rounded-xl bg-white/10 text-white group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.1)]"><HiChip className="text-2xl" /></div>
                     <div>
-                      <h4 className="text-white text-xl font-bold mb-2">AI-Ready Systems</h4>
-                      <p className="text-slate-400 leading-relaxed">Prepared for future Artificial Intelligence integrations and smart automation.</p>
+                      <h4 className="text-white text-xl font-bold mb-2">Predictable Scaling</h4>
+                      <p className="text-slate-400 leading-relaxed">Turn your service business into a predictable growth machine with AI automation.</p>
                     </div>
                   </div>
                 </div>
@@ -516,7 +508,7 @@ const Landing = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-5xl font-bold mb-4">Execution <span className="text-blue-500">Protocol</span></h2>
-              <p className="text-slate-400">From concept to deployment, our process is a precision-engineered precision loop.</p>
+              <p className="text-slate-400">The battle-tested framework we use to build, deploy, and scale your AI-powered revenue engine.</p>
             </motion.div>
 
             <div className="relative">
@@ -533,12 +525,12 @@ const Landing = () => {
 
               <div className="space-y-16">
                 {[
-                  { title: "Discovery & Strategy", desc: "We analyze your requirements, market gaps, and technical feasibility.", icon: FaSearch },
-                  { title: "UI/UX Architecture", desc: "Crafting intuitive, high-conversion interfaces and design systems.", icon: MdBrush },
-                  { title: "Agile Development", desc: "Iterative coding sprints with regular updates and feedback loops.", icon: MdCode },
-                  { title: "Quality Assurance", desc: "Rigorous testing for bugs, security vulnerabilities, and performance.", icon: FaBug },
-                  { title: "Launch Sequence", desc: "Seamless deployment to production servers with zero downtime.", icon: FaRocket },
-                  { title: "Growth & Scaling", desc: "Post-launch monitoring, feature updates, and user acquisition support.", icon: MdAutoGraph }
+                  { title: "Revenue Audit & Blueprinting", desc: "We analyze your current lead-to-revenue journey to identify leaks and map a path to predictable growth.", icon: FaSearch },
+                  { title: "Growth Architecture", desc: "Designing the foundational infrastructure, combining high-conversion entry points with robust CRM systems.", icon: MdBrush },
+                  { title: "AI Integration & Automation", desc: "Integrating custom LLMs and automated workflows to handle follow-ups, inquiries, and data syncs.", icon: HiChip },
+                  { title: "Performance Engineering", desc: "Precision coding with a focus on load speeds, conversion triggers, and seamless API integrations.", icon: MdCode },
+                  { title: "System Deployment", desc: "Seamlessly launching your revenue engine with real-time tracking and full analytics visibility.", icon: FaRocket },
+                  { title: "Success & AI Scaling", desc: "Ongoing data-driven optimization using AI insights to maximize ROI and scale your business.", icon: MdAutoGraph }
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
@@ -603,8 +595,8 @@ const Landing = () => {
         <ScrollFadeSection className="py-24 relative z-10">
           <div className="max-w-xl mx-auto px-6">
             <div className="glass-card p-8 rounded-2xl text-center border-t border-blue-500/30">
-              <h2 className="text-2xl font-bold mb-4">Have a Project in Mind?</h2>
-              <p className="text-slate-400 mb-8">Let's build something extraordinary together.</p>
+              <h2 className="text-2xl font-bold mb-4">Ready to Automate your Revenue?</h2>
+              <p className="text-slate-400 mb-8">Let's build your AI-powered growth engine together.</p>
 
               <form onSubmit={handleQuerySubmit} className="space-y-4">
                 <input

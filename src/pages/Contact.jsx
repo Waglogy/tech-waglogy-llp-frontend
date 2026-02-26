@@ -111,12 +111,12 @@ const Contact = () => {
   }
 
   const faqs = [
-    { question: 'How long does a typical project take?', answer: 'Timelines vary. Simple sites take 2-4 weeks, while complex apps can take 3-6 months. We provide detailed schedules upfront.' },
-    { question: 'What is your development process?', answer: 'We follow a 4-step cycle: Discovery, Design, Development, and Launch. You get regular updates at every stage.' },
-    { question: 'Do you provide ongoing support?', answer: 'Yes! We offer maintenance packages for updates, security, and scaling.' },
-    { question: 'What technologies do you use?', answer: 'We specialize in React, Next.js, Node.js, Python/Django, and AI integrations (LLMs, Automation).' },
-    { question: 'Can you work with our existing team?', answer: 'Absolutely. We can augment your team or handle specific modules independently.' },
-    { question: 'Do you offer fixed-price quotes?', answer: 'Yes. For well-defined scopes, we prefer fixed pricing so you know exactly what to budget.' }
+    { question: 'What is a Revenue System?', answer: 'A Revenue System is an end-to-end AI-powered infrastructure that handles everything from lead capture and automated follow-ups to CRM management and revenue tracking.' },
+    { question: 'How long does it take to build a system?', answer: 'Most core growth systems (Lead Capture + Automation) are deployed within 4-6 weeks. Custom CRM dashboards and complex AI workflows may take 8-12 weeks.' },
+    { question: 'Do you provide ongoing support?', answer: 'Yes! We act as your growth partner, providing continuous optimization, updates, and scaling support to ensure your system performs at its peak.' },
+    { question: 'What technologies do you use?', answer: 'We utilize a modern stack including React, Node.js, and advanced AI frameworks (LLMs, Python) to build seamless automation and dashboards.' },
+    { question: 'Is this only for large businesses?', answer: 'No. Our systems are designed specifically for service businesses of all sizes looking to automate their lead-to-revenue pipeline and create predictable growth.' },
+    { question: 'Do you offer fixed-price quotes?', answer: 'Yes. We provide transparent, fixed-price project quotes after our initial discovery session so you know exactly what your investment will be.' }
   ]
 
   return (
@@ -144,7 +144,7 @@ const Contact = () => {
               Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-500">Touch</span>
             </h1>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-8">
-              Ready to build something extraordinary? Whether you need a quote or just want to explore ideas, we're here.
+              Ready to automate your revenue? Whether you need a lead capture system or a full AI growth engine, we're here to build it.
             </p>
           </motion.div>
         </section>
@@ -246,11 +246,13 @@ const Contact = () => {
                       value={formData.service} onChange={handleInputChange}
                       className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-slate-300 focus:outline-none focus:border-blue-500 transition-colors appearance-none"
                     >
-                      <option value="">Select a service</option>
-                      <option value="web-development">Web Development</option>
-                      <option value="app-development">App Development</option>
-                      <option value="ai-solutions">AI Solutions</option>
-                      <option value="consultation">General Consultation</option>
+                      <option value="">Select a system</option>
+                      <option value="lead-capture">Lead Capture System</option>
+                      <option value="automated-followup">Automated Follow-Up</option>
+                      <option value="conversion-optimization">Conversion Optimization</option>
+                      <option value="crm-dashboard">CRM & Inquiry Dashboard</option>
+                      <option value="revenue-analytics">Revenue Analytics</option>
+                      <option value="ai-automation">AI-Driven Automation</option>
                     </select>
                   </div>
                   <div>

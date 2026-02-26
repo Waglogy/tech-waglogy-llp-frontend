@@ -78,14 +78,14 @@ const About = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 tracking-tight">
-                Crafting <br />
+                Designing AI-Powered <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-sky-300 to-white drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                  Digital Legacy
+                  Revenue Systems
                 </span>
               </h1>
 
               <p className="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
-                We are Tech Waglogy. Founded in 2024 to redefine how businesses grow in the digital age. Not just developers—we are your strategic growth partners.
+                Waglogy designs AI-powered revenue systems for service businesses. We partner with you to build systems that increase leads, improve conversion, and create predictable revenue. Not just developers—we are your AI-first growth partners.
               </p>
             </motion.div>
 
@@ -128,23 +128,19 @@ const About = () => {
               <div className="lg:col-span-8">
                 <div className="prose prose-invert prose-lg max-w-none text-slate-300 leading-relaxed space-y-6">
                   <p className="text-xl font-light text-white leading-8 border-l-4 border-blue-500 pl-6 mb-8">
-                    The story of Waglogy began with a simple yet powerful observation: <span className="text-blue-400 font-semibold">The digital divide in India wasn't about internet access anymore—it was about access to quality innovation.</span>
+                    The story of Waglogy began with a simple yet powerful observation: <span className="text-blue-400 font-semibold">Service businesses don't just need websites—they need engines for growth.</span>
                   </p>
 
                   <p>
-                    In 2024, our founders, <strong>Bhupesh Sharma</strong> and <strong>Abhisek Adhikari</strong>, analyzed the landscape of Indian SMEs and startups. They saw brilliance, resilience, and incredible market potential. But they also saw a massive barrier. Business owners were trapped in a dilemma: either rely on generic, cookie-cutter website builders that offered no real scalability, or pay exorbitant fees to large agencies for custom software they couldn't yet afford.
+                    In 2026, we evolved into <strong>Waglogy 2.0</strong>. We realized that while many companies can build a website, few build the actual systems that drive predictable revenue.
                   </p>
 
                   <p>
-                    "Why should a small business have to choose between quality and affordability?" they asked.
+                    This realization led to our core positioning: <em>"From Lead to Revenue — We Build the System in Between."</em> We moved beyond being just a digital marketing agency or an AI tools provider. We became architects of growth, building lead capture systems, automated follow-ups, and CRM dashboards that act as the backbone of a modern service business.
                   </p>
 
                   <p>
-                    This question became the cornerstone of Tech Waglogy LLP. We developed our proprietary <strong className="text-white">"Growth-Friendly Architecture"</strong>—a modular development approach. It allows businesses to start with a robust foundation (like a lightning-fast Next.js website) and scale seamlessly into complex ecosystems (apps, AI automation, custom CRMs) without ever having to rebuild from scratch.
-                  </p>
-
-                  <p>
-                    We set up our headquarters in the serene hills of <strong className="text-white">Gangtok, Sikkim</strong>, proving that world-class innovation isn't restricted to metropolitan glass towers. From here, we've empowered local homestays to compete with global hotel chains, helped retail stores automate their inventory with AI, and enabled startups to launch products that rival Silicon Valley standards.
+                    Based in the serene hills of <strong className="text-white">Gangtok, Sikkim</strong>, our vision is global. We prove that world-class AI innovation can come from anywhere, helping service businesses worldwide build predictable, scalable revenue systems.
                   </p>
                 </div>
               </div>
@@ -172,7 +168,7 @@ const About = () => {
                 <div className="w-16 h-16 rounded-2xl bg-sky-500/20 flex items-center justify-center text-sky-400 mb-8 text-3xl shadow-[0_0_30px_rgba(14,165,233,0.2)]">👁️</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Our Vision</h3>
                 <p className="text-slate-400 leading-relaxed text-lg">
-                  To become India's most trusted digital growth partner, turning ideas into sustainable success stories through innovation, AI, and engineering excellence.
+                  To become a globally trusted AI-first growth partner that helps service businesses build predictable, scalable revenue systems.
                 </p>
               </div>
             </div>
@@ -189,17 +185,17 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-5xl font-bold mb-6">Why Partner With <span className="text-blue-500">Us?</span></h2>
-              <p className="text-slate-400 max-w-2xl mx-auto text-lg">We don't just write code. We engineer business outcomes.</p>
+              <p className="text-slate-400 max-w-2xl mx-auto text-lg">We don't just write code. We engineer revenue systems that scale.</p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 { icon: FaChartLine, title: "Scalable Growth", desc: "Pay-as-you-grow model. Invest only in what you need today, scale seamlessly tomorrow." },
-                { icon: FaLaptopCode, title: "Cutting-Edge Tech", desc: "We use the latest stack: React, Next.js, AI integrations & Cloud to future-proof your product." },
-                { icon: FaPalette, title: "Design Excellence", desc: "Beautiful UI/UX that captures attention and converts visitors into loyal customers." },
-                { icon: FaRupeeSign, title: "Cost-Effective", desc: "Enterprise-level solutions priced thoughtfully for Indian startups & SMEs." },
-                { icon: FaHandshake, title: "True Partnership", desc: "We are not just vendors; we act as your internal tech team, invested in your success." },
-                { icon: FaClock, title: "Agile Delivery", desc: "Rapid prototyping and agile processes ensure quick turnarounds without quality compromise." }
+                { icon: FaLaptopCode, title: "AI-Driven Systems", desc: "We use the latest stack: React, Next.js, AI integrations & Cloud to future-proof your revenue engine." },
+                { icon: FaPalette, title: "Conversion Focused", desc: "Designing intuitive interfaces that move users through your conversion funnel and drive revenue." },
+                { icon: FaRupeeSign, title: "Transparent ROI", desc: "System-level solutions priced thoughtfully for service businesses seeking predictable growth." },
+                { icon: FaHandshake, title: "Strategic Partner", desc: "We are not just vendors; we act as your internal growth team, invested in your success." },
+                { icon: FaClock, title: "Agile Execution", desc: "Rapid prototyping and agile processes ensure quick turnarounds for your growth engine." }
               ].map((item, idx) => (
                 <Card3D key={idx}>
                   <div className="p-3 bg-blue-500/10 border border-blue-500/20 w-fit rounded-xl text-blue-400 mb-5 text-xl">

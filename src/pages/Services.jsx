@@ -74,118 +74,118 @@ const Services = () => {
   // Same services data, just keeping structure
   const services = [
     {
-      id: 'web-development',
-      title: 'Web Development',
-      tagline: 'Modern, responsive, and user-friendly websites that create impact',
+      id: 'lead-capture',
+      title: 'Lead Capture Systems',
+      tagline: 'High-conversion systems designed to turn visitors into inquiries.',
       IconComponent: MdWeb,
       iconColor: 'text-blue-400',
-      description: 'Your website is often the first impression. We build modern, lightning-fast, and fully responsive websites using Next.js and React that look stunning and drive real business results.',
+      description: 'We design and build high-performance lead capture systems that act as the entry point for your revenue engine. From landing pages to dynamic forms, we ensure every visitor has a clear path to becoming a lead.',
       features: [
-        'Responsive Design - Perfect on all devices',
-        'Fast Performance - Optimized for speed & SEO',
-        'User-Friendly CMS - Easy content management',
-        'Scalable Architecture - Built to grow with you',
-        'E-commerce Integration - Sell online seamlessly',
-        'SEO Optimization - Rank higher on Google'
+        'High-Conversion Landing Pages',
+        'Dynamic & Multi-Step Forms',
+        'Real-time Intent Tracking',
+        'A/B Tested CTA Frameworks',
+        'Lead Source Attribution',
+        'Spam Protection & Validation'
       ],
-      technologies: ['React', 'Next.js', 'Tailwind CSS', 'WordPress', 'Shopify'],
-      pricing: { INR: '₹40,000' },
-      timeline: '2-6 weeks'
-    },
-    {
-      id: 'app-development',
-      title: 'App Development',
-      tagline: 'Secure, scalable apps tailored to your business goals',
-      IconComponent: MdPhoneAndroid,
-      iconColor: 'text-sky-400',
-      description: 'Whether iOS, Android, or cross-platform, we build intuitive, secure apps designed to scale. From concept to deployment, we handle it all with Flutter and React Native.',
-      features: [
-        'Native & Cross-Platform - iOS, Android, or both',
-        'Intuitive UX - Beautiful interfaces users love',
-        'Secure Backend - Protected data & APIs',
-        'Real-time Features - Push notifications & updates',
-        'Offline Functionality - Works without internet',
-        'App Store Optimization - Better visibility'
-      ],
-      technologies: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Firebase'],
-      pricing: { INR: '₹1,50,000' },
-      timeline: '6-12 weeks'
-    },
-    {
-      id: 'software-development',
-      title: 'Custom Software',
-      tagline: 'Custom solutions to automate and streamline operations',
-      IconComponent: MdComputer,
-      iconColor: 'text-indigo-400',
-      description: 'We create custom software solutions that automate manual processes, integrate disparate systems, and eliminate operational bottlenecks.',
-      features: [
-        'Custom Workflows - Tailored to your processes',
-        'API Integrations - Connect existing tools',
-        'Process Automation - Eliminate repetitive tasks',
-        'Data Management - Centralized dashboards',
-        'Cloud Deployment - Scalable & secure',
-        'System Integration - Unify your tech stack'
-      ],
-      technologies: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'AWS'],
-      pricing: { INR: '₹1,20,000' },
-      timeline: '8-16 weeks'
-    },
-    {
-      id: 'graphics-uiux',
-      title: 'UI/UX Design',
-      tagline: 'Eye-catching designs that build trust and engagement',
-      IconComponent: MdPalette,
-      iconColor: 'text-white',
-      description: 'We create visually stunning designs that capture attention and build trust. From brand identity to digital experiences, we make your business memorable.',
-      features: [
-        'Brand Identity - Logos & guidelines',
-        'UI/UX Design - Intuitive interfaces',
-        'Marketing Graphics - Social media & ads',
-        'Design Systems - Consistent components',
-        'Wireframing - Visualize before building',
-        'User Research - Data-driven decisions'
-      ],
-      technologies: ['Figma', 'Adobe XD', 'Illustrator', 'Photoshop'],
-      pricing: { INR: '₹30,000' },
+      technologies: ['React', 'Next.js', 'PostgreSQL', 'Mixpanel'],
+      pricing: { INR: '₹40,000+' },
       timeline: '2-4 weeks'
     },
     {
-      id: 'ai-chatbots',
-      title: 'AI Solutions',
-      tagline: 'Smarter customer interactions, increased efficiency',
+      id: 'automated-followup',
+      title: 'Automated Follow-Up',
+      tagline: 'AI-driven follow-ups that ensure no lead goes cold.',
       IconComponent: RiRobotFill,
-      iconColor: 'text-cyan-400',
-      description: 'Transform customer interactions with intelligent AI. From 24/7 support chatbots to advanced AI apps that understand context and deliver personalized experiences.',
+      iconColor: 'text-sky-400',
+      description: 'The revenue is in the follow-up. Our AI-driven systems ensure that every lead is nurtured automatically through SMS, email, and AI-voice interactions, increasing your conversion rates significantly.',
       features: [
-        'Smart Chatbots - 24/7 support',
-        'LLM Integration - GPT, Claude & more',
-        'Voice Assistants - Natural language',
-        'Intelligent Search - AI recommendations',
-        'Sentiment Analysis - Understand emotions',
-        'Multilingual Support - Global reach'
+        'Multi-Channel Nurture Sequences',
+        'AI-Generated Email Responses',
+        'SMS & WhatsApp Automation',
+        'Intelligent Lead Re-engagement',
+        'Appointment Auto-Scheduling',
+        'Lead Interest Categorization'
       ],
-      technologies: ['OpenAI API', 'Claude', 'LangChain', 'Python', 'FastAPI'],
-      pricing: { INR: '₹80,000' },
+      technologies: ['Twilio', 'SendGrid', 'OpenAI', 'LangChain'],
+      pricing: { INR: '₹60,000+' },
+      timeline: '4-8 weeks'
+    },
+    {
+      id: 'conversion-optimization',
+      title: 'Conversion Flows',
+      tagline: 'Optimizing every touchpoint in the user journey for revenue.',
+      IconComponent: MdPalette,
+      iconColor: 'text-indigo-400',
+      description: 'We analyze your current user journey and build optimized conversion flows that remove friction and guide users toward the final revenue event. Every click is engineered for growth.',
+      features: [
+        'User Journey Mapping',
+        'Friction Point Analysis',
+        'Heatmap & Behavior Tracking',
+        'Checkout & Inquiry Optimization',
+        'Micro-Conversion Strategies',
+        'Visual Feedback Loops'
+      ],
+      technologies: ['Hotjar', 'Figma', 'React', 'Google Analytics'],
+      pricing: { INR: '₹50,000+' },
+      timeline: '3-6 weeks'
+    },
+    {
+      id: 'crm-dashboards',
+      title: 'CRM & Inquiry Dashboards',
+      tagline: 'Centralized hubs to manage all your leads and inquiries.',
+      IconComponent: MdComputer,
+      iconColor: 'text-white',
+      description: 'Stop losing leads in spreadsheets. We build custom CRM dashboards that give you a birds-eye view of your entire business, from newly captured leads to closed revenue.',
+      features: [
+        'Custom Lead Status Pipelines',
+        'Team Assignment & Tracking',
+        'Centralized Inquiry Inbox',
+        'Mobile-Responsive Dashboards',
+        'Real-time Status Updates',
+        'Customer History Tracking'
+      ],
+      technologies: ['React Admin', 'Node.js', 'Supabase', 'Clerk'],
+      pricing: { INR: '₹1,00,000+' },
+      timeline: '6-12 weeks'
+    },
+    {
+      id: 'revenue-analytics',
+      title: 'Revenue Analytics',
+      tagline: 'Predictable tracking of how leads turn into actual revenue.',
+      IconComponent: HiChip,
+      iconColor: 'text-cyan-400',
+      description: 'Data-driven decision making is at the core of Waglogy 2.0. We build custom analytics systems that track ROI across every system, giving you predictable growth metrics.',
+      features: [
+        'Revenue ROI Tracking',
+        'Conversion Funnel Metrics',
+        'Customer Acquisition Cost (CAC)',
+        'Custom Growth Reports',
+        'Automated Executive Summaries',
+        'Predictive Growth Modeling'
+      ],
+      technologies: ['Python', 'SQL', 'Tableau API', 'Custom Dashboards'],
+      pricing: { INR: '₹80,000+' },
       timeline: '4-10 weeks'
     },
     {
-      id: 'ai-automations',
-      title: 'AI Automations',
-      tagline: 'From lead management to workflow optimization',
+      id: 'ai-automation',
+      title: 'AI-Driven Automation',
+      tagline: 'Custom AI workflows that streamline your entire business.',
       IconComponent: HiChip,
       iconColor: 'text-blue-300',
-      description: 'Stop wasting time on repetitive tasks. Our AI automation solutions handle everything from lead capture to data entry—freeing up your team.',
+      description: 'The ultimate stage of a revenue system. We integrate custom AI workflows that handle data entry, scheduling, content generation, and smart decision-making, allowing you to focus on scaling.',
       features: [
-        'Lead Management - Automated capture',
-        'Workflow Automation - Streamline tasks',
-        'Data Processing - AI extraction',
-        'Smart Scheduling - Intelligent booking',
-        'Email Automation - Personalized campaigns',
-        'Document Processing - Extract insights'
+        'Custom LLM Workflows',
+        'Data Auto-Entry & Extraction',
+        'AI Customer Intelligence',
+        'Smart Inventory/Staffing Sync',
+        'Automated Compliance Checks',
+        'Intelligent Task Routing'
       ],
-      technologies: ['Make.com', 'Zapier', 'Python', 'AI APIs'],
-      pricing: { INR: '₹1,00,000' },
-      timeline: '4-12 weeks'
+      technologies: ['Make.com', 'Zapier', 'OpenAI', 'Python'],
+      pricing: { INR: '₹1,50,000+' },
+      timeline: '8-16 weeks'
     }
   ]
 
@@ -245,11 +245,11 @@ const Services = () => {
                 SERVICES
               </div>
               <h1 className="text-5xl md:text-7xl font-bold leading-none mb-6 tracking-tight">
-                Start Small. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-600">Scale Big.</span>
+                AI-Powered <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-600">Revenue Systems.</span>
               </h1>
               <p className="text-slate-400 text-lg md:text-xl mb-8 leading-relaxed max-w-lg">
-                We don't just build software; we engineer growth systems. Start with essentials and scale your tech as you grow.
+                We design and build the architecture that turns service inquiries into predictable revenue. Not just websites, but end-to-end growth engines.
               </p>
               <div className="flex flex-wrap gap-4">
                 <button
@@ -289,8 +289,8 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">Our <span className="text-blue-500">Core Services</span></h2>
-              <p className="text-slate-400">Comprehensive digital solutions engineered for growth.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">Our <span className="text-blue-500">Growth Systems</span></h2>
+              <p className="text-slate-400">Precision-engineered AI systems designed to drive service business revenue.</p>
             </motion.div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -329,15 +329,15 @@ const Services = () => {
         <ScrollFadeSection className="py-24 bg-black/30 relative z-10 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4">The <span className="text-sky-500">Growth-Friendly</span> Protocol</h2>
+              <h2 className="text-3xl font-bold mb-4">The <span className="text-sky-500">Execution</span> Protocol</h2>
               <p className="text-slate-400">We don't overwhelm you. We help you grow step-by-step.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { num: "01", title: "Start Small", desc: "Launch with essentials. Get live quickly without breaking the bank." },
-                { num: "02", title: "Scale Smart", desc: "Add complexity, apps, and integrations only as your user base grows." },
-                { num: "03", title: "Automate", desc: "Deploy AI and advanced automation when you are ready to dominate." }
+                { num: "01", title: "Build Foundation", desc: "Launch your core Lead Capture system. Get live and start generating inquiries quickly." },
+                { num: "02", title: "Scale Capacity", desc: "Expand into CRM dashboards and custom analytics as your inquiry volume grows." },
+                { num: "03", title: "Automate ROI", desc: "Deploy advanced AI workflows and automated follow-ups once your system is steady." }
               ].map((step, i) => (
                 <motion.div
                   key={i}
