@@ -52,13 +52,65 @@
     <priority>0.7</priority>
   </url>
   
-  <!-- Blog Page -->
+  <!-- Insights index -->
   <url>
-    <loc>https://waglogy.in/blog</loc>
-    <lastmod>2025-10-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
+    <loc>https://waglogy.in/insights</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
+
+  <!-- Insights articles (static catalog) -->
+  <url><loc>https://waglogy.in/insights/indian-smes-custom-websites-vs-templates</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/nextjs-business-websites-speed-seo</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/core-web-vitals-google-rankings-2025</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/react-vs-wordpress-for-company-websites</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/ai-chatbots-customer-support-smes</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/booking-systems-hotels-homestays-sikkim</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/local-seo-northeast-india-businesses</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/headless-cms-when-marketing-outgrows-static</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/ecommerce-shopify-vs-custom-indian-retail</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/api-integrations-crm-invoicing-website</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/mobile-first-design-majority-traffic</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/security-basics-small-business-websites</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/performance-budgets-how-fast-enough</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/content-strategy-technical-b2b</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/ga4-setup-owners-without-noise</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/progressive-web-apps-customer-engagement</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/email-capture-consent-india</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/multilingual-websites-indian-regional-audiences</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/technical-debt-web-projects-avoid-rebuilds</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/outsourcing-vs-inhouse-digital-partner</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/cloud-hosting-sme-aws-vercel-shared</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/design-systems-brand-consistency-scale</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/voice-search-ai-structuring-content</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/inventory-pos-integration-retail-websites</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/case-study-patterns-build-story-online</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/reduce-form-abandonment-lead-pages</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/web-accessibility-business-advantage</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/schema-markup-local-business-json-ld</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/video-landing-pages-performance-tradeoffs</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/subscription-billing-razorpay-style-integrations</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/internal-admin-panels-save-money</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/documentation-habits-faster-development</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/staging-environments-safe-deployments</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/open-source-vs-proprietary-stack-choices</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/remote-collaboration-dev-team-async</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/brand-identity-vs-ui-trends</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/microservices-vs-monolith-startups-pragmatic</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/data-backups-disaster-recovery-web-apps</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/hiring-first-developer-after-agency-build</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/green-hosting-sustainability-marketing-reality</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/cro-without-full-redesign</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/international-customers-currency-tax-shipping</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/legacy-system-migration-planning</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/real-time-features-websockets-when-needed</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/fintech-adjacent-sme-website-compliance-notes</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/community-member-portals-product</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/ab-testing-ethics-small-teams</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/seo-for-react-spas-ssr-meta-tags</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/agency-retainer-vs-project-engagements</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://waglogy.in/insights/prepare-team-ai-augmented-workflow</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.65</priority></url>
   
   <!-- Privacy Policy -->
   <url>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaCheckCircle, FaChevronDown } from 'react-icons/fa'
 import { submitContactForm } from '../services/contactService'
 import SuccessModal from '../components/SuccessModal'
@@ -9,43 +9,19 @@ import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
 import { generateFAQSchema } from '../config/seo'
 
-// Shared animated section component
-const ScrollFadeSection = ({ children, className }) => {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08, ease: 'easeOut' }
   })
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9])
-
-  return (
-    <motion.section
-      ref={ref}
-      style={{ opacity, scale }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  )
 }
 
-const FloatingShape = ({ delay = 0, className }) => (
-  <motion.div
-    className={`absolute rounded-full blur-3xl opacity-30 ${className}`}
-    animate={{
-      y: [0, -20, 0],
-      scale: [1, 1.1, 1],
-      rotate: [0, 10, 0],
-    }}
-    transition={{
-      duration: 8,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut"
-    }}
-  />
-)
+const fieldClass =
+  'w-full border border-[#E5E2DC] rounded-lg px-4 py-3 text-[#0C0C0C] placeholder-[#A09A90] text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors bg-white'
+
+const labelClass = 'block text-xs font-semibold text-[#3D3A36] mb-2 uppercase tracking-wider'
 
 const Contact = () => {
   const [searchParams] = useSearchParams()
@@ -86,7 +62,7 @@ const Contact = () => {
     setSubmitStatus(null)
 
     try {
-      const budgetInUSD = formData.budget ? convertBudgetRangeToUSD(formData.budget) : '';
+      const budgetInUSD = formData.budget ? convertBudgetRangeToUSD(formData.budget) : ''
       const apiData = {
         fullName: formData.name,
         email: formData.email,
@@ -119,132 +95,170 @@ const Contact = () => {
     { question: 'Do you offer fixed-price quotes?', answer: 'Yes. We provide transparent, fixed-price project quotes after our initial discovery session so you know exactly what your investment will be.' }
   ]
 
+  const contactCards = [
+    { icon: FaEnvelope, title: 'Email Us', val: 'contact@waglogy.in', sub: 'Responses in 24h', iconWrap: 'bg-blue-50 text-blue-600', href: 'mailto:contact@waglogy.in', external: false },
+    { icon: FaPhoneAlt, title: 'Call Us', val: '+91 9733814168', sub: 'Mon–Sun, 9am–7pm', iconWrap: 'bg-blue-50 text-blue-600', href: 'tel:+919733814168', external: false },
+    { icon: FaWhatsapp, title: 'WhatsApp', val: 'Chat now', sub: 'Instant response', iconWrap: 'bg-[#DCFCE7] text-[#16A34A]', href: 'https://wa.me/919733814168', external: true },
+    { icon: FaMapMarkerAlt, title: 'Visit Us', val: 'Gangtok, Sikkim', sub: 'Tadong Metro Point', iconWrap: 'bg-[#F5F4F0] text-[#0C0C0C]', href: 'https://maps.google.com/?q=Tadong+Metro+Point+Gangtok+Sikkim', external: true }
+  ]
+
   return (
     <>
       <SEO page="contact" />
       <StructuredData schemas={[generateFAQSchema(faqs)]} />
 
-      <div className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#000] to-[#000] text-slate-100 min-h-screen selection:bg-blue-500 selection:text-white overflow-hidden">
+      <div className="relative bg-[#FAFAF8] text-[#0C0C0C] min-h-screen overflow-hidden">
 
-        {/* Animated Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          <FloatingShape className="bg-blue-600 top-[-10%] right-[-10%] w-[500px] h-[500px] opacity-20" />
-          <FloatingShape className="bg-sky-600 bottom-[10%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] animate-pulse"></div>
+        {/* Soft ambient blobs — aligned with marketing pages */}
+        <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
+          <div className="absolute top-[8%] right-[-8%] w-[min(480px,90vw)] h-[min(480px,90vw)] rounded-full bg-blue-400/20 blur-[100px]" />
+          <div className="absolute top-[40%] left-[-15%] w-[min(520px,95vw)] h-[min(520px,95vw)] rounded-full bg-violet-300/25 blur-[110px]" />
+          <div className="absolute bottom-[-5%] right-[20%] w-[400px] h-[400px] rounded-full bg-sky-200/30 blur-[90px]" />
         </div>
 
-        {/* Hero Section */}
-        <section className="relative z-10 pt-40 lg:pt-60 pb-16 px-4 text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-6 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-              AVAILABLE 24/7
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-500">Touch</span>
-            </h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-8">
+        {/* Hero */}
+        <section className="relative z-10 pt-32 pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E5E2DC] text-center">
+          <div className="max-w-3xl mx-auto">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold tracking-widest uppercase mb-8"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" aria-hidden />
+              Available 24/7
+            </motion.div>
+            <motion.h1
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={1}
+              className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6 text-[#0C0C0C]"
+            >
+              Get in{' '}
+              <span className="text-blue-600">Touch</span>
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={2}
+              className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl mx-auto"
+            >
               Ready to automate your revenue? Whether you need a lead capture system or a full AI growth engine, we're here to build it.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
         </section>
 
-        {/* Contact Cards */}
-        <ScrollFadeSection className="relative z-10 px-4 mb-24">
-          <div className="max-w-7xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: FaEnvelope, title: 'Email Us', val: 'contact@waglogy.in', sub: 'Responses in 24h', color: 'text-blue-400', bg: 'bg-blue-500/10', href: 'mailto:contact@waglogy.in' },
-              { icon: FaPhoneAlt, title: 'Call Us', val: '+91 9733814168', sub: 'Mon-Sat, 9am-7pm', color: 'text-sky-400', bg: 'bg-sky-500/10', href: 'tel:+919733814168' },
-              { icon: FaWhatsapp, title: 'WhatsApp', val: 'Chat Now', sub: 'Instant Response', color: 'text-cyan-400', bg: 'bg-cyan-500/10', href: 'https://wa.me/919733814168' },
-              { icon: FaMapMarkerAlt, title: 'Visit Us', val: 'Gangtok, Sikkim', sub: 'Tadong Metro Point', color: 'text-white', bg: 'bg-white/10', href: 'https://maps.google.com/?q=Tadong+Metro+Point+Gangtok+Sikkim' }
-            ].map((item, i) => (
+        {/* Contact cards */}
+        <section className="relative z-10 py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {contactCards.map((item, i) => (
               <motion.a
-                key={i}
+                key={item.title}
                 href={item.href}
-                target={item.title === 'Visit Us' || item.title === 'WhatsApp' ? '_blank' : undefined}
-                rel="noopener noreferrer"
-                className={`glass-card p-6 rounded-2xl border border-white/10 hover:border-white/30 transition-all group text-center hover:-translate-y-1 block`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                custom={i}
+                className="card p-6 text-center group block hover:border-[#C9C4BB] transition-colors h-full"
               >
-                <div className={`w-14 h-14 rounded-full mx-auto flex items-center justify-center text-2xl mb-4 ${item.bg} ${item.color} group-hover:scale-110 transition-transform`}>
+                <div
+                  className={`w-14 h-14 rounded-xl mx-auto flex items-center justify-center text-2xl mb-4 ${item.iconWrap} group-hover:scale-105 transition-transform`}
+                >
                   <item.icon />
                 </div>
-                <h3 className="text-white font-bold text-lg mb-1">{item.title}</h3>
-                <p className={`font-mono text-sm mb-1 ${item.color}`}>{item.val}</p>
-                <p className="text-slate-500 text-xs">{item.sub}</p>
+                <h3 className="text-base font-bold text-[#0C0C0C] mb-1">{item.title}</h3>
+                <p className="text-sm font-medium text-blue-600 mb-1">{item.val}</p>
+                <p className="text-xs text-[#A09A90]">{item.sub}</p>
               </motion.a>
             ))}
           </div>
-        </ScrollFadeSection>
+        </section>
 
-        {/* Form Section */}
-        <section id="contact-form" className="relative z-10 pb-24 px-4">
+        {/* Form */}
+        <section id="contact-form" className="relative z-10 py-16 px-4 sm:px-6 lg:px-8 bg-white border-y border-[#E5E2DC]">
           <div className="max-w-3xl mx-auto">
-            <div className="glass-card p-8 sm:p-12 rounded-3xl border border-white/10 bg-[#0f172a]/50 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+            <div className="card p-8 sm:p-10 lg:p-12 relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-sky-500 to-blue-600 rounded-t-[inherit]" aria-hidden />
 
-              {/* Glowing Border specific to form */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-sky-500 to-blue-500"></div>
-
-              <h2 className="text-3xl font-bold text-white mb-2 text-center">
-                {isQuoteRequest ? 'Request Your Quote' : 'Send a Message'}
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#0C0C0C] mb-2 text-center mt-1">
+                {isQuoteRequest ? 'Request your quote' : 'Send a message'}
               </h2>
-              <p className="text-slate-400 text-center mb-10">
+              <p className="text-[#6E6B67] text-center mb-10 text-sm sm:text-base">
                 Tell us about your project requirements or general inquiry.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Full Name *</label>
+                    <label htmlFor="name" className={labelClass}>Full name *</label>
                     <input
-                      id="name" name="name" type="text" required
-                      value={formData.name} onChange={handleInputChange}
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
                       placeholder="John Doe"
-                      className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder-slate-600"
+                      className={fieldClass}
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Email *</label>
+                    <label htmlFor="email" className={labelClass}>Email *</label>
                     <input
-                      id="email" name="email" type="email" required
-                      value={formData.email} onChange={handleInputChange}
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
                       placeholder="john@example.com"
-                      className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder-slate-600"
+                      className={fieldClass}
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Phone</label>
+                    <label htmlFor="phone" className={labelClass}>Phone</label>
                     <input
-                      id="phone" name="phone" type="tel"
-                      value={formData.phone} onChange={handleInputChange}
-                      placeholder="+91..."
-                      className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder-slate-600"
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+91…"
+                      className={fieldClass}
                     />
                   </div>
                   <div>
-                    <label htmlFor="company" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Company</label>
+                    <label htmlFor="company" className={labelClass}>Company</label>
                     <input
-                      id="company" name="company" type="text"
-                      value={formData.company} onChange={handleInputChange}
-                      placeholder="Organization Name"
-                      className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder-slate-600"
+                      id="company"
+                      name="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      placeholder="Organization name"
+                      className={fieldClass}
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="service" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Interested In</label>
+                    <label htmlFor="service" className={labelClass}>Interested in</label>
                     <select
-                      id="service" name="service"
-                      value={formData.service} onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-slate-300 focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+                      id="service"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleInputChange}
+                      className={`${fieldClass} text-[#3D3A36]`}
                     >
                       <option value="">Select a system</option>
                       <option value="lead-capture">Lead Capture System</option>
@@ -256,47 +270,60 @@ const Contact = () => {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="budget" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Budget Range</label>
+                    <label htmlFor="budget" className={labelClass}>Budget range</label>
                     <select
-                      id="budget" name="budget"
-                      value={formData.budget} onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-slate-300 focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleInputChange}
+                      className={`${fieldClass} text-[#3D3A36]`}
                     >
                       <option value="">Select budget</option>
                       <option value="under-50k">&lt; ₹50k</option>
-                      <option value="50k-1l">₹50k - ₹1L</option>
-                      <option value="1l-5l">₹1L - ₹5L</option>
+                      <option value="50k-1l">₹50k – ₹1L</option>
+                      <option value="1l-5l">₹1L – ₹5L</option>
                       <option value="over-5l">₹5L +</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs uppercase text-slate-500 mb-2 tracking-wider">Project Details *</label>
+                  <label htmlFor="message" className={labelClass}>Project details *</label>
                   <textarea
-                    id="message" name="message" required
-                    value={formData.message} onChange={handleInputChange}
+                    id="message"
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
                     rows={4}
-                    placeholder="Tell us about your goals..."
-                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder-slate-600 resize-none"
+                    placeholder="Tell us about your goals…"
+                    className={`${fieldClass} resize-none`}
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 font-bold text-white shadow-lg shadow-blue-500/25 hover:scale-[1.01] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary w-full justify-center text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? 'Sending…' : 'Send message'}
                 </button>
 
                 {submitStatus === 'success' && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 bg-sky-500/10 border border-sky-500/20 rounded-lg text-sky-400 text-center flex items-center justify-center gap-2">
-                    <FaCheckCircle /> Message sent! We'll reply shortly.
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-center text-sm flex items-center justify-center gap-2"
+                  >
+                    <FaCheckCircle className="shrink-0" /> Message sent! We'll reply shortly.
                   </motion.div>
                 )}
                 {submitStatus === 'error' && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg text-blue-400 text-center">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-center text-sm"
+                  >
                     {errorMessage}
                   </motion.div>
                 )}
@@ -305,19 +332,23 @@ const Contact = () => {
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <ScrollFadeSection className="pb-24 px-4 relative z-10">
+        {/* FAQ */}
+        <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 pb-32">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Common Questions</h2>
-            <div className="space-y-4">
+            <h2 className="text-3xl font-bold text-[#0C0C0C] mb-3 text-center">Common questions</h2>
+            <p className="text-[#6E6B67] text-center text-sm mb-10">Straight answers before you reach out.</p>
+            <div className="space-y-3">
               {faqs.map((faq, index) => (
-                <div key={index} className="glass-card rounded-xl border border-white/5 bg-[#0f172a]/40 overflow-hidden">
+                <div key={faq.question} className="card overflow-hidden">
                   <button
+                    type="button"
                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                    className="flex items-center justify-between w-full p-6 text-left"
+                    className="flex items-center justify-between w-full p-5 sm:p-6 text-left gap-4 hover:bg-[#FAFAF8]/80 transition-colors"
                   >
-                    <span className="font-bold text-slate-200">{faq.question}</span>
-                    <FaChevronDown className={`text-slate-500 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`} />
+                    <span className="font-semibold text-[#0C0C0C] text-sm sm:text-base leading-snug">{faq.question}</span>
+                    <FaChevronDown
+                      className={`text-[#A09A90] shrink-0 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {openFaq === index && (
@@ -327,7 +358,7 @@ const Contact = () => {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="p-6 pt-0 text-slate-400 leading-relaxed border-t border-white/5">
+                        <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 text-[#6E6B67] text-sm leading-relaxed border-t border-[#E5E2DC]">
                           {faq.answer}
                         </div>
                       </motion.div>
@@ -337,7 +368,7 @@ const Contact = () => {
               ))}
             </div>
           </div>
-        </ScrollFadeSection>
+        </section>
 
         <SuccessModal
           isOpen={showSuccessModal}

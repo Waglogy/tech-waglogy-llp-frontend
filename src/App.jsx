@@ -34,8 +34,9 @@ function App() {
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
         <Route path="about" element={<About />} />
-        <Route path="blog" element={<Blog />} />
-        {/* Blog Detail Moved Outside */}
+        <Route path="insights" element={<Blog />} />
+        <Route path="insights/:slug" element={<BlogDetail />} />
+
         <Route path="projects" element={<Projects />} />
         <Route path="services" element={<Services />} />
         <Route path="contact" element={<Contact />} />
@@ -46,7 +47,6 @@ function App() {
 
       {/* Detail Pages (No Navbar/Footer) */}
       <Route path="/projects/:id" element={<ProjectDetailContainer />} />
-      <Route path="/blog/:slug" element={<BlogDetail />} />
 
       {/* Admin Routes */}
       <Route path="admin/login" element={<AdminLogin />} />

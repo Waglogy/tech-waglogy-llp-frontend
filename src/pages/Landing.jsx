@@ -1,201 +1,116 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { MdConstruction, MdWeb, MdPhoneIphone, MdDesktopWindows, MdBrush, MdSmartToy, MdAutoGraph, MdCode } from 'react-icons/md'
-import { FaRocket, FaSearch, FaBug } from 'react-icons/fa'
-import { HiChip } from 'react-icons/hi'
-import { RiRobotFill } from 'react-icons/ri'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import {
+  MdWeb, MdPhoneIphone, MdDesktopWindows, MdBrush, MdSmartToy, MdCode,
+  MdArrowForward, MdCheckCircle, MdSupportAgent, MdVerified, MdGroups,
+  MdStar
+} from 'react-icons/md'
+import { FaWhatsapp } from 'react-icons/fa'
 import { submitQuery } from '../services/queryService'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
 import { generateFAQSchema } from '../config/seo'
-// 3D Card Component
-const Card3D = ({ children, className = '' }) => {
-  return (
-    <motion.div
-      className={`glass-card rounded-2xl p-8 relative overflow-hidden group preserve-3d perspective-1000 ${className}`}
-      whileHover={{ scale: 1.02, rotateX: 2, rotateY: 2 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-sky-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      {children}
-    </motion.div>
-  )
-}
 
-const FloatingShape = ({ delay = 0, className }) => (
-  <motion.div
-    className={`absolute rounded-full blur-3xl opacity-30 ${className}`}
-    animate={{
-      y: [0, -20, 0],
-      scale: [1, 1.1, 1],
-      rotate: [0, 10, 0],
-    }}
-    transition={{
-      duration: 8,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut"
-    }}
-  />
-)
-
-const ScrollFadeSection = ({ children, className }) => {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08, ease: 'easeOut' }
   })
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9])
-
-  return (
-    <motion.section
-      ref={ref}
-      style={{ opacity, scale }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  )
 }
 
-const TerminalWindow = () => {
-  const [completedLines, setCompletedLines] = useState([])
-  const [currentTyping, setCurrentTyping] = useState('')
-  const [lineIndex, setLineIndex] = useState(0)
-  const [charIndex, setCharIndex] = useState(0)
+const services = [
+  {
+    icon: MdWeb,
+    title: 'Website Development',
+    desc: 'Professional websites built to perform — fast, secure, and optimized to turn visitors into customers.',
+  },
+  {
+    icon: MdPhoneIphone,
+    title: 'Mobile App Development',
+    desc: 'iOS and Android applications built around your business workflow, not the other way around.',
+  },
+  {
+    icon: MdCode,
+    title: 'Custom Software',
+    desc: 'Tailored software solutions that fit exactly how your business operates — no unnecessary complexity.',
+  },
+  {
+    icon: MdBrush,
+    title: 'UI / UX Design',
+    desc: 'Clean, intuitive interfaces that make your product easy to use and your brand easy to trust.',
+  },
+  {
+    icon: MdSmartToy,
+    title: 'AI Integration',
+    desc: 'Practical AI tools and automation built into your existing systems to save time and reduce manual work.',
+  },
+  {
+    icon: MdDesktopWindows,
+    title: 'IT Consulting',
+    desc: 'Straightforward technology guidance — we help you make the right decisions before you invest.',
+  },
+]
 
-  const script = useMemo(() => [
-    { text: "> initializing_waglogy_protocol_2.0...", color: "text-slate-500" },
-    { text: "> loading_revenue_engine --optimized", color: "text-blue-400" },
-    { text: "[OK] Lead Capture: ACTIVE", color: "text-sky-400" },
-    { text: "[OK] AI Automation: SYNCED", color: "text-sky-400" },
-    { text: "> deploy_revenue_system -v 2.0", color: "text-white" },
-    { text: "Compiling CRM... Optimizing Flows...", color: "text-slate-300" },
-    { text: "Integrating Neural Growth Net...", color: "text-blue-300" },
-    { text: ">>> REVENUE SYSTEM READY FOR SCALE", color: "text-sky-400 font-bold animate-pulse" },
-  ], [])
+const process = [
+  {
+    number: '01',
+    title: 'We Listen',
+    desc: 'We take time to understand your business, your goals, and what problem you actually need solved.',
+  },
+  {
+    number: '02',
+    title: 'We Plan',
+    desc: 'Clear scope, realistic timeline, fixed pricing. No vague estimates, no moving goalposts.',
+  },
+  {
+    number: '03',
+    title: 'We Build',
+    desc: 'Quality development with regular updates. You see progress, not just a final reveal.',
+  },
+  {
+    number: '04',
+    title: 'We Support',
+    desc: 'We stay after launch — maintenance, updates, and growth support as your business evolves.',
+  },
+]
 
-  useEffect(() => {
-    if (lineIndex >= script.length) return
-
-    const currentScriptLine = script[lineIndex]
-
-    // Typing logic
-    if (charIndex < currentScriptLine.text.length) {
-      const timeout = setTimeout(() => {
-        setCurrentTyping(prev => prev + currentScriptLine.text[charIndex])
-        setCharIndex(prev => prev + 1)
-      }, 30 + Math.random() * 40) // Random typing speed variation
-      return () => clearTimeout(timeout)
-    } else {
-      // Line finished, wait before moving to next
-      const timeout = setTimeout(() => {
-        setCompletedLines(prev => [...prev, currentScriptLine])
-        setCurrentTyping('')
-        setCharIndex(0)
-        setLineIndex(prev => prev + 1)
-      }, 400)
-      return () => clearTimeout(timeout)
-    }
-  }, [charIndex, lineIndex, script])
-
-  return (
-    <div className="w-full rounded-xl overflow-hidden bg-[#0a0f1e] border border-slate-700/50 shadow-[0_0_50px_rgba(0,0,0,0.5)] font-mono text-sm sm:text-base relative group">
-      {/* Glow highlight */}
-      <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 blur-[50px] group-hover:bg-blue-500/20 transition-all duration-1000"></div>
-
-      {/* Window Title Bar */}
-      <div className="bg-[#1e293b]/50 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-white/5">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-slate-600/80 shadow-md" />
-          <div className="w-3 h-3 rounded-full bg-slate-500/80 shadow-md" />
-          <div className="w-3 h-3 rounded-full bg-slate-400/80 shadow-md" />
-        </div>
-        <div className="text-xs text-slate-500 font-semibold tracking-wider">root@waglogy-server: ~</div>
-        <div className="w-12"></div> {/* Spacer for centering */}
-      </div>
-
-      {/* Terminal Content */}
-      <div className="p-6 h-[400px] overflow-y-auto flex flex-col font-mono relative z-10 scrollbar-hide">
-        {completedLines.map((line, i) => (
-          <div key={i} className={`mb-2 font-medium tracking-wide ${line.color}`}>
-            {line.text}
-          </div>
-        ))}
-
-        {/* Current Typing Line */}
-        {lineIndex < script.length && (
-          <div className={`mb-2 font-medium tracking-wide ${script[lineIndex].color}`}>
-            {currentTyping}
-            <span className="w-2.5 h-5 bg-blue-500 inline-block align-middle ml-1 animate-blink shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-          </div>
-        )}
-
-        {/* Blinking Cursor after full script */}
-        {lineIndex >= script.length && (
-          <div className="mt-2 text-sky-400">
-            ➜  ~ <span className="w-2.5 h-5 bg-sky-500 inline-block align-middle ml-1 animate-blink shadow-[0_0_8px_rgba(14,165,233,0.8)]" />
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
+const faqData = [
+  {
+    question: 'What does a website cost?',
+    answer: 'Projects vary based on scope. Most business websites fall between ₹25,000 and ₹1,00,000. We provide a fixed quote before any work begins — no hidden charges, no surprises.',
+  },
+  {
+    question: 'How long does a project take?',
+    answer: 'Standard websites take 3–5 weeks. Mobile apps typically take 8–14 weeks. Custom software timelines depend on complexity. We give you a clear timeline before we start.',
+  },
+  {
+    question: 'Do you only work with businesses in Sikkim?',
+    answer: 'No. We work with businesses across India — our clients are in Sikkim, Delhi, Kolkata, and beyond. We collaborate remotely and handle everything digitally.',
+  },
+  {
+    question: 'What happens after the project is launched?',
+    answer: 'We offer ongoing support and maintenance packages. You are never handed over a finished product and left alone — we stay available for updates, fixes, and growth.',
+  },
+]
 
 const Landing = () => {
-  const [activeSection, setActiveSection] = useState('web')
-  const [visiblePhases, setVisiblePhases] = useState([])
-  const phasesContainerRef = useRef(null)
-
-  // Query form state
+  const [openFaq, setOpenFaq] = useState(null)
   const [queryMessage, setQueryMessage] = useState('')
   const [isSubmittingQuery, setIsSubmittingQuery] = useState(false)
   const [queryStatus, setQueryStatus] = useState(null)
   const [queryErrorMessage, setQueryErrorMessage] = useState('')
 
-  const { scrollY, scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  })
-
-  // Hero Parallax & Fade Effects
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0])
-  const heroScale = useTransform(scrollY, [0, 400], [1, 0.9])
-  const heroY = useTransform(scrollY, [0, 400], [0, 100])
-
-  // Phase animation observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = parseInt(entry.target.getAttribute('data-index'))
-            setTimeout(() => {
-              setVisiblePhases((prev) => [...new Set([...prev, index])])
-            }, index * 200)
-          }
-        })
-      },
-      { threshold: 0.2 }
-    )
-
-    document.querySelectorAll('.timeline-phase').forEach(el => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
   const handleQuerySubmit = async (e) => {
     e.preventDefault()
     if (!queryMessage.trim()) {
       setQueryStatus('error')
-      setQueryErrorMessage('Please enter your query')
+      setQueryErrorMessage('Please describe what you need.')
       return
     }
     setIsSubmittingQuery(true)
     setQueryStatus(null)
-    setQueryErrorMessage('')
     try {
       await submitQuery({ message: queryMessage })
       setQueryStatus('success')
@@ -203,432 +118,476 @@ const Landing = () => {
       setTimeout(() => setQueryStatus(null), 5000)
     } catch (error) {
       setQueryStatus('error')
-      setQueryErrorMessage(error.message || 'Failed to submit query.')
+      setQueryErrorMessage(error.message || 'Something went wrong. Please try again.')
     } finally {
       setIsSubmittingQuery(false)
     }
   }
-
-  // FAQ data
-  const faqData = [
-    {
-      question: 'What makes Waglogy 2.0 different?',
-      answer: 'Waglogy is no longer just a web development agency. We are an AI-first growth partner that designs end-to-end revenue systems. From lead capture to automated follow-ups and CRM dashboards, we build the entire system that drives predictable revenue.'
-    },
-    {
-      question: 'How long does a typical project take?',
-      answer: 'Timelines vary: 2-4 weeks for websites, 6-12 weeks for apps, and 8-16 weeks for custom software. We provide detailed roadmaps during discovery.'
-    },
-    {
-      question: 'Do you offer ongoing support?',
-      answer: 'Yes! We offer flexible support packages for monitoring, updates, and optimization to ensure your tech grows with your business.'
-    }
-  ]
-
-  const services = [
-    { id: 'lead-capture', title: 'Lead Capture Systems', icon: FaSearch, desc: 'High-conversion systems designed to turn visitors into inquiries.', details: 'Dynamic Forms, Landing Pages, Intent Tracking' },
-    { id: 'automated-followup', title: 'Automated Follow-Up', icon: MdAutoGraph, desc: 'AI-driven follow-ups that ensure no lead goes cold.', details: 'Email/SMS Sequences, AI Response, Multi-Channel' },
-    { id: 'conversion-optimization', title: 'Conversion Flows', icon: MdWeb, desc: 'Optimizing every touchpoint in the user journey for revenue.', details: 'A/B Testing, Heatmaps, UX Optimization' },
-    { id: 'crm-dashboards', title: 'CRM & Inquiry Dashboards', icon: MdDesktopWindows, desc: 'Centralized hubs to manage all your leads and inquiries.', details: 'Real-time Tracking, Lead Scoring, Status Pipelines' },
-    { id: 'revenue-analytics', title: 'Revenue Analytics', icon: MdSmartToy, desc: 'Predictable tracking of how leads turn into actual revenue.', details: 'ROI Tracking, Conversion Metrics, Growth Forecasting' },
-    { id: 'ai-automation', title: 'AI-Driven Automation', icon: HiChip, desc: 'Custom AI workflows that streamline your entire business.', details: 'Smart Workflows, LLM Integration, Task Automation' },
-  ]
 
   return (
     <>
       <SEO page="home" />
       <StructuredData schemas={[generateFAQSchema(faqData)]} />
 
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-sky-500 to-white transform origin-left z-50"
-        style={{ scaleX }}
-      />
+      <div className="bg-[#FAFAF8] text-[#0C0C0C]">
 
-      <div className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#000] to-[#000] text-slate-100 min-h-screen selection:bg-blue-500 selection:text-white overflow-hidden">
+        {/* ── HERO ─────────────────────────────────────────── */}
+        <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-        {/* Animated Background Elements */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          <FloatingShape className="bg-blue-600 top-[-10%] px-20 left-[-10%] w-[500px] h-[500px] opacity-20" />
-          <FloatingShape className="bg-sky-600 bottom-[-10%] right-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] animate-pulse"></div>
-        </div>
+              {/* Left — text */}
+              <div>
+                <motion.div
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={0}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold tracking-widest uppercase mb-8"
+                >
+                  IT Company · Gangtok, Sikkim
+                </motion.div>
 
-        {/* Hero Section - Parallax Exit */}
-        <motion.section
-          style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-          className="relative z-10 pt-32 md:pt-40 lg:pt-60 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center"
-        >
-          <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+                <motion.h1
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={1}
+                  className="text-5xl sm:text-6xl lg:text-6xl font-bold leading-[1.08] mb-6 text-[#0C0C0C]"
+                >
+                  Technology that{' '}
+                  <span className="text-blue-600">works</span>{' '}
+                  for your business.
+                </motion.h1>
+
+                <motion.p
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={2}
+                  className="text-lg text-[#6E6B67] mb-10 leading-relaxed"
+                >
+                  We build websites, mobile apps, and software for growing businesses across India.
+                  Straightforward process, honest pricing, and support that doesn't disappear after launch.
+                </motion.p>
+
+                <motion.div
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={3}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  <a href="/contact" className="btn-primary text-base px-7 py-3.5">
+                    Start a Project
+                    <MdArrowForward size={18} />
+                  </a>
+                  <a href="/projects" className="btn-outline text-base px-7 py-3.5">
+                    View Our Work
+                  </a>
+                </motion.div>
+
+                {/* Stats */}
+                <motion.div
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={4}
+                  className="mt-12 pt-8 border-t border-[#E5E2DC] flex flex-wrap gap-8"
+                >
+                  {[
+                    { value: '50+', label: 'Projects Delivered' },
+                    { value: '5+', label: 'Years in Business' },
+                    { value: 'Pan-India', label: 'Clients Served' },
+                    { value: 'Mon–Sun', label: 'Support Hours' },
+                  ].map((stat) => (
+                    <div key={stat.label}>
+                      <div className="text-2xl font-bold text-[#0C0C0C]" style={{ fontFamily: 'Outfit, sans-serif' }}>{stat.value}</div>
+                      <div className="text-sm text-[#6E6B67] mt-0.5">{stat.label}</div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Right — project screenshots */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-8 backdrop-blur-md"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
+                className="hidden lg:block relative h-[580px]"
               >
-                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                AI-POWERED GROWTH PARTNER
+                {/* Main large card */}
+                <div className="absolute top-0 left-0 right-8 rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg">
+                  {/* Browser chrome */}
+                  <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-4 py-2.5 flex items-center gap-2">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-[#E5E2DC]" />
+                      <div className="w-3 h-3 rounded-full bg-[#E5E2DC]" />
+                      <div className="w-3 h-3 rounded-full bg-[#E5E2DC]" />
+                    </div>
+                    <div className="flex-1 mx-3 bg-white rounded-md px-3 py-1 text-[10px] text-[#A09A90] border border-[#E5E2DC]">
+                      himato.ai
+                    </div>
+                  </div>
+                  <img src="/himato.png" alt="Himato — AI travel app" className="w-full object-cover object-top" style={{ height: '220px' }} />
+                </div>
+
+                {/* Bottom-left card */}
+                <div className="absolute bottom-0 left-0 w-[52%] rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg">
+                  <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-3 py-2 flex items-center gap-2">
+                    <div className="flex gap-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                    </div>
+                    <div className="flex-1 mx-2 bg-white rounded px-2 py-0.5 text-[9px] text-[#A09A90] border border-[#E5E2DC]">
+                      turtles.restaurant
+                    </div>
+                  </div>
+                  <img src="/turtles.png" alt="Turtle's Restaurant" className="w-full object-cover object-top" style={{ height: '180px' }} />
+                </div>
+
+                {/* Bottom-right card */}
+                <div className="absolute bottom-0 right-0 w-[45%] rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg">
+                  <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-3 py-2 flex items-center gap-2">
+                    <div className="flex gap-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                    </div>
+                    <div className="flex-1 mx-2 bg-white rounded px-2 py-0.5 text-[9px] text-[#A09A90] border border-[#E5E2DC]">
+                      tghe.travel
+                    </div>
+                  </div>
+                  <img src="/tghe.png" alt="The Great Himalayan Escape" className="w-full object-cover object-top" style={{ height: '180px' }} />
+                </div>
+
+                {/* Floating tag */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.4 }}
+                  className="absolute top-[230px] right-0 bg-white border border-[#E5E2DC] rounded-xl px-4 py-3 shadow-md flex items-center gap-3"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                    <MdCheckCircle className="text-blue-600" size={18} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#0C0C0C]">50+ Projects</div>
+                    <div className="text-[10px] text-[#6E6B67]">Delivered across India</div>
+                  </div>
+                </motion.div>
               </motion.div>
 
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.15] mb-6 tracking-tight">
-                AI-Powered <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-sky-300 to-white drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                  Revenue Systems
-                </span>
-              </h1>
+            </div>
+          </div>
+        </section>
 
-              <p className="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-xl">
-                From Lead to Revenue — We Build the System in Between.
-                <br />
-                <span className="text-white font-medium">Waglogy partners with service businesses</span> to build AI-powered systems that increase leads, improve conversion, and create predictable revenue.
+        {/* ── SERVICES ─────────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-14"
+            >
+              <div className="section-label mb-4">What We Do</div>
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] max-w-xl">
+                Services built for real business needs.
+              </h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {services.map((service, idx) => (
+                <motion.div
+                  key={service.title}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-7 group cursor-default"
+                >
+                  <div className="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-5 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
+                    <service.icon size={22} />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#0C0C0C] mb-2">{service.title}</h3>
+                  <p className="text-sm text-[#6E6B67] leading-relaxed">{service.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mt-10"
+            >
+              <a href="/services" className="btn-outline text-sm px-6 py-3">
+                See all services
+                <MdArrowForward size={16} />
+              </a>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── WHY US ───────────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-t border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <div className="section-label mb-4">Why Waglogy</div>
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] mb-6">
+                A technology company you can actually work with.
+              </h2>
+              <p className="text-[#6E6B67] text-lg leading-relaxed mb-8">
+                We are not a faceless vendor. We are a team based in Gangtok, Sikkim,
+                that understands the challenges of running a business in India — and builds
+                technology solutions that fit your reality.
+              </p>
+              <a href="/about" className="btn-outline text-sm px-6 py-3">
+                About our company
+                <MdArrowForward size={16} />
+              </a>
+            </motion.div>
+
+            <div className="space-y-5">
+              {[
+                {
+                  icon: MdVerified,
+                  title: 'Transparent Pricing',
+                  desc: 'Fixed quotes before work begins. No surprises, no scope creep billed retroactively.',
+                },
+                {
+                  icon: MdSupportAgent,
+                  title: 'Real Support',
+                  desc: 'You can call us. We answer. Monday to Sunday, 9am to 7pm — and available on WhatsApp.',
+                },
+                {
+                  icon: MdGroups,
+                  title: 'Experienced Team',
+                  desc: 'Full-stack developers, designers, and consultants — everything under one roof.',
+                },
+                {
+                  icon: MdStar,
+                  title: 'Long-Term Partnership',
+                  desc: 'We build lasting relationships, not one-off projects. Your growth matters to us beyond the invoice.',
+                },
+              ].map((item, idx) => (
+                <motion.div
+                  key={item.title}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-6 flex gap-5 items-start"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                    <item.icon size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0C0C0C] mb-1">{item.title}</h4>
+                    <p className="text-sm text-[#6E6B67] leading-relaxed">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PROCESS ──────────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-14"
+            >
+              <div className="section-label mb-4">How We Work</div>
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] max-w-xl">
+                A clear process from start to finish.
+              </h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {process.map((step, idx) => (
+                <motion.div
+                  key={step.number}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="relative"
+                >
+                  <div className="text-6xl font-black text-blue-100 font-['Outfit'] leading-none mb-4 select-none">
+                    {step.number}
+                  </div>
+                  <h3 className="text-xl font-bold text-[#0C0C0C] mb-2">{step.title}</h3>
+                  <p className="text-sm text-[#6E6B67] leading-relaxed">{step.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ──────────────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-t border-[#E5E2DC]">
+          <div className="max-w-3xl mx-auto">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-12"
+            >
+              <div className="section-label mb-4">Common Questions</div>
+              <h2 className="text-4xl font-bold text-[#0C0C0C]">
+                Answers before you ask.
+              </h2>
+            </motion.div>
+
+            <div className="space-y-3">
+              {faqData.map((faq, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card overflow-hidden"
+                >
+                  <button
+                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                    className="w-full flex items-center justify-between p-6 text-left"
+                  >
+                    <span className="font-semibold text-[#0C0C0C] pr-4">{faq.question}</span>
+                    <span className={`text-blue-500 transition-transform duration-200 shrink-0 ${openFaq === idx ? 'rotate-45' : ''}`}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
+                      </svg>
+                    </span>
+                  </button>
+                  {openFaq === idx && (
+                    <div className="px-6 pb-6 text-[#6E6B67] text-sm leading-relaxed border-t border-[#E5E2DC] pt-4">
+                      {faq.answer}
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA / CONTACT FORM ───────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0A0F1E]">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
+                Ready to build something that works?
+              </h2>
+              <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+                Tell us what you need. We'll get back to you within one business day with a clear next step — no sales pitch, no obligation.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-5">
-                <motion.a
-                  href="/contact"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:bg-blue-500 transition-all flex items-center justify-center gap-2 group"
-                >
-                  Start Project
-                  <FaRocket className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </motion.a>
-                <motion.a
-                  href="/projects"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 glass-panel text-white rounded-xl font-bold hover:bg-white/10 transition-all border border-white/10 flex items-center justify-center"
-                >
-                  View Growth Systems
-                </motion.a>
-              </div>
-
-              {/* Tech Stats */}
-              <div className="mt-12 flex items-center gap-8 border-t border-white/10 pt-8 max-w-sm">
-                <div>
-                  <div className="text-2xl font-bold text-white font-mono">50+</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest">Global Partnerships</div>
-                </div>
-                <div className="w-px h-8 bg-white/10"></div>
-                <div>
-                  <div className="text-2xl font-bold text-white font-mono">1.2x</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest">Avg Conversion</div>
-                </div>
-                <div className="w-px h-8 bg-white/10"></div>
-                <div>
-                  <div className="text-2xl font-bold text-white font-mono">24/7</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest">Nurture Loop</div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Premium Hero Visual - Revenue Pulse Portal */}
-            <motion.div
-              className="relative h-[600px] hidden lg:flex items-center justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-            >
-              {/* Converging Light Beams (Psychology: Focus) */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent opacity-50" />
-              </div>
-
-              {/* The "Revenue Center" - A solid, grounded hub */}
-              <motion.div
-                className="relative z-20"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
-              >
-                {/* Layered Glass Rings */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white/5 rounded-full" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-blue-500/5 rounded-full" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-sky-500/10 rounded-full bg-blue-500/[0.02] backdrop-blur-3xl" />
-
-                {/* Main Core */}
-                <div className="relative w-72 h-72 rounded-[3.5rem] overflow-hidden border border-white/10 bg-[#0a0f1d]/60 backdrop-blur-2xl p-1 shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-sky-500/5" />
-
-                  {/* Internal Growth Visualization (Abstract) */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-full h-full p-10 flex flex-col justify-between">
-                      <div className="flex justify-between items-start">
-                        <div className="h-1.5 w-10 bg-blue-500 rounded-full opacity-30" />
-                        <div className="h-6 w-6 rounded-lg bg-white/5 flex items-center justify-center">
-                          <div className="w-1.5 h-1.5 bg-blue-400/50 rounded-full" />
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="text-4xl font-bold tracking-tighter text-white/90">REVENUE</div>
-                        <div className="flex items-end gap-2 text-sky-400/80">
-                          <div className="h-6 w-2 bg-blue-400/10 rounded-sm" />
-                          <div className="h-10 w-2 bg-blue-400/20 rounded-sm" />
-                          <div className="h-14 w-2 bg-blue-400/30 rounded-sm" />
-                          <div className="h-18 w-2 bg-blue-400/40 rounded-sm" />
-                          <div className="text-sm font-mono font-medium mb-1 ml-2 opacity-60">SYSTEM 2.0</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* High-End Floating Indicators (Sophisticated, Not Technical) */}
-                <motion.div
-                  className="absolute -top-6 -right-6 px-4 py-2 rounded-full border border-white/5 bg-black/20 backdrop-blur-md text-[9px] font-bold text-blue-400/60 flex items-center gap-2 whitespace-nowrap"
-                >
-                  <span className="w-1 h-1 rounded-full bg-blue-500/40" />
-                  MARKET INTENT: CAPTURING
-                </motion.div>
-
-                <motion.div
-                  className="absolute -bottom-6 -left-6 px-4 py-2 rounded-full border border-white/5 bg-black/20 backdrop-blur-md text-[9px] font-bold text-sky-400/60 flex items-center gap-2 whitespace-nowrap"
-                >
-                  <span className="w-1 h-1 rounded-full bg-sky-500/40" />
-                  CONVERSION FLOW: ACTIVE
-                </motion.div>
-              </motion.div>
-
-              {/* Static Background Flare */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/[0.03] blur-[120px] rounded-full pointer-events-none" />
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* Services Section - 3D Grid */}
-        <ScrollFadeSection className="py-24 relative z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">Our <span className="text-blue-500">Growth Systems</span></h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">AI-powered infrastructure designed to scale your service business from inquiry to revenue.</p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service, idx) => (
-                <Card3D key={service.id} className="cursor-pointer">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-blue-500/20 rounded-lg text-blue-400">
-                      <service.icon className="text-2xl" />
-                    </div>
-                    <h3 className="text-xl font-bold">{service.title}</h3>
-                  </div>
-                  <p className="text-slate-400 mb-4 text-sm leading-relaxed">{service.desc}</p>
-                  <div className="pt-4 border-t border-white/5">
-                    <p className="text-xs text-blue-300 font-mono">{service.details}</p>
-                  </div>
-                </Card3D>
-              ))}
-            </div>
-          </div>
-        </ScrollFadeSection>
-
-        {/* USP / Terminal Section */}
-        <ScrollFadeSection className="py-24 bg-black/20 relative z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-12 gap-12 items-center">
-              {/* Left Content (Text) - Spans 5 cols */}
-              <motion.div
-                className="lg:col-span-5"
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-mono mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                  AI-FIRST GROWTH PARTNER
-                </div>
-                <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">Revenue-First <br className="hidden md:block" /> <span className="text-sky-500">Architecture</span></h2>
-                <p className="text-slate-300 mb-10 text-lg leading-relaxed">
-                  We don't just build websites; we engineer <span className="text-white font-medium">revenue systems</span>.
-                  Our AI-first approach ensures your business grows predictably and scalably.
-                </p>
-
-                <div className="space-y-8">
-                  <div className="group flex items-start gap-5 p-4 rounded-xl hover:bg-white/5 transition-all cursor-default">
-                    <div className="p-4 rounded-xl bg-blue-500/10 text-blue-400 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(59,130,246,0.2)]"><MdConstruction className="text-2xl" /></div>
-                    <div>
-                      <h4 className="text-white text-xl font-bold mb-2">Modular Foundation</h4>
-                      <p className="text-slate-400 leading-relaxed">Start with essential tools, add complex features later. No bloat, just efficiency.</p>
-                    </div>
-                  </div>
-
-                  <div className="group flex items-start gap-5 p-4 rounded-xl hover:bg-white/5 transition-all cursor-default">
-                    <div className="p-4 rounded-xl bg-sky-500/10 text-sky-400 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(14,165,233,0.2)]"><FaRocket className="text-2xl" /></div>
-                    <div>
-                      <h4 className="text-white text-xl font-bold mb-2">High-Performance Scale</h4>
-                      <p className="text-slate-400 leading-relaxed">Optimized for speed, SEO, and user retention from Day 1.</p>
-                    </div>
-                  </div>
-
-                  <div className="group flex items-start gap-5 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
-                    <div className="p-4 rounded-xl bg-white/10 text-white group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.1)]"><HiChip className="text-2xl" /></div>
-                    <div>
-                      <h4 className="text-white text-xl font-bold mb-2">Predictable Scaling</h4>
-                      <p className="text-slate-400 leading-relaxed">Turn your service business into a predictable growth machine with AI automation.</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Right Terminal - Spans 7 cols (Wider) */}
-              <motion.div
-                className="lg:col-span-7 w-full"
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <div className="relative">
-                  {/* Decorative Elements behind terminal */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-sky-500 rounded-2xl blur opacity-20 animate-pulse"></div>
-                  <TerminalWindow />
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </ScrollFadeSection>
-
-        {/* Timeline Section - Glowing Circuit */}
-        <ScrollFadeSection className="py-32 relative z-10">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              className="text-center mb-20"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">Execution <span className="text-blue-500">Protocol</span></h2>
-              <p className="text-slate-400">The battle-tested framework we use to build, deploy, and scale your AI-powered revenue engine.</p>
-            </motion.div>
-
-            <div className="relative">
-              {/* Central Glowing Line */}
-              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-slate-800 -translate-x-1/2">
-                <motion.div
-                  className="w-full bg-gradient-to-b from-blue-500 via-sky-400 to-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                  initial={{ height: "0%" }}
-                  whileInView={{ height: "100%" }}
-                  transition={{ duration: 4, ease: "linear" }}
-                  viewport={{ once: true, margin: "-100px" }}
-                />
-              </div>
-
-              <div className="space-y-16">
+              <div className="space-y-5">
                 {[
-                  { title: "Revenue Audit & Blueprinting", desc: "We analyze your current lead-to-revenue journey to identify leaks and map a path to predictable growth.", icon: FaSearch },
-                  { title: "Growth Architecture", desc: "Designing the foundational infrastructure, combining high-conversion entry points with robust CRM systems.", icon: MdBrush },
-                  { title: "AI Integration & Automation", desc: "Integrating custom LLMs and automated workflows to handle follow-ups, inquiries, and data syncs.", icon: HiChip },
-                  { title: "Performance Engineering", desc: "Precision coding with a focus on load speeds, conversion triggers, and seamless API integrations.", icon: MdCode },
-                  { title: "System Deployment", desc: "Seamlessly launching your revenue engine with real-time tracking and full analytics visibility.", icon: FaRocket },
-                  { title: "Success & AI Scaling", desc: "Ongoing data-driven optimization using AI insights to maximize ROI and scale your business.", icon: MdAutoGraph }
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    className={`relative flex flex-col items-center md:items-start gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.5, delay: idx * 0.2 }}
-                  >
-                    {/* Timeline Node */}
-                    <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#0f172a] border-2 border-blue-500 flex items-center justify-center z-10 shadow-[0_0_15px_rgba(59,130,246,0.5)] group-hover:scale-110 transition-transform">
-                      <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
-                    </div>
-
-                    {/* Content Card */}
-                    <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${idx % 2 === 0 ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
-                      <div className="glass-card p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 border-l-4 border-blue-500/50 hover:border-blue-400 group">
-                        <div className={`flex items-center gap-4 mb-4 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                          <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400">
-                            <item.icon className="text-2xl" />
-                          </div>
-                          <span className="text-4xl font-bold text-white/10 font-mono">0{idx + 1}</span>
-                        </div>
-                        <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                        <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
-                      </div>
-                    </div>
-                  </motion.div>
+                  { icon: MdCheckCircle, text: 'Free initial consultation' },
+                  { icon: MdCheckCircle, text: 'Fixed quote before work begins' },
+                  { icon: MdCheckCircle, text: 'No lock-in contracts' },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center gap-3 text-slate-300">
+                    <item.icon size={18} className="text-blue-400 shrink-0" />
+                    <span className="text-sm">{item.text}</span>
+                  </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </ScrollFadeSection>
 
-        {/* FAQ Section */}
-        <ScrollFadeSection className="py-24 bg-black/30 relative z-10">
-          <div className="max-w-3xl mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Common Questions</h2>
-            <div className="space-y-4">
-              {faqData.map((faq, idx) => (
-                <motion.details
-                  key={idx}
-                  className="glass-panel rounded-xl group"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+              <div className="mt-10 pt-8 border-t border-white/10">
+                <p className="text-slate-400 text-sm mb-4">Prefer to chat directly?</p>
+                <a
+                  href="https://wa.me/919733814168"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-lg bg-[#25D366] text-white font-semibold text-sm hover:bg-[#20BA5A] transition-colors"
                 >
-                  <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
-                    <span className="font-semibold text-lg">{faq.question}</span>
-                    <span className="text-blue-500 transform group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <div className="px-6 pb-6 text-slate-300 leading-relaxed border-t border-white/5 pt-4">
-                    {faq.answer}
-                  </div>
-                </motion.details>
-              ))}
-            </div>
+                  <FaWhatsapp size={18} />
+                  Message us on WhatsApp
+                </a>
+              </div>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              custom={1}
+            >
+              <div className="bg-white rounded-2xl p-8 border border-[#E5E2DC]">
+                <h3 className="text-xl font-bold text-[#0C0C0C] mb-6">Send us a message</h3>
+                <form onSubmit={handleQuerySubmit} className="space-y-4">
+                  <textarea
+                    rows={5}
+                    value={queryMessage}
+                    onChange={(e) => setQueryMessage(e.target.value)}
+                    placeholder="Describe what you're looking to build or solve..."
+                    className="w-full border border-[#E5E2DC] rounded-lg p-4 text-[#0C0C0C] placeholder-[#A09A90] text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors resize-none"
+                    disabled={isSubmittingQuery}
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmittingQuery || !queryMessage.trim()}
+                    className="btn-primary w-full justify-center py-3.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmittingQuery ? 'Sending…' : 'Send Message'}
+                  </button>
+                </form>
+
+                {queryStatus === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm flex items-center gap-2"
+                  >
+                    <MdCheckCircle size={16} />
+                    Message sent! We'll be in touch shortly.
+                  </motion.div>
+                )}
+                {queryStatus === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm"
+                  >
+                    {queryErrorMessage}
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
           </div>
-        </ScrollFadeSection>
-
-        {/* Query Form */}
-        <ScrollFadeSection className="py-24 relative z-10">
-          <div className="max-w-xl mx-auto px-6">
-            <div className="glass-card p-8 rounded-2xl text-center border-t border-blue-500/30">
-              <h2 className="text-2xl font-bold mb-4">Ready to Automate your Revenue?</h2>
-              <p className="text-slate-400 mb-8">Let's build your AI-powered growth engine together.</p>
-
-              <form onSubmit={handleQuerySubmit} className="space-y-4">
-                <input
-                  type="text"
-                  value={queryMessage}
-                  onChange={(e) => setQueryMessage(e.target.value)}
-                  placeholder="Describe your idea..."
-                  className="w-full bg-slate-900/50 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-                  disabled={isSubmittingQuery}
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmittingQuery || !queryMessage.trim()}
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg transition-all shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmittingQuery ? 'Sending...' : 'Start Conversation'}
-                </button>
-              </form>
-
-              {queryStatus === 'success' && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4 p-3 bg-sky-500/20 text-sky-300 rounded-lg text-sm">
-                  ✅ Message sent successfully!
-                </motion.div>
-              )}
-              {queryStatus === 'error' && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4 p-3 bg-blue-500/20 text-blue-400 rounded-lg text-sm">
-                  ❌ {queryErrorMessage}
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </ScrollFadeSection>
+        </section>
 
       </div>
     </>
