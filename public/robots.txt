@@ -18,7 +18,7 @@ Allow: /services
 Allow: /pricing
 Allow: /contact
 Allow: /projects
-Allow: /blog
+Allow: /insights
 
 User-agent: Googlebot-Image
 Allow: /

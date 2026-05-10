@@ -1,209 +1,231 @@
 import React, { useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FaArrowRight, FaGlobe, FaRocket, FaExternalLinkAlt } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+import { MdArrowForward, MdOpenInNew } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import SEO from '../components/SEO'
-import { FloatingShape } from '../components/projects/Shared'
 import { PROJECTS } from '../data/projects'
 
-const Projects = () => {
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08, ease: 'easeOut' }
+  })
+}
 
-  // Scroll to top on mount
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+const Projects = () => {
+  useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  const product = PROJECTS.find(p => p.type === 'product')
+  const clientProjects = PROJECTS.filter(p => p.type === 'client')
 
   return (
     <>
-      <SEO page="projects" title="Our Projects - Waglogy" />
-      <div className="relative min-h-screen bg-black text-white selection:bg-blue-500 selection:text-white pb-20 overflow-hidden">
-        {/* Animated Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          <FloatingShape className="bg-blue-600 top-[-10%] right-[30%] w-[500px] h-[500px] opacity-20" />
-          <FloatingShape className="bg-indigo-600 bottom-[10%] left-[-10%] w-[600px] h-[600px] opacity-10" delay={2} />
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05]"></div>
-        </div>
+      <SEO page="projects" title="Our Work — Waglogy" />
 
-        <div className="relative z-10 pt-40 lg:pt-60 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="bg-[#FAFAF8] text-[#0C0C0C]">
 
-          {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Systems</span>
-              </h1>
-              <p className="text-xl text-slate-400 leading-relaxed">
-                We build AI-powered revenue systems that matter. From our own flagship products to transformative growth engines for our clients.
-              </p>
+        {/* ── HERO ─────────────────────────────────────────── */}
+        <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 border-b border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} className="section-label mb-6">
+              Our Work
             </motion.div>
+            <motion.h1
+              variants={fadeUp} initial="hidden" animate="visible" custom={1}
+              className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6 max-w-3xl"
+            >
+              Real projects. Real businesses. Real results.
+            </motion.h1>
+            <motion.p
+              variants={fadeUp} initial="hidden" animate="visible" custom={2}
+              className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl"
+            >
+              We build across industries — travel, hospitality, education, engineering, sustainability, and more.
+              Here's a look at what we've delivered.
+            </motion.p>
           </div>
+        </section>
 
-          {/* SECTION 1: Our Products */}
-          <div className="mb-32">
-            <div className="flex items-center gap-4 mb-12">
-              <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent flex-1" />
-              <h2 className="text-2xl font-bold text-cyan-400 uppercase tracking-widest shrink-0">Our Flagship Products</h2>
-              <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent flex-1" />
-            </div>
+        {/* ── FEATURED PRODUCT ─────────────────────────────── */}
+        {product && (
+          <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
+            <div className="max-w-7xl mx-auto">
 
-            {/* Himato Featured Card */}
-            <Link to="/projects/himato">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="group cursor-pointer relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-black hover:border-cyan-500/50 transition-all duration-500"
-              >
-                <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="section-label mb-8">Our Own Product</div>
 
-                <div className="grid lg:grid-cols-2 gap-8 p-1 sm:p-2">
+              <Link to={`/projects/${product.id}`}>
+                <motion.div
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  className="group grid lg:grid-cols-2 rounded-2xl overflow-hidden border border-[#E5E2DC] hover:border-blue-200 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative h-64 lg:h-auto overflow-hidden bg-[#0A0F1E]">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="absolute inset-0 w-full h-full object-cover object-top opacity-90 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+
                   {/* Content */}
-                  <div className="p-8 sm:p-12 flex flex-col justify-center order-2 lg:order-1">
-                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold mb-6">
-                      <FaRocket className="w-3 h-3" />
-                      <span>PRODUCT INCUBATOR</span>
-                    </div>
-                    <h3 className="text-4xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">Himato</h3>
-                    <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                      The future of travel planning in the Himalayas. An AI-native platform that generates personalized itineraries, connects travelers with local experts, and uncovers hidden gems in Sikkim.
+                  <div className="p-8 lg:p-12 flex flex-col justify-center bg-white">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold tracking-widest uppercase mb-6 w-fit">
+                      In-house product
+                    </span>
+                    <h2 className="text-4xl font-bold text-[#0C0C0C] mb-3 group-hover:text-blue-600 transition-colors">
+                      {product.name}
+                    </h2>
+                    <p className="text-[#6E6B67] text-lg leading-relaxed mb-6">
+                      {product.description}
                     </p>
-
                     <div className="flex flex-wrap gap-2 mb-8">
-                      {['AI/ML', 'Mobile App', 'Travel Tech'].map(tag => (
-                        <span key={tag} className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-400">
+                      {product.tags.map(tag => (
+                        <span key={tag} className="px-3 py-1 rounded-lg bg-[#F5F4F0] border border-[#E5E2DC] text-xs text-[#6E6B67] font-medium">
                           {tag}
                         </span>
                       ))}
                     </div>
-
                     <div className="flex flex-wrap items-center gap-6">
-                      <span className="flex items-center gap-2 text-white font-semibold group/btn">
-                        View Project Details
-                        <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform text-cyan-400" />
+                      <span className="flex items-center gap-2 text-[#0C0C0C] font-semibold text-sm">
+                        View project details
+                        <MdArrowForward size={16} className="text-blue-600 group-hover:translate-x-1 transition-transform" />
                       </span>
                       <a
-                        href="https://himato.in"
+                        href={product.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors z-20"
+                        onClick={e => e.stopPropagation()}
+                        className="flex items-center gap-1.5 text-sm text-[#6E6B67] hover:text-blue-600 transition-colors"
                       >
-                        <FaExternalLinkAlt /> Visit Live Site
+                        <MdOpenInNew size={14} />
+                        Live site
                       </a>
                     </div>
                   </div>
-
-                  {/* Preview Image Area */}
-                  <div className="relative min-h-[300px] lg:min-h-full rounded-2xl overflow-hidden order-1 lg:order-2 bg-black/50">
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10" />
-                    <img
-                      src="/himato.png"
-                      alt="Himato Preview"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
-                      }}
-                    />
-                    {/* Fallback */}
-                    <div className="hidden absolute inset-0 w-full h-full bg-slate-800 items-center justify-center flex-col text-slate-500">
-                      <FaRocket className="text-6xl mb-4 opacity-20" />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-          </div>
-
-
-          {/* SECTION 2: Client Projects */}
-          <div>
-            <div className="flex items-center gap-4 mb-12">
-              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1" />
-              <h2 className="text-2xl font-bold text-slate-200 uppercase tracking-widest shrink-0">Client Success Stories</h2>
-              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1" />
+                </motion.div>
+              </Link>
             </div>
+          </section>
+        )}
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {PROJECTS.filter(p => p.type === 'client').map((project, idx) => (
+        {/* ── CLIENT PROJECTS ──────────────────────────────── */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-b border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+
+            <div className="section-label mb-8">Client Projects</div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {clientProjects.map((project, idx) => (
                 <motion.div
                   key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
                   viewport={{ once: true }}
+                  custom={idx}
                 >
-                  <Link to={`/projects/${project.id}`}>
-                    <div
-                      className="group h-full bg-white/5 border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden cursor-pointer transition-all hover:bg-white/[0.07] flex flex-col"
-                    >
-                      {/* Card Header / Image */}
-                      <div className={`h-48 relative overflow-hidden bg-gradient-to-br from-slate-800 to-black group-hover:scale-105 transition-transform duration-500`}>
+                  <Link to={`/projects/${project.id}`} className="block group h-full">
+                    <div className="card h-full flex flex-col overflow-hidden">
+
+                      {/* Screenshot */}
+                      <div className="relative h-48 overflow-hidden bg-[#F0EDE8] shrink-0">
                         {project.image ? (
                           <img
                             src={project.image}
                             alt={project.name}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 opacity-60 group-hover:opacity-100"
+                            className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                           />
                         ) : (
-                          <div className="absolute inset-0 opacity-20 bg-[url('/grid.svg')]"></div>
+                          <div className="absolute inset-0 flex items-center justify-center text-[#C9C4BB]">
+                            <MdOpenInNew size={40} />
+                          </div>
                         )}
-
-                        <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent`}></div>
-
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">{project.name}</h3>
-                          <p className="text-xs text-slate-400 flex items-center gap-1">
-                            <FaGlobe className="w-3 h-3" /> {project.url.replace('https://', '')}
-                          </p>
-                        </div>
                       </div>
 
+                      {/* Details */}
                       <div className="p-6 flex flex-col flex-1">
-                        <p className="text-slate-400 text-sm mb-6 line-clamp-3">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <h3 className="text-lg font-bold text-[#0C0C0C] group-hover:text-blue-600 transition-colors leading-snug">
+                            {project.name}
+                          </h3>
+                          <span className="text-xs text-[#A09A90] bg-[#F5F4F0] border border-[#E5E2DC] px-2 py-1 rounded-md shrink-0 mt-0.5">
+                            {project.industry}
+                          </span>
+                        </div>
+
+                        <p className="text-sm text-[#6E6B67] leading-relaxed mb-5 flex-1 line-clamp-3">
                           {project.description}
                         </p>
 
                         <div className="mt-auto">
-                          <div className="flex flex-wrap gap-2 mb-4">
+                          <div className="flex flex-wrap gap-1.5 mb-4">
                             {project.tags.slice(0, 3).map(tag => (
-                              <span key={tag} className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-500 uppercase tracking-wider">
+                              <span key={tag} className="px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-xs text-blue-600 font-medium">
                                 {tag}
                               </span>
                             ))}
                           </div>
-                          <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                            <span className="text-xs text-slate-500 font-mono">CLIENT PROJECT</span>
-                            <span className="text-sm text-white font-medium flex items-center gap-2 group-hover:translate-x-1 transition-transform">
-                              Details <FaArrowRight className="w-3 h-3" />
+
+                          <div className="flex items-center justify-between pt-4 border-t border-[#E5E2DC]">
+                            <a
+                              href={project.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={e => e.stopPropagation()}
+                              className="text-xs text-[#A09A90] hover:text-blue-600 transition-colors flex items-center gap-1"
+                            >
+                              <MdOpenInNew size={12} />
+                              {project.url.replace('https://www.', '').replace('https://', '')}
+                            </a>
+                            <span className="text-sm font-medium text-[#0C0C0C] flex items-center gap-1.5 group-hover:text-blue-600 transition-colors">
+                              Details
+                              <MdArrowForward size={14} className="group-hover:translate-x-1 transition-transform" />
                             </span>
                           </div>
                         </div>
                       </div>
+
                     </div>
                   </Link>
                 </motion.div>
               ))}
             </div>
           </div>
+        </section>
 
-          {/* CTA Footer */}
-          <div className="mt-32 mb-12 text-center">
-            <h2 className="text-3xl font-bold text-white mb-6">Ready to build your revenue system?</h2>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-cyan-50 hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+        {/* ── CTA ──────────────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0A0F1E]">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
-              Let's Build It
-              <FaArrowRight />
-            </Link>
+              <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
+                Your project could be next.
+              </h2>
+              <p className="text-slate-400 text-lg mb-10 leading-relaxed">
+                Every project on this page started with a conversation. Tell us what you're building and we'll tell you how we can help.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/contact" className="btn-primary px-8 py-4 text-base justify-center">
+                  Start a Conversation
+                  <MdArrowForward size={18} />
+                </Link>
+                <Link to="/services" className="btn-outline px-8 py-4 text-base justify-center border-white/20 text-white hover:border-white/40 hover:bg-white/5">
+                  See Our Services
+                </Link>
+              </div>
+            </motion.div>
           </div>
+        </section>
 
-        </div>
       </div>
     </>
   )

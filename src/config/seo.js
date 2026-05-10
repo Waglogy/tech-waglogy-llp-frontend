@@ -186,15 +186,15 @@ export const PAGE_SEO = {
   },
 
   blog: {
-    title: 'Blog - Web Development Tips & Tech News | Tech Waglogy Sikkim',
-    description: 'Latest articles on web development, app development, digital marketing, and technology trends. Expert insights from Tech Waglogy LLP, Sikkim\'s leading IT company.',
+    title: 'Insights - Web Development Tips & Tech Articles | Tech Waglogy Sikkim',
+    description: 'Practical articles on web development, app development, technology trends, and digital growth. Expert insights from Tech Waglogy LLP, based in Gangtok, Sikkim.',
     keywords: [
-      'web development blog',
-      'tech blog Sikkim',
-      'app development articles',
-      'digital marketing tips Northeast India'
+      'web development insights',
+      'tech articles Sikkim',
+      'app development guides',
+      'digital technology tips Northeast India'
     ],
-    canonical: '/blog'
+    canonical: '/insights'
   }
 }
 
@@ -251,7 +251,7 @@ export const generateLocalBusinessSchema = () => ({
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     opens: '09:00',
     closes: '19:00'
   },

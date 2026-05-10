@@ -25,7 +25,7 @@ const routes = [
   '/contact',
   '/pricing',
   '/projects',
-  '/blog'
+  '/insights'
 ]
 
 // Start a local server to serve the built files

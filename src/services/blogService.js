@@ -1,9 +1,17 @@
 import { API_BASE_URL } from '../config/api'
+import { STATIC_INSIGHTS, applyInsightQuery, mergeApiAndStatic } from '../data/staticInsights'
 
 /**
  * Blog Service
- * Handles all blog-related API calls
+ * Handles all blog-related API calls.
+ * Static insights: 50 SEO articles in src/data/staticInsights (used when API is down or merged with CMS).
+ *
+ * VITE_PUBLIC_INSIGHTS_SOURCE=api | static  (default api)
+ * VITE_MERGE_STATIC_INSIGHTS=true          (merge CMS + static catalog; fetches up to 500 CMS rows first)
  */
+
+const INSIGHTS_SOURCE = import.meta.env.VITE_PUBLIC_INSIGHTS_SOURCE || 'api'
+const MERGE_STATIC_INSIGHTS = import.meta.env.VITE_MERGE_STATIC_INSIGHTS === 'true'
 
 // Get auth token from localStorage
 const getAuthToken = () => {
@@ -29,34 +37,49 @@ const getAuthHeaders = () => {
  * @param {string} params.tags - Filter by tag
  * @param {boolean} params.isPublished - Filter by publish status (admin only)
  */
+const fetchBlogsRaw = async (searchParams) => {
+  const queryString = searchParams.toString()
+  const url = `${API_BASE_URL}/v1/blogs${queryString ? `?${queryString}` : ''}`
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: getAuthHeaders()
+  })
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Failed to fetch blogs' }))
+    throw new Error(error.message || 'Failed to fetch blogs')
+  }
+  return response.json()
+}
+
 export const getAllBlogs = async (params = {}) => {
+  if (INSIGHTS_SOURCE === 'static') {
+    return applyInsightQuery(STATIC_INSIGHTS, params)
+  }
+
   try {
+    if (MERGE_STATIC_INSIGHTS) {
+      const wide = new URLSearchParams()
+      wide.append('page', '1')
+      wide.append('limit', '500')
+      if (params.sort) wide.append('sort', params.sort)
+      if (params.isPublished !== undefined) wide.append('isPublished', params.isPublished)
+      const json = await fetchBlogsRaw(wide)
+      const merged = mergeApiAndStatic(json.data || [], STATIC_INSIGHTS)
+      return applyInsightQuery(merged, params)
+    }
+
     const queryParams = new URLSearchParams()
-    
     if (params.page) queryParams.append('page', params.page)
     if (params.limit) queryParams.append('limit', params.limit)
     if (params.sort) queryParams.append('sort', params.sort)
     if (params.search) queryParams.append('search', params.search)
     if (params.tags) queryParams.append('tags', params.tags)
     if (params.isPublished !== undefined) queryParams.append('isPublished', params.isPublished)
-    
-    const queryString = queryParams.toString()
-    const url = `${API_BASE_URL}/v1/blogs${queryString ? `?${queryString}` : ''}`
-    
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: getAuthHeaders()
-    })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Failed to fetch blogs')
-    }
-    
-    return await response.json()
+
+    return await fetchBlogsRaw(queryParams)
   } catch (error) {
-    console.error('Error fetching blogs:', error)
-    throw error
+    console.warn('[insights] API unavailable, using static catalog:', error?.message || error)
+    return applyInsightQuery(STATIC_INSIGHTS, params)
   }
 }
 
@@ -87,21 +110,29 @@ export const getBlogById = async (id) => {
  * @param {string} slug - Blog slug
  */
 export const getBlogBySlug = async (slug) => {
+  if (INSIGHTS_SOURCE === 'static') {
+    const found = STATIC_INSIGHTS.find((b) => b.slug === slug)
+    if (!found) throw new Error('Article not found')
+    return { data: found }
+  }
+
   try {
     const response = await fetch(`${API_BASE_URL}/v1/blogs/slug/${slug}`, {
       method: 'GET'
     })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Failed to fetch blog')
+
+    if (response.ok) {
+      const json = await response.json()
+      if (json?.data) return json
     }
-    
-    return await response.json()
   } catch (error) {
-    console.error('Error fetching blog by slug:', error)
-    throw error
+    console.warn('[insights] slug request failed, checking static catalog:', error?.message || error)
   }
+
+  const found = STATIC_INSIGHTS.find((b) => b.slug === slug)
+  if (found) return { data: found }
+
+  throw new Error('Article not found')
 }
 
 /**
