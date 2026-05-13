@@ -14,6 +14,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 import NotFound from './pages/NotFound'
 import ProjectDetailContainer from './pages/ProjectDetailContainer'
+import CityLanding from './pages/CityLanding'
 
 // Admin Imports
 import AdminLogin from './admin/Login'
@@ -43,6 +44,7 @@ function App() {
         <Route path="pricing" element={<Pricing />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="terms-conditions" element={<TermsConditions />} />
+        <Route path="web-development/:city" element={<CityLanding />} />
       </Route>
 
       {/* Detail Pages (No Navbar/Footer) */}
