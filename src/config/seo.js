@@ -27,10 +27,10 @@ export const SITE_CONFIG = {
     'website development Gangtok',
     'software development Sikkim',
     'web developers',
-    'web developer sikkim',
-    'ai sikkim',
-    'artificial intelligence sikkim',
-    'web development ai automation in sikkim',
+    'web developer Sikkim',
+    'AI Sikkim',
+    'artificial intelligence Sikkim',
+    'web development AI automation Sikkim',
 
     // Service-based keywords
     'web development services',
@@ -50,7 +50,7 @@ export const SITE_CONFIG = {
     'software company Kalimpong'
   ],
   author: 'Tech Waglogy LLP',
-  twitter: '@waglogy',
+  twitter: 'waglogy',
   facebook: 'waglogy',
   linkedin: 'company/tech-waglogy-llp',
   instagram: 'waglogy',
@@ -108,10 +108,10 @@ export const PAGE_SEO = {
       'AI solutions Sikkim',
       'digital agency Sikkim',
       'web developers',
-      'web devloper sikkim',
-      'website devlopment sikkim',
-      'ai sikkim',
-      'web development ai automation in sikkim'
+      'web developer Sikkim',
+      'website development Sikkim',
+      'AI Sikkim',
+      'web development AI automation Sikkim'
     ],
     canonical: '/'
   },
@@ -202,6 +202,7 @@ export const PAGE_SEO = {
 export const generateOrganizationSchema = () => ({
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${SITE_CONFIG.siteUrl}/#organization`,
   name: SITE_CONFIG.business.name,
   legalName: SITE_CONFIG.business.legalName,
   url: SITE_CONFIG.siteUrl,
@@ -227,7 +228,7 @@ export const generateOrganizationSchema = () => ({
 
 export const generateLocalBusinessSchema = () => ({
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'ProfessionalService',
   '@id': `${SITE_CONFIG.siteUrl}/#localbusiness`,
   name: SITE_CONFIG.business.name,
   image: `${SITE_CONFIG.siteUrl}/logo.svg`,
@@ -251,14 +252,11 @@ export const generateLocalBusinessSchema = () => ({
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     opens: '09:00',
     closes: '19:00'
   },
-  areaServed: SITE_CONFIG.business.areaServed.map(area => ({
-    '@type': 'City',
-    name: area
-  })),
+  areaServed: SITE_CONFIG.business.areaServed,
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Web Development Services',
@@ -341,10 +339,7 @@ export const generateServiceSchema = (service) => ({
     name: SITE_CONFIG.business.name,
     url: SITE_CONFIG.siteUrl
   },
-  areaServed: SITE_CONFIG.business.areaServed.map(area => ({
-    '@type': 'City',
-    name: area
-  })),
+  areaServed: SITE_CONFIG.business.areaServed,
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: service.name,

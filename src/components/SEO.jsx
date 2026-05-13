@@ -34,7 +34,6 @@ const SEO = ({
       <title>{seoTitle}</title>
       <meta name="title" content={seoTitle} />
       <meta name="description" content={seoDescription} />
-      <meta name="keywords" content={seoKeywords.join(', ')} />
       <meta name="author" content={SITE_CONFIG.author} />
       <link rel="canonical" href={fullUrl} />
 
