@@ -95,10 +95,40 @@ const CityLanding = () => {
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_CONFIG.siteUrl },
-              { '@type': 'ListItem', position: 2, name: `Web Development ${city.name}`, item: fullCanonical },
+            '@graph': [
+              {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_CONFIG.siteUrl },
+                  { '@type': 'ListItem', position: 2, name: `Web Development ${city.name}`, item: fullCanonical },
+                ],
+              },
+              {
+                '@type': 'ProfessionalService',
+                '@id': `${fullCanonical}#localbusiness`,
+                name: 'Tech Waglogy LLP',
+                url: SITE_CONFIG.siteUrl,
+                telephone: '+91 9733814168',
+                email: 'contact@waglogy.in',
+                image: `${SITE_CONFIG.siteUrl}/logo.svg`,
+                priceRange: '₹₹',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: 'Tadong Metro Point',
+                  addressLocality: 'Gangtok',
+                  addressRegion: 'Sikkim',
+                  postalCode: '737102',
+                  addressCountry: 'IN',
+                },
+                geo: { '@type': 'GeoCoordinates', latitude: '27.3389', longitude: '88.6065' },
+                areaServed: [city.name, city.state, 'Northeast India'],
+                openingHoursSpecification: {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                  opens: '09:00',
+                  closes: '19:00',
+                },
+              },
             ],
           })}
         </script>

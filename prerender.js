@@ -25,7 +25,19 @@ const routes = [
   '/contact',
   '/pricing',
   '/projects',
-  '/insights'
+  '/insights',
+  // City landing pages
+  '/web-development/gangtok',
+  '/web-development/sikkim',
+  '/web-development/guwahati',
+  '/web-development/shillong',
+  '/web-development/itanagar',
+  '/web-development/imphal',
+  '/web-development/aizawl',
+  '/web-development/kohima',
+  '/web-development/agartala',
+  '/web-development/siliguri',
+  '/web-development/darjeeling',
 ]
 
 // Start a local server to serve the built files
@@ -182,19 +194,7 @@ async function prerender() {
           mkdirSync(dirname(outputPath), { recursive: true })
         }
         
-        // Fix asset paths for nested routes
-        let finalHtml = html
-        if (route !== '/') {
-          const depth = route.split('/').filter(Boolean).length
-          const pathPrefix = '../'.repeat(depth)
-          finalHtml = finalHtml
-            .replace(/href="\//g, `href="${pathPrefix}`)
-            .replace(/src="\//g, `src="${pathPrefix}`)
-            .replace(/srcset="\//g, `srcset="${pathPrefix}`)
-            .replace(/action="\//g, `action="${pathPrefix}`)
-        }
-        
-        writeFileSync(outputPath, finalHtml)
+        writeFileSync(outputPath, html)
         
         // Verify file was created and has content
         const savedFile = readFileSync(outputPath, 'utf8')
