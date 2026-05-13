@@ -292,6 +292,59 @@ const Services = () => {
           </div>
         </section>
 
+        {/* ── CITIES WE SERVE ──────────────────────────────── */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-10"
+            >
+              <div className="section-label mb-4">Where We Work</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0C0C0C] mb-3">
+                Serving businesses across Northeast India.
+              </h2>
+              <p className="text-[#6E6B67] max-w-2xl">
+                Based in Gangtok, Sikkim — delivering web development, app development, and software to every major city in the region.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {[
+                { name: 'Gangtok',    state: 'Sikkim',            href: '/web-development/gangtok' },
+                { name: 'Sikkim',     state: 'Sikkim',            href: '/web-development/sikkim' },
+                { name: 'Guwahati',   state: 'Assam',             href: '/web-development/guwahati' },
+                { name: 'Shillong',   state: 'Meghalaya',         href: '/web-development/shillong' },
+                { name: 'Itanagar',   state: 'Arunachal Pradesh', href: '/web-development/itanagar' },
+                { name: 'Imphal',     state: 'Manipur',           href: '/web-development/imphal' },
+                { name: 'Aizawl',    state: 'Mizoram',           href: '/web-development/aizawl' },
+                { name: 'Kohima',     state: 'Nagaland',          href: '/web-development/kohima' },
+                { name: 'Agartala',   state: 'Tripura',           href: '/web-development/agartala' },
+                { name: 'Siliguri',   state: 'West Bengal',       href: '/web-development/siliguri' },
+                { name: 'Darjeeling', state: 'West Bengal',       href: '/web-development/darjeeling' },
+              ].map((city, idx) => (
+                <motion.a
+                  key={city.href}
+                  href={city.href}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-5 flex flex-col gap-1 hover:border-blue-200 hover:bg-blue-50/30 transition-colors group"
+                >
+                  <span className="font-semibold text-[#0C0C0C] text-sm group-hover:text-blue-600 transition-colors">
+                    {city.name}
+                  </span>
+                  <span className="text-xs text-[#6E6B67]">{city.state}</span>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ──────────────────────────────────────────── */}
         <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0A0F1E]">
           <div className="max-w-3xl mx-auto text-center">

@@ -2,6 +2,20 @@ import React from 'react'
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import { MdLocationOn, MdPhone, MdEmail } from 'react-icons/md'
 
+const cityLinks = [
+  { name: 'Gangtok',   state: 'Sikkim',            href: '/web-development/gangtok' },
+  { name: 'Sikkim',    state: 'Sikkim',            href: '/web-development/sikkim' },
+  { name: 'Guwahati',  state: 'Assam',             href: '/web-development/guwahati' },
+  { name: 'Shillong',  state: 'Meghalaya',         href: '/web-development/shillong' },
+  { name: 'Itanagar',  state: 'Arunachal Pradesh', href: '/web-development/itanagar' },
+  { name: 'Imphal',    state: 'Manipur',           href: '/web-development/imphal' },
+  { name: 'Aizawl',   state: 'Mizoram',           href: '/web-development/aizawl' },
+  { name: 'Kohima',    state: 'Nagaland',          href: '/web-development/kohima' },
+  { name: 'Agartala',  state: 'Tripura',           href: '/web-development/agartala' },
+  { name: 'Siliguri',  state: 'West Bengal',       href: '/web-development/siliguri' },
+  { name: 'Darjeeling',state: 'West Bengal',       href: '/web-development/darjeeling' },
+]
+
 const Footer = () => {
   const currentYear = new Date().getFullYear()
 
@@ -110,6 +124,23 @@ const Footer = () => {
               </a>
               <p className="text-xs text-slate-500 pt-1">Mon – Sun · 9 AM to 7 PM</p>
             </div>
+          </div>
+        </div>
+
+        {/* Cities We Serve */}
+        <div className="border-t border-white/5 mt-10 pt-10">
+          <h4 className="text-white font-semibold text-sm mb-5">Cities We Serve</h4>
+          <div className="flex flex-wrap gap-2">
+            {cityLinks.map((city) => (
+              <a
+                key={city.href}
+                href={city.href}
+                className="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-md bg-white/5 border border-white/10 hover:bg-blue-600 hover:border-blue-600 transition-colors"
+              >
+                {city.name}
+                <span className="text-slate-600 ml-1">· {city.state}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
