@@ -8,9 +8,10 @@ const NotFound = () => {
   return (
     <>
       <SEO
-        title="404 - Page Not Found"
-        description="The page you're looking for doesn't exist."
-        robots="noindex, nofollow"
+        title="404 - Page Not Found | Tech Waglogy LLP"
+        description="The page you're looking for doesn't exist. Browse our services, projects, or contact us instead."
+        page="notfound"
+        robots="noindex, follow"
       />
 
       <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#000] to-[#000] text-slate-100 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">

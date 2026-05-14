@@ -195,6 +195,13 @@ export const PAGE_SEO = {
       'digital technology tips Northeast India'
     ],
     canonical: '/insights'
+  },
+
+  notfound: {
+    title: '404 - Page Not Found | Tech Waglogy LLP',
+    description: 'The page you are looking for could not be found. Explore our web development, mobile app, and AI services across Sikkim and Northeast India.',
+    keywords: [],
+    canonical: '/404'
   }
 }
 

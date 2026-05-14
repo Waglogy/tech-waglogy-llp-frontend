@@ -6,16 +6,22 @@ import { SITE_CONFIG, PAGE_SEO } from '../config/seo'
  * SEO Component for dynamic meta tags
  * Optimized for Sikkim, India and Northeast India
  */
-const SEO = ({ 
-  title, 
-  description, 
-  keywords = [], 
-  canonical, 
+const SEO = ({
+  title,
+  description,
+  keywords = [],
+  canonical,
   page = 'home',
   image,
   type = 'website',
-  schemas = []
+  schemas = [],
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 }) => {
+  // Derive bot-specific directives from the robots value.
+  // If the page is set to noindex, propagate that to googlebot/bingbot too,
+  // otherwise leave them on the default index, follow.
+  const isNoindex = /noindex/i.test(robots)
+  const botDirective = isNoindex ? 'noindex, follow' : 'index, follow'
   // Get page-specific SEO data or use defaults
   const pageSEO = PAGE_SEO[page] || PAGE_SEO.home
   
@@ -65,9 +71,9 @@ const SEO = ({
       <meta name="twitter:creator" content={`@${SITE_CONFIG.twitter}`} />
 
       {/* Additional SEO Tags */}
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-      <meta name="googlebot" content="index, follow" />
-      <meta name="bingbot" content="index, follow" />
+      <meta name="robots" content={robots} />
+      <meta name="googlebot" content={botDirective} />
+      <meta name="bingbot" content={botDirective} />
       
       {/* Mobile */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
