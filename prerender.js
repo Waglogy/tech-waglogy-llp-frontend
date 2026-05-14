@@ -14,21 +14,23 @@ import { fileURLToPath, pathToFileURL } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const routes = [
-  '/',
-  '/about',
-  '/services',
-  '/contact',
-  '/pricing',
-  '/projects',
-  '/insights',
-  '/privacy-policy',
-  '/terms-conditions',
-]
+// Parse all routes from sitemap.xml — single source of truth for what to prerender.
+// This covers static pages, city landing pages, and all insight articles automatically.
+function buildRouteList() {
+  const sitemap = readFileSync(join(__dirname, 'public', 'sitemap.xml'), 'utf-8')
+  const matches = [...sitemap.matchAll(/<loc>https?:\/\/waglogy\.in([^<]*)<\/loc>/g)]
+  const routes = matches
+    .map(m => m[1] || '/')
+    .map(r => (r === '' ? '/' : r))
+    .filter((r, i, arr) => arr.indexOf(r) === i)
+  console.log(`📋 Found ${routes.length} routes in sitemap.xml`)
+  return routes
+}
 
 async function prerender() {
   console.log('🚀 Starting SSR pre-rendering...')
 
+  const routes = buildRouteList()
   const distDir = join(__dirname, 'dist')
   const template = readFileSync(join(distDir, 'index.html'), 'utf-8')
 
@@ -133,7 +135,7 @@ async function prerender() {
     }
   }
 
-  console.log(`\n✨ Pre-rendering complete — ${succeeded}/${routes.length} routes rendered.`)
+  console.log(`\n✨ Pre-rendering complete — ${succeeded}/${routes.length} routes rendered successfully.`)
 
   if (succeeded === 0) {
     console.error('❌ No routes were pre-rendered. Check the errors above.')
