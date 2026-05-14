@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import { MdLocationOn, MdPhone, MdEmail } from 'react-icons/md'
 
 const cityLinks = [
@@ -38,9 +38,8 @@ const Footer = () => {
 
   const social = [
     { icon: FaFacebook, href: 'https://www.facebook.com/profile.php?id=100088111282938', label: 'Facebook' },
-    { icon: FaInstagram, href: '#', label: 'Instagram' },
-    { icon: FaTwitter, href: '#', label: 'Twitter' },
-    { icon: FaLinkedin, href: '#', label: 'LinkedIn' },
+    { icon: FaInstagram, href: 'https://www.instagram.com/waglogy/', label: 'Instagram' },
+    { icon: FaLinkedin, href: 'https://in.linkedin.com/company/waglogy', label: 'LinkedIn' },
     { icon: FaWhatsapp, href: 'https://wa.me/919733814168', label: 'WhatsApp' },
   ]
 
