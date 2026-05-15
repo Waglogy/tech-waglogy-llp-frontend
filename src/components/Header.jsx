@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FaWhatsapp, FaEnvelope, FaPhone } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
+import { trackPhoneClick, trackWhatsappClick } from '../utils/track'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -74,6 +75,7 @@ const Header = () => {
                 href="https://wa.me/919733814168"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsappClick('header_desktop')}
                 className="hidden sm:flex items-center justify-center w-9 h-9 rounded-lg border border-[#E5E2DC] text-[#6E6B67] hover:text-[#25D366] hover:border-[#25D366] transition-colors"
                 aria-label="WhatsApp"
               >
@@ -157,10 +159,13 @@ const Header = () => {
                 </button>
                 <div className="flex gap-5 justify-center pt-1">
                   <a href="https://wa.me/919733814168" target="_blank" rel="noopener noreferrer"
+                    onClick={() => trackWhatsappClick('header_mobile_menu')}
                     className="text-[#6E6B67] hover:text-[#25D366] transition-colors">
                     <FaWhatsapp size={20} />
                   </a>
-                  <a href="tel:+919733814168" className="text-[#6E6B67] hover:text-blue-600 transition-colors">
+                  <a href="tel:+919733814168"
+                    onClick={() => trackPhoneClick('header_mobile_menu')}
+                    className="text-[#6E6B67] hover:text-blue-600 transition-colors">
                     <FaPhone size={18} />
                   </a>
                   <a href="mailto:contact@waglogy.in" className="text-[#6E6B67] hover:text-blue-600 transition-colors">

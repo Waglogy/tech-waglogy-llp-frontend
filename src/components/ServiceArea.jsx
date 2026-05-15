@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { FaMapMarkerAlt, FaCheckCircle, FaHandshake, FaBolt, FaBuilding } from 'react-icons/fa'
+import { trackPhoneClick } from '../utils/track'
 
 /**
  * Service Area Component - Highlights Sikkim and Northeast India coverage
@@ -139,7 +140,7 @@ const ServiceArea = () => {
             <strong className="text-white">Visit Our Office:</strong> Tadong Metro Point, Gangtok, Sikkim - 737102
           </p>
           <p className="text-slate-500 text-sm">
-            📞 <a href="tel:+919733814168" className="hover:text-blue-400 transition-colors">+91 9733814168</a>
+            📞 <a href="tel:+919733814168" onClick={() => trackPhoneClick('service_area')} className="hover:text-blue-400 transition-colors">+91 9733814168</a>
             {' '} | {' '}
             📧 <a href="mailto:contact@waglogy.in" className="hover:text-blue-400 transition-colors">contact@waglogy.in</a>
           </p>

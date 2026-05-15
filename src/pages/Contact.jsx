@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaCheckCircle, FaChevronDown, FaLinkedin, FaInstagram } from 'react-icons/fa'
 import { submitContactForm } from '../services/contactService'
+import { trackLead } from '../utils/track'
 import SuccessModal from '../components/SuccessModal'
 import { convertBudgetRangeToUSD } from '../utils/currencyConverter'
 import SEO from '../components/SEO'
@@ -73,6 +74,13 @@ const Contact = () => {
       }
 
       await submitContactForm(apiData)
+
+      // GA4 conversion event — fires on successful form submission only.
+      trackLead('contact_page', {
+        service: formData.service || 'unspecified',
+        budget_range: formData.budget || 'unspecified',
+      })
+
       setSubmittedData(apiData)
       setSubmitStatus('success')
       setShowSuccessModal(true)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import { MdLocationOn, MdPhone, MdEmail } from 'react-icons/md'
+import { trackPhoneClick, trackWhatsappClick } from '../utils/track'
 
 const cityLinks = [
   { name: 'Gangtok',   state: 'Sikkim',            href: '/web-development/gangtok' },
@@ -66,6 +67,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
+                  onClick={s.label === 'WhatsApp' ? () => trackWhatsappClick('footer_social') : undefined}
                   className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-colors"
                 >
                   <s.icon size={14} />
@@ -113,7 +115,9 @@ const Footer = () => {
                   Gangtok, Sikkim – 737102
                 </span>
               </div>
-              <a href="tel:+919733814168" className="flex items-center gap-3 text-sm hover:text-white transition-colors">
+              <a href="tel:+919733814168"
+                onClick={() => trackPhoneClick('footer')}
+                className="flex items-center gap-3 text-sm hover:text-white transition-colors">
                 <MdPhone size={16} className="text-blue-400 shrink-0" />
                 +91 97338 14168
               </a>

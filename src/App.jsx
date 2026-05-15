@@ -1,6 +1,7 @@
 import './App.css'
 import './index.css'
 import { Routes, Route } from 'react-router-dom'
+import useGTagPageview from './hooks/useGTagPageview'
 import Layout from './components/Layout'
 import Landing from './pages/Landing'
 import About from './pages/About'
@@ -29,6 +30,9 @@ import Invoice from './admin/pages/Invoice'
 
 
 function App() {
+  // Send GA4 page_view events on every client-side route change.
+  useGTagPageview()
+
   return (
     <Routes>
       {/* Public Routes */}

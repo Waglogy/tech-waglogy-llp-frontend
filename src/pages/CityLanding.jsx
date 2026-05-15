@@ -16,6 +16,7 @@ import {
 } from '../config/seo'
 import StructuredData from '../components/StructuredData'
 import { submitQuery } from '../services/queryService'
+import { trackLead } from '../utils/track'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -93,6 +94,10 @@ const CityLanding = () => {
     setQueryStatus(null)
     try {
       await submitQuery({ message: queryMessage })
+
+      // GA4 conversion event — attribute the lead to this specific city page.
+      trackLead(`city_landing_${citySlug}`, { city: city.name, state: city.state })
+
       setQueryStatus('success')
       setQueryMessage('')
       setTimeout(() => setQueryStatus(null), 5000)
