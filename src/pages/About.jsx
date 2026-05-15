@@ -109,17 +109,14 @@ const About = () => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="hidden lg:grid grid-cols-2 gap-4"
+              className="hidden lg:block"
             >
-              <div className="rounded-xl overflow-hidden border border-[#E5E2DC] shadow-sm col-span-2">
-                <img src="/daraghar.png" alt="Daraghar Maila — homestay & glamping, client project" className="w-full object-cover object-top h-44" />
-              </div>
-              <div className="rounded-xl overflow-hidden border border-[#E5E2DC] shadow-sm">
-                <img src="/sbvidlaya.png" alt="Saraswati Bal Vidyalaya — client project" className="w-full object-cover object-top h-36" />
-              </div>
-              <div className="rounded-xl overflow-hidden border border-[#E5E2DC] shadow-sm">
-                <img src="/dhenterprise.png" alt="DH Enterprises — client project" className="w-full object-cover object-top h-36" />
-              </div>
+              <img
+                src="/4.png"
+                alt="The Waglogy team"
+                className="w-full h-auto object-contain bg-transparent"
+                loading="eager"
+              />
             </motion.div>
           </div>
         </section>
@@ -216,7 +213,41 @@ const About = () => {
 
         {/* ── THE TEAM ─────────────────────────────────────── */}
         <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          <div className="max-w-7xl mx-auto">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-14 max-w-3xl"
+            >
+              <div className="section-label mb-4">The Team In Action</div>
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] mb-6">
+                On the ground. In the work.
+              </h2>
+              <p className="text-[#6E6B67] text-lg leading-relaxed">
+                From campus visits at IIT Guwahati to startup conclaves and late-night build sessions — a few moments from how we actually spend our time.
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              custom={1}
+              className="mb-20 rounded-2xl overflow-hidden border border-[#E5E2DC] shadow-sm"
+            >
+              <img
+                src="/9.png"
+                alt="Waglogy team at IIT Guwahati, internal meetings, startup conclaves and development sessions"
+                className="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
 
             <motion.div
               variants={fadeUp}
@@ -286,6 +317,7 @@ const About = () => {
                 </motion.div>
               ))}
             </motion.div>
+          </div>
           </div>
         </section>
 

@@ -9,11 +9,11 @@
 | Phase | What | Status | Progress |
 |---|---|---|---|
 | 1 | Technical Foundation | **Mostly done** | 4/5 |
-| 2 | Local SEO Dominance | **Not started** | 0/3 |
+| 2 | Local SEO Dominance | **Doc ready, awaiting execution** | 0/3 (setup pack shipped) |
 | 3 | On-Page & Keyword Strategy | **Done** | 4/4 |
 | 4 | Content Strategy (Blog) | **Not started** | 0/26 posts |
 | 5 | Backlinks & Authority | **Not started** | 0/9 |
-| 6 | Track, Measure, Iterate | **Not started** | 0/8 |
+| 6 | Track, Measure, Iterate | **Doc ready, awaiting execution** | 0/8 (setup pack shipped) |
 
 ---
 
@@ -40,15 +40,18 @@
 
 ## Phase 2 — Local SEO Dominance 🗺️
 
+> 📄 **Setup pack shipped:** `Waglogy_Phase2_GBP_Setup.md` (claim guide, 745-char description, 10 services with copy, photo checklist, NAP doc, review templates) and `Waglogy_GBP_Posts.md` (4 ready-to-post Google Business Posts).
+
 | Item | Status | Notes |
 |---|---|---|
-| Google Business Profile claimed + every field complete | ⬜ Pending | Single biggest local SEO lever. ~2 hours of work. Do this week. |
-| 20+ photos uploaded to GBP | ⬜ Pending | Office, team, work samples. |
-| Weekly Google Business Posts | ⬜ Pending | Set as a recurring task. |
-| 20+ Google reviews in 60 days | ⬜ Pending | Ask every past client. Aim for reviews mentioning service + city. |
-| NAP consistency doc | ⬜ Pending | Decide canonical format and use it everywhere. |
-| Bing Places, Apple Business Connect | ⬜ Pending | Free, ~30 min total. |
-| JustDial, Sulekha, IndiaMART, Yellow Pages, AskLaila | ⬜ Pending | High-DA India directories. |
+| Google Business Profile claimed + every field complete | 📄 Doc ready | Run through `Waglogy_Phase2_GBP_Setup.md` sections 1–4. ~2 hours. |
+| NAP consistency doc | ✅ Done | Canonical NAP defined in GBP setup section 2. Use everywhere. |
+| 20+ photos uploaded to GBP | 📄 Doc ready | Section 5 of GBP setup pack — exact mix of 21 photos by category. |
+| First Google Business Post | 📄 Doc ready | Post 1 in `Waglogy_GBP_Posts.md` ready to publish today. |
+| Weekly Google Business Posts cadence | 📄 Doc ready | Posts 2–4 scheduled for weeks 2–4. Continue with the evergreen template. |
+| 20+ Google reviews in 60 days | 📄 Templates ready | Section 6 of GBP setup pack — review request + 3 reply templates. |
+| Bing Places, Apple Business Connect | ⬜ Pending | Free, ~30 min total. (Bing Webmaster covered in Phase 6 doc.) |
+| JustDial, Sulekha, IndiaMART, Yellow Pages, AskLaila | ⬜ Pending | High-DA India directories. NAP doc in GBP setup ensures consistency. |
 | Clutch, GoodFirms, DesignRush, TechBehemoths | ⬜ Pending | B2B credibility. |
 | LinkedIn, Facebook, Instagram, YouTube — fully complete | ⬜ Pending | Brand-search support. |
 
@@ -123,16 +126,19 @@ guwahati:   1,344  darjeeling: 1,237  aizawl:     1,061
 
 ## Phase 6 — Track, Measure, Iterate 📊
 
+> 📄 **Setup pack shipped:** `Waglogy_Phase6_Tracking_Setup.md` (GSC domain property + DNS verify, GA4 setup with 3 conversion events wired into your contact form / phone / WhatsApp links, Bing import, manual rank-tracking workflow, monthly KPI scorecard).
+
 | Tool | Status | Notes |
 |---|---|---|
-| Google Search Console | ⬜ Pending | Domain property, DNS verify. Check weekly. |
-| Google Analytics 4 | ⬜ Pending | Conversion goals: contact form + phone-call clicks. |
-| Bing Webmaster Tools | ⬜ Pending | Import from GSC. |
-| Google Business Profile Insights | ⬜ Pending | Auto once GBP is claimed. |
-| PageSpeed Insights monitoring | ⬜ Pending | Weekly check. |
-| Ubersuggest free tier / Keyword Planner | ⬜ Pending | Already used for the Phase 3 keyword spreadsheet. |
-| AnswerThePublic | ⬜ Pending | Use for Phase 4 blog post research. |
-| Manual rank tracking sheet | ⬜ Pending | `Tracking Sheet` tab in keyword spreadsheet pre-populated. Update weekly. |
+| Google Search Console | 📄 Doc ready | Section 1 of tracking pack. ~20 min including DNS verify + sitemap submit. |
+| Google Analytics 4 | 📄 Doc ready | Section 2 — includes copy-paste code for `useGTagPageview` hook + contact form `generate_lead` event + `phone_call_click` / `whatsapp_click` utilities. |
+| Bing Webmaster Tools | 📄 Doc ready | Section 3 — 5 min, imports from GSC. |
+| Google Business Profile Insights | ⬜ Auto | Activates automatically once GBP is verified (Phase 2). |
+| PageSpeed Insights monitoring | 📄 Doc ready | Section 5 — weekly Monday check on top 3 URLs. |
+| Ubersuggest free tier / Keyword Planner | ✅ Done | Used for Phase 3 keyword spreadsheet. |
+| AnswerThePublic | ⬜ Pending | Use for Phase 4 blog post research when you start writing. |
+| Manual rank tracking sheet | ✅ Done | `Tracking Sheet` tab pre-populated in `Waglogy_Phase3_Keyword_Map.xlsx`. Workflow in tracking pack section 6. |
+| Monthly KPI scorecard | 📄 Doc ready | Section 7 of tracking pack — 14-row template with sources for each KPI. |
 
 **KPIs to log monthly (per the SEO doc):**
 - Organic traffic (GA4)
@@ -146,11 +152,11 @@ guwahati:   1,344  darjeeling: 1,237  aizawl:     1,061
 
 ## What I'd recommend tackling next
 
-1. **Phase 2 GBP claim** (this week — 2 hours, biggest single local SEO lever)
-2. **Phase 1 cleanup** (remove `#1` and meta keywords from `index.html` — 10 mins)
-3. **Phase 6 GSC + GA4 setup** (this week — required to measure everything)
-4. **Phase 4 first 3 blog posts** (next 2 weeks — start ranking long-tail)
-5. **Phase 5 outreach toolkit** (week 4 — pitch templates ready to send)
+1. **Phase 1 cleanup** (10 min) — strip `#1` and meta-keywords typo from `index.html` and `src/config/seo.js > PAGE_SEO.home.title`
+2. **Phase 2 GBP claim** (2 hours) — execute `Waglogy_Phase2_GBP_Setup.md` end-to-end. Postcard takes 5–14 days but you can complete every other field today
+3. **Phase 6 GSC + GA4 setup** (2 hours) — execute `Waglogy_Phase6_Tracking_Setup.md`. Required before any phase 4 / 5 work because you need to see what's working
+4. **Phase 4 first 3 blog posts** (next 2 weeks) — long-tail traffic + conversion
+5. **Phase 5 outreach toolkit** (week 4)
 
 ---
 
