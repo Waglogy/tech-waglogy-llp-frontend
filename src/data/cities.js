@@ -1,4 +1,6 @@
-export const cities = [
+import { withRichContent } from './citiesRichContent.js'
+
+const baseCities = [
   {
     slug: 'gangtok',
     name: 'Gangtok',
@@ -44,9 +46,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Gangtok, Sikkim | Tech Waglogy LLP',
+      title: 'Web Development Company in Gangtok, Sikkim | Waglogy',
       description:
-        'Tech Waglogy LLP is a web and app development company in Gangtok, Sikkim. We build websites, mobile apps, and custom software for hotels, tour operators, schools, and businesses across Gangtok.',
+        'Tech Waglogy is a web development company in Gangtok, Sikkim. Websites, apps & AI for hotels, schools, tour operators. Local team. Fixed pricing.',
       canonical: '/web-development/gangtok',
     },
     geo: { lat: '27.3389', lng: '88.6065' },
@@ -99,7 +101,7 @@ export const cities = [
     seo: {
       title: 'Web Development Company in Sikkim | Tech Waglogy LLP',
       description:
-        "Tech Waglogy LLP is Sikkim's trusted web and app development company. We build websites, mobile apps, and software for tourism, organic farming, education, and businesses across all four districts of Sikkim.",
+        "Sikkim's trusted web and app development company. We serve businesses across all four districts — Gangtok, Namchi, Mangan, Gyalshing. Free consultation.",
       canonical: '/web-development/sikkim',
     },
     geo: { lat: '27.5330', lng: '88.5122' },
@@ -150,9 +152,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Guwahati, Assam | Tech Waglogy LLP',
+      title: 'Web Development Company in Guwahati, Assam | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, mobile apps, and custom software for businesses in Guwahati, Assam. Serving education, logistics, healthcare, retail, and oil industry businesses across Northeast India.',
+        'Web and app development company serving Guwahati and Assam. Websites for coaching centres, hospitals, retail. Remote-friendly, fixed pricing.',
       canonical: '/web-development/guwahati',
     },
     geo: { lat: '26.1445', lng: '91.7362' },
@@ -203,9 +205,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Shillong, Meghalaya | Tech Waglogy LLP',
+      title: 'Web Development Company in Shillong, Meghalaya | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, mobile apps, and software for businesses in Shillong, Meghalaya. Serving tourism, education, startups, and creative businesses across Meghalaya.',
+        'Tech Waglogy builds websites, apps, and AI tools for Shillong businesses — tourism, education, hospitality, creative. Northeast experts. Fixed quotes.',
       canonical: '/web-development/shillong',
     },
     geo: { lat: '25.5788', lng: '91.8933' },
@@ -256,9 +258,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Itanagar, Arunachal Pradesh | Tech Waglogy LLP',
+      title: 'Web Development Company in Itanagar, Arunachal | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for businesses in Itanagar and Arunachal Pradesh. Serving government, tourism, education, and small business clients across the state.',
+        'Web and app development for Itanagar and Arunachal Pradesh. Government, tourism, education, and small business sites. Connectivity-aware engineering.',
       canonical: '/web-development/itanagar',
     },
     geo: { lat: '27.0844', lng: '93.6053' },
@@ -309,9 +311,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Imphal, Manipur | Tech Waglogy LLP',
+      title: 'Web Development Company in Imphal, Manipur | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for businesses in Imphal and Manipur. Serving handloom, tourism, agriculture, education, and retail businesses across Manipur.',
+        'Mobile-first websites, ecommerce, and apps for Imphal businesses — handloom, tourism, education, retail. Built for Manipur audiences. Fixed pricing.',
       canonical: '/web-development/imphal',
     },
     geo: { lat: '24.8170', lng: '93.9368' },
@@ -362,9 +364,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Aizawl, Mizoram | Tech Waglogy LLP',
+      title: 'Web Development Company in Aizawl, Mizoram | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for businesses in Aizawl and Mizoram. Serving NGOs, tourism, education, bamboo industry, and retail businesses across Mizoram.',
+        'Websites and apps for Aizawl businesses, NGOs, and bamboo brands. Mobile-first, charitable rates for NGOs, ecommerce-ready. Northeast specialists.',
       canonical: '/web-development/aizawl',
     },
     geo: { lat: '23.7271', lng: '92.7176' },
@@ -415,9 +417,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Kohima, Nagaland | Tech Waglogy LLP',
+      title: 'Web Development Company in Kohima, Nagaland | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for businesses in Kohima and Nagaland. Serving tourism, agriculture, education, government, and retail businesses across Nagaland.',
+        'Websites and apps for Kohima and Nagaland — tourism, cooperatives, education, government. Year-round content strategy beyond Hornbill Festival.',
       canonical: '/web-development/kohima',
     },
     geo: { lat: '25.6751', lng: '94.1086' },
@@ -468,9 +470,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Agartala, Tripura | Tech Waglogy LLP',
+      title: 'Web Development Company in Agartala, Tripura | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for businesses in Agartala and Tripura. Serving trade, tourism, agriculture, education, and government clients across Tripura.',
+        'Bilingual English + Bengali websites and apps for Agartala businesses. Cross-border trade, tourism, agriculture, government. Northeast specialists.',
       canonical: '/web-development/agartala',
     },
     geo: { lat: '23.8315', lng: '91.2868' },
@@ -521,9 +523,9 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Siliguri, West Bengal | Tech Waglogy LLP',
+      title: 'Web Development Company in Siliguri, West Bengal | Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for businesses in Siliguri, West Bengal. Serving logistics, tea trade, healthcare, retail, and real estate businesses in Siliguri.',
+        'Logistics software, tea trade B2B portals, hospital sites, and apps for Siliguri businesses. High-traffic architecture, Northeast gateway specialists.',
       canonical: '/web-development/siliguri',
     },
     geo: { lat: '26.7271', lng: '88.3953' },
@@ -574,13 +576,19 @@ export const cities = [
       },
     ],
     seo: {
-      title: 'Web Development Company in Darjeeling, West Bengal | Tech Waglogy LLP',
+      title: 'Web Development Company in Darjeeling | Tech Waglogy',
       description:
-        'Tech Waglogy LLP builds websites, apps, and software for tea estates, hotels, schools, and tourism businesses in Darjeeling, West Bengal.',
+        'Tea estate D2C, hotel booking sites, boarding school portals, and tourism websites for Darjeeling businesses. International-standard, Sikkim-based team.',
       canonical: '/web-development/darjeeling',
     },
     geo: { lat: '27.0360', lng: '88.2627' },
   },
 ]
 
+// Merge optional rich content (Phase 3 priority pages) into the base entries.
+// Cities without an entry in citiesRichContent.js continue to render with
+// just the base fields — no breaking changes.
+export const cities = baseCities.map(withRichContent)
+
 export const getCityBySlug = (slug) => cities.find((c) => c.slug === slug)
+

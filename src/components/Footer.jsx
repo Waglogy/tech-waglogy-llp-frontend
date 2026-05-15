@@ -53,7 +53,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <a href="/" className="inline-block mb-6">
-              <img src="/logo.svg" alt="Waglogy" className="h-10 w-auto brightness-0 invert opacity-90" />
+              <img src="/logo.svg" alt="Waglogy" className="h-14 w-auto brightness-0 invert opacity-90" />
             </a>
             <p className="text-sm leading-relaxed mb-6">
               Tech Waglogy LLP is an IT company based in Gangtok, Sikkim. We build digital solutions for growing businesses across India.

@@ -50,7 +50,7 @@ const Header = () => {
           <div className="flex items-center justify-between py-4">
 
             <a href="/" className="flex items-center shrink-0">
-              <img src="/logo.svg" alt="Waglogy" className="h-10 w-auto" />
+              <img src="/logo.png" alt="Waglogy" className="h-11 w-auto" />
             </a>
 
             <nav className="hidden md:flex items-center gap-1">

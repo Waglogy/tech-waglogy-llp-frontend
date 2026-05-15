@@ -373,3 +373,89 @@ export const generateFAQSchema = (faqs) => ({
   }))
 })
 
+// ──────────────────────────────────────────────────────────────────────
+// Phase 3 helpers — city-scoped LocalBusiness + Service schemas
+// ──────────────────────────────────────────────────────────────────────
+
+/**
+ * Per-city LocalBusiness schema. Produces a separate @id per city page so
+ * Google doesn't dedupe it against the global LocalBusiness — and uses the
+ * city's lat/lng + service catalog for local relevance.
+ */
+export const generateCityLocalBusinessSchema = (city) => ({
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${SITE_CONFIG.siteUrl}${city.seo.canonical}#localbusiness`,
+  name: `${SITE_CONFIG.business.name} — ${city.name}`,
+  image: `${SITE_CONFIG.siteUrl}/logo.svg`,
+  description:
+    city.intro
+      ? city.intro.slice(0, 280) + '…'
+      : city.seo.description,
+  url: `${SITE_CONFIG.siteUrl}${city.seo.canonical}`,
+  telephone: SITE_CONFIG.business.phone,
+  email: SITE_CONFIG.business.email,
+  priceRange: SITE_CONFIG.business.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE_CONFIG.business.address.streetAddress,
+    addressLocality: SITE_CONFIG.business.address.addressLocality,
+    addressRegion: SITE_CONFIG.business.address.addressRegion,
+    postalCode: SITE_CONFIG.business.address.postalCode,
+    addressCountry: SITE_CONFIG.business.address.addressCountry,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: city.geo?.lat || SITE_CONFIG.business.geo.latitude,
+    longitude: city.geo?.lng || SITE_CONFIG.business.geo.longitude,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    opens: '09:00',
+    closes: '19:00',
+  },
+  areaServed: [
+    { '@type': 'City', name: city.name },
+    { '@type': 'AdministrativeArea', name: city.state },
+    ...(city.nearbyAreas || []).map((area) => ({ '@type': 'Place', name: area })),
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `Web & app development services in ${city.name}`,
+    itemListElement: (city.serviceDetails || [
+      { title: 'Web Development', body: 'Professional website development services' },
+      { title: 'Mobile App Development', body: 'iOS and Android app development' },
+      { title: 'Custom Software', body: 'Tailored software solutions' },
+      { title: 'AI Automation', body: 'AI-powered chatbots and automation' },
+    ]).map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.title,
+        description: s.body,
+        areaServed: city.name,
+      },
+    })),
+  },
+})
+
+/**
+ * Per-city aggregated Service schema. One Service entity for "Web Development
+ * in [City]" — useful for service+location queries.
+ */
+export const generateCityServiceSchema = (city) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE_CONFIG.siteUrl}${city.seo.canonical}#service`,
+  serviceType: 'Web Development',
+  name: `Web Development in ${city.name}`,
+  description: city.seo.description,
+  provider: {
+    '@type': 'ProfessionalService',
+    '@id': `${SITE_CONFIG.siteUrl}${city.seo.canonical}#localbusiness`,
+    name: `${SITE_CONFIG.business.name} — ${city.name}`,
+  },
+  areaServed: { '@type': 'City', name: city.name },
+  audience: { '@type': 'BusinessAudience', audienceType: 'Local businesses' },
+})
