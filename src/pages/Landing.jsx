@@ -287,7 +287,7 @@ const Landing = () => {
                     {/* Bar chart */}
                     <div className="bg-white rounded-lg border border-[#E5E2DC] p-3">
                       <div className="text-[10px] text-[#A09A90] font-semibold uppercase tracking-widest mb-2.5">Inquiries by day</div>
-                      <div className="flex items-end justify-between gap-1.5" style={{ height: '54px' }}>
+                      <div className="flex items-end justify-between gap-1.5">
                         {[
                           { day: 'M', h: 42 },
                           { day: 'T', h: 68 },
@@ -297,9 +297,12 @@ const Landing = () => {
                           { day: 'S', h: 100 },
                           { day: 'S', h: 71 },
                         ].map((b, i) => (
-                          <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                            <div className="w-full rounded-t bg-blue-500" style={{ height: `${b.h}%`, opacity: 0.85 }} />
-                            <div className="text-[9px] text-[#A09A90] font-medium">{b.day}</div>
+                          <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
+                            <div
+                              className="w-full rounded-t bg-blue-500"
+                              style={{ height: `${b.h * 0.45}px`, minHeight: '4px', opacity: 0.85 }}
+                            />
+                            <div className="text-[9px] text-[#A09A90] font-medium leading-none">{b.day}</div>
                           </div>
                         ))}
                       </div>
