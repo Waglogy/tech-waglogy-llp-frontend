@@ -117,16 +117,16 @@ export const PAGE_SEO = {
   },
 
   about: {
-    title: 'About Us - Tech Waglogy LLP | Leading IT Company in Sikkim',
-    description: 'Learn about Tech Waglogy LLP, Sikkim\'s trusted web and app development company. Based in Gangtok, we serve businesses across Northeast India with innovative technology solutions since our inception.',
+    title: 'About Waglogy - The Team Behind Himato | AI for Hospitality',
+    description: 'Waglogy is the team behind Himato — an AI travel platform running in Northeast India. We install the same AI revenue engine inside hotels, homestays, and tour operators across India. Based in Gangtok, Sikkim.',
     keywords: [
       'about Tech Waglogy',
-      'IT company Sikkim history',
-      'web development team Gangtok',
-      'Sikkim software company',
+      'Himato team',
+      'AI tourism company India',
+      'AI hospitality startup Sikkim',
+      'AI revenue systems team',
       'tech startup Sikkim',
-      'web developer sikkim',
-      'software engineers sikkim'
+      'AI agency Northeast India'
     ],
     canonical: '/about'
   },
@@ -148,13 +148,15 @@ export const PAGE_SEO = {
   },
 
   pricing: {
-    title: 'Pricing & Packages - Affordable Web & App Development in Sikkim',
-    description: 'Transparent pricing for web development, app development, and software services in Sikkim. Growth-friendly packages starting from ₹40,000. Serving businesses in Gangtok, Darjeeling, Siliguri, and Northeast India.',
+    title: 'Pricing - Revenue System Install Fees & Retainers | Waglogy',
+    description: 'Transparent pricing for AI-powered revenue systems for hotels and tour operators: ₹1.5L–3L install + ₹15–25k/month retainer. Individual web, app, and software pricing also published. No hidden charges.',
     keywords: [
+      'revenue system pricing',
+      'AI install fee Sikkim',
+      'hotel automation pricing India',
+      'WhatsApp AI agent cost',
       'web development cost Sikkim',
       'app development price Gangtok',
-      'website price Sikkim',
-      'affordable web development',
       'software development cost Northeast India'
     ],
     canonical: '/pricing'

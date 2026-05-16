@@ -72,13 +72,15 @@ const Insights = () => {
               variants={fadeUp} initial="hidden" animate="visible" custom={1}
               className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6 max-w-3xl"
             >
-              Ideas and guides from the Waglogy team.
+              Field notes on AI, hospitality, and revenue systems.
             </motion.h1>
             <motion.p
               variants={fadeUp} initial="hidden" animate="visible" custom={2}
               className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl"
             >
-              Practical thinking on technology, design, and building things that work for real businesses.
+              Practical writing from building Himato and installing revenue systems in hotels —
+              plus the occasional piece on technology, design, and running a service business in
+              Northeast India.
             </motion.p>
           </div>
         </section>

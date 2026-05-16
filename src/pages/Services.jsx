@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   MdWeb, MdPhoneIphone, MdDesktopWindows, MdBrush, MdSmartToy, MdPeople,
-  MdArrowForward, MdCheckCircle, MdClose, MdAccessTime, MdCurrencyRupee
+  MdArrowForward, MdCheckCircle, MdClose, MdAccessTime, MdCurrencyRupee,
+  MdSupportAgent, MdInsights
 } from 'react-icons/md'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
@@ -17,7 +18,61 @@ const fadeUp = {
   })
 }
 
-const services = [
+const flagshipSystems = [
+  {
+    id: 'lead-capture',
+    icon: MdSmartToy,
+    title: 'Lead Capture System',
+    tagline: 'Every inquiry caught, qualified, and replied to in under a minute.',
+    description: 'One funnel that captures every WhatsApp message, website form, booking.com query, and Instagram DM — qualifies each one with an AI agent that knows your rooms, rates, and seasons — and responds in under 60 seconds, so you never lose a guest to a faster operator.',
+    includes: [
+      'Conversion-optimised landing page with embedded inquiry capture',
+      'WhatsApp Business API integration with auto-greeting',
+      'AI agent trained on your inventory, rates, and policies',
+      'Unified inbox — WhatsApp, email, Instagram, web forms — in one place',
+      'Smart qualification (dates, group size, intent)',
+      'Clean human handoff for complex inquiries',
+    ],
+    startingPrice: '₹75,000',
+    timeline: '3–4 weeks',
+  },
+  {
+    id: 'follow-up',
+    icon: MdSupportAgent,
+    title: 'Automated Follow-Up Engine',
+    tagline: 'Sequences that recover the leads your team forgets to chase.',
+    description: 'Most properties lose 60–70% of inquiries not to a competitor — but to silence. The Follow-Up Engine sends timed, personalised WhatsApp, email, and SMS sequences that nurture cold leads, recover abandoned bookings, and bring past guests back in your off-season. Written and tuned specifically for hospitality.',
+    includes: [
+      'WhatsApp + email + SMS multi-channel sequences',
+      'Abandoned-inquiry recovery flows (24h, 72h, 7-day)',
+      'Off-season nurture campaigns (festival, season opening)',
+      'Past-guest re-engagement and referral asks',
+      'A/B testing on subject lines, copy, and timing',
+      'Full WhatsApp Business API compliance',
+    ],
+    startingPrice: '₹50,000',
+    timeline: '2–3 weeks',
+  },
+  {
+    id: 'analytics',
+    icon: MdInsights,
+    title: 'Revenue Analytics Dashboard',
+    tagline: 'The numbers your team has been guessing at, on one screen.',
+    description: 'A custom dashboard you open on your phone every morning. Leads this week vs last week. Average response time. Conversion rate by source. Revenue attribution per channel. The data your business has always generated but never seen — turned into decisions you can act on before lunch.',
+    includes: [
+      'Daily lead, response, and booking metrics',
+      'Source attribution — which channel actually drives revenue',
+      'Conversion funnel breakdown by stage',
+      'Off-season vs peak season comparisons',
+      'Mobile-first dashboard built for owners, not analysts',
+      'Weekly summary delivered straight to WhatsApp',
+    ],
+    startingPrice: '₹40,000',
+    timeline: '2–3 weeks',
+  },
+]
+
+const legacyServices = [
   {
     id: 'website',
     icon: MdWeb,
@@ -87,23 +142,6 @@ const services = [
     timeline: '2–4 weeks',
   },
   {
-    id: 'ai',
-    icon: MdSmartToy,
-    title: 'AI Integration & Automation',
-    tagline: 'Practical AI — not buzzwords, actual time saved.',
-    description: 'We integrate AI and automation into your existing systems in ways that actually make a difference. Automated customer responses, document processing, internal search, workflow automation — built and tested to work reliably in your environment.',
-    includes: [
-      'Workflow and process automation',
-      'AI-powered chatbots and assistants',
-      'Document and data extraction',
-      'Integration with existing tools and APIs',
-      'Custom LLM-based features',
-      'Monitoring, logging, and ongoing tuning',
-    ],
-    startingPrice: '₹50,000',
-    timeline: '4–10 weeks',
-  },
-  {
     id: 'consulting',
     icon: MdPeople,
     title: 'IT Consulting',
@@ -146,7 +184,7 @@ const Services = () => {
     setForm({ name: '', email: '', phone: '', message: '' })
   }
 
-  const serviceSchemas = services.slice(0, 3).map(s =>
+  const serviceSchemas = flagshipSystems.map(s =>
     generateServiceSchema({ name: s.title, description: s.description, features: s.includes })
   )
 
@@ -161,33 +199,38 @@ const Services = () => {
         <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 border-b border-[#E5E2DC]">
           <div className="max-w-7xl mx-auto max-w-3xl">
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} className="section-label mb-6">
-              Services
+              What We Install
             </motion.div>
             <motion.h1
               variants={fadeUp} initial="hidden" animate="visible" custom={1}
               className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6"
             >
-              What we build and how we can help.
+              Three systems that turn inquiries into revenue.
             </motion.h1>
             <motion.p
               variants={fadeUp} initial="hidden" animate="visible" custom={2}
               className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl mb-10"
             >
-              Every service we offer is built around a single goal: delivering something that works — for your business, your users, and your budget. We don't oversell scope, and we don't undersell effort.
+              Built individually or wired together as a complete revenue system. Each one solves a
+              specific failure point in the inquiry-to-booking funnel for hotels, homestays, and
+              tour operators.
             </motion.p>
-            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3}>
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3} className="flex flex-wrap gap-3">
               <a href="/contact" className="btn-primary text-base px-7 py-3.5">
-                Discuss your project
+                Book a 20-min walkthrough
                 <MdArrowForward size={18} />
+              </a>
+              <a href="/pricing" className="btn-outline text-base px-7 py-3.5">
+                See pricing
               </a>
             </motion.div>
           </div>
         </section>
 
-        {/* ── SERVICES ─────────────────────────────────────── */}
+        {/* ── FLAGSHIP SYSTEMS ─────────────────────────────── */}
         <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
           <div className="max-w-7xl mx-auto space-y-6">
-            {services.map((service, idx) => (
+            {flagshipSystems.map((service, idx) => (
               <motion.div
                 key={service.id}
                 variants={fadeUp}
@@ -263,6 +306,140 @@ const Services = () => {
           </div>
         </section>
 
+        {/* ── BUNDLED REVENUE SYSTEM ──────────────────────── */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-b border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="card p-10 lg:p-12"
+              style={{ background: '#0A0F1E', borderColor: '#0A0F1E' }}
+            >
+              <div className="grid lg:grid-cols-12 gap-10 items-center">
+                <div className="lg:col-span-7">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold tracking-widest uppercase mb-6">
+                    Bundle
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5 leading-tight">
+                    All three, wired together as one revenue system.
+                  </h2>
+                  <p className="text-slate-300 leading-relaxed mb-8 text-base">
+                    Most properties install all three at once because the systems work harder
+                    together — captured leads feed the follow-up engine, both feed the dashboard,
+                    and the dashboard tells us what to tune. Single install, one team, one timeline.
+                  </p>
+                  <div className="grid sm:grid-cols-3 gap-6">
+                    <div>
+                      <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1.5">Build fee</div>
+                      <div className="text-xl font-bold text-white">₹1.5L – ₹3L</div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1.5">Monthly retainer</div>
+                      <div className="text-xl font-bold text-white">₹15k – ₹25k</div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1.5">Time to live</div>
+                      <div className="text-xl font-bold text-white">4 – 6 weeks</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">What you get</p>
+                  <ul className="space-y-2.5 mb-8">
+                    {[
+                      'All three flagship systems, fully integrated',
+                      'Single discovery and scoping engagement',
+                      'One unified dashboard across lead, follow-up, revenue',
+                      'Monthly tuning, new campaigns, fresh AI prompts',
+                      'You own all accounts, data, and the system itself',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm text-slate-200">
+                        <MdCheckCircle size={16} className="text-blue-400 mt-0.5 shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => openQuote({ title: 'Complete Revenue System (Bundle)' })}
+                    className="btn-primary text-sm px-6 py-3 whitespace-nowrap"
+                  >
+                    Get a bundled quote
+                    <MdArrowForward size={16} />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── WE ALSO BUILD ────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-12 max-w-2xl"
+            >
+              <div className="section-label mb-4">We Also Build</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0C0C0C] mb-3">
+                One-off projects, when the fit makes sense.
+              </h2>
+              <p className="text-[#6E6B67] leading-relaxed">
+                Sometimes a hotel or operator just needs a website rebuilt, or a tour company needs
+                an app. We still take selected projects of this kind — particularly when they
+                naturally extend into a revenue system later.
+              </p>
+            </motion.div>
+
+            <div className="space-y-6">
+              {legacyServices.map((service, idx) => (
+                <motion.div
+                  key={service.id}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-7 lg:p-8"
+                >
+                  <div className="grid lg:grid-cols-12 gap-6 items-start">
+                    <div className="lg:col-span-4 flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 mt-0.5">
+                        <service.icon size={20} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-[#0C0C0C] text-base leading-snug">{service.title}</h3>
+                        <p className="text-sm text-blue-600 font-medium mt-0.5">{service.tagline}</p>
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-5">
+                      <p className="text-sm text-[#6E6B67] leading-relaxed">{service.description}</p>
+                    </div>
+
+                    <div className="lg:col-span-3 flex lg:flex-col lg:items-end gap-4 lg:gap-2">
+                      <div className="text-sm">
+                        <div className="text-[#3D3A36] font-semibold">From {service.startingPrice}</div>
+                        <div className="text-[#6E6B67] text-xs mt-0.5">{service.timeline}</div>
+                      </div>
+                      <button
+                        onClick={() => openQuote(service)}
+                        className="btn-outline text-xs px-4 py-2 whitespace-nowrap"
+                      >
+                        Get a Quote
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── HONEST NOTE ──────────────────────────────────── */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-b border-[#E5E2DC]">
           <div className="max-w-3xl mx-auto">
@@ -274,9 +451,9 @@ const Services = () => {
               className="text-center"
             >
               <p className="text-xl text-[#3D3A36] leading-relaxed">
-                Prices shown are starting points, not quotes. Every project is scoped individually
-                because every business is different. We give you a fixed price before any work begins —
-                so you know exactly what you're committing to.
+                Prices shown are starting points, not quotes. Every install is scoped to your
+                property's actual size, channels, and traffic. The monthly retainer is what keeps
+                the system improving — and it's discussed openly upfront, never as a surprise.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="/pricing" className="btn-outline text-sm px-6 py-3">
@@ -304,10 +481,11 @@ const Services = () => {
             >
               <div className="section-label mb-4">Where We Work</div>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#0C0C0C] mb-3">
-                Serving businesses across Northeast India.
+                Serving hospitality and service businesses across Northeast India.
               </h2>
               <p className="text-[#6E6B67] max-w-2xl">
-                Based in Gangtok, Sikkim — delivering web development, app development, and software to every major city in the region.
+                Based in Gangtok, Sikkim — installing revenue systems for hotels, homestays, and
+                tour operators in every major city of the region (and beyond, remotely).
               </p>
             </motion.div>
 
@@ -355,13 +533,15 @@ const Services = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
-                Not sure which service fits?
+                Not sure which system fits your property?
               </h2>
               <p className="text-slate-400 text-lg mb-10 leading-relaxed">
-                That's a perfectly normal starting point. Tell us what you're trying to achieve and we'll tell you what makes sense — honestly, even if the answer is "you don't need us for that."
+                A 20-minute walkthrough of your current funnel is usually all it takes to see where
+                the biggest leak is. We'll tell you which system to install first — honestly, even
+                if the answer is "you don't need the full bundle yet."
               </p>
               <a href="/contact" className="btn-primary px-8 py-4 text-base justify-center">
-                Let's talk it through
+                Book a 20-min walkthrough
                 <MdArrowForward size={18} />
               </a>
             </motion.div>

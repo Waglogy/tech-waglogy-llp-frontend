@@ -37,17 +37,17 @@ const services = [
 ]
 
 const steps = [
-  { number: '01', title: 'We Listen',  desc: 'We take time to understand your business, your goals, and what problem you actually need solved.' },
-  { number: '02', title: 'We Plan',    desc: 'Clear scope, realistic timeline, fixed pricing. No vague estimates, no moving goalposts.' },
-  { number: '03', title: 'We Build',   desc: 'Quality development with regular updates. You see progress, not just a final reveal.' },
-  { number: '04', title: 'We Support', desc: 'We stay after launch — maintenance, updates, and growth support as your business evolves.' },
+  { number: '01', title: 'Audit',   desc: 'We sit down for an hour and map your current funnel — where leads come from, where they get stuck, where revenue leaks out.' },
+  { number: '02', title: 'Design',  desc: 'We design what gets built: site copy, AI agent tone, message flows, dashboard layout. You approve every piece before we touch code.' },
+  { number: '03', title: 'Install', desc: 'We wire it up — site, WhatsApp engine, AI agent, follow-up sequences, dashboard. Fixed price, predictable timeline.' },
+  { number: '04', title: 'Tune',    desc: 'Monthly retainer keeps it sharp. New campaigns each season, fresh prompts, new flows as your business grows.' },
 ]
 
 const trustPoints = [
-  { icon: MdVerified,    title: 'Transparent Pricing',    desc: 'Fixed quotes before work begins. No surprises, no scope creep billed retroactively.' },
-  { icon: MdSupportAgent, title: 'Real Support',          desc: 'You can call us. We answer. Monday to Sunday, 9am to 7pm — and available on WhatsApp.' },
-  { icon: MdGroups,      title: 'Experienced Team',       desc: 'Full-stack developers, designers, and consultants — everything under one roof.' },
-  { icon: MdStar,        title: 'Long-Term Partnership',  desc: 'We build lasting relationships, not one-off projects. Your growth matters to us beyond the invoice.' },
+  { icon: MdStar,        title: 'We run what we sell',     desc: 'Himato — our own AI travel platform in Northeast India — is built on the same engine we install for you. Battle-tested in our own operation first.' },
+  { icon: MdVerified,    title: 'Outcomes, instrumented',  desc: 'Every install ships with a dashboard. Inquiries, response time, conversion, revenue by source — measured from day one.' },
+  { icon: MdSupportAgent, title: 'Real support',           desc: 'You can call us. We answer. Monday to Sunday, 9am to 7pm — and we live on WhatsApp like your guests do.' },
+  { icon: MdGroups,      title: 'Built for hospitality',   desc: 'Tour operator flows, off-season nurture, multilingual replies. We know this industry, not just the tech.' },
 ]
 
 const CityLanding = () => {
@@ -77,10 +77,10 @@ const CityLanding = () => {
   ]
 
   const stats = city.stats || [
-    { value: '50+',       label: 'Projects Delivered' },
-    { value: '5+',        label: 'Years in Business' },
-    { value: 'Pan-India', label: 'Clients Served' },
-    { value: 'Mon–Sun',   label: 'Support Hours' },
+    { value: '<60s',    label: 'First-touch response' },
+    { value: '24/7',    label: 'Auto-response engine' },
+    { value: '4–6 wks', label: 'From kickoff to live' },
+    { value: '5+ yrs',  label: 'Building in Northeast' },
   ]
 
   const handleSubmit = async (e) => {
@@ -186,11 +186,11 @@ const CityLanding = () => {
                 className="flex flex-col sm:flex-row gap-4"
               >
                 <a href="/contact" className="btn-primary text-base px-7 py-3.5">
-                  Start a Project
+                  Book a walkthrough
                   <MdArrowForward size={18} />
                 </a>
-                <a href="/projects" className="btn-outline text-base px-7 py-3.5">
-                  View Our Work
+                <a href="/services" className="btn-outline text-base px-7 py-3.5">
+                  See the systems
                 </a>
               </motion.div>
 
@@ -384,6 +384,65 @@ const CityLanding = () => {
           </div>
         </section>
 
+        {/* ── REVENUE SYSTEMS BRIDGE (for hospitality buyers) ── */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-12 max-w-2xl"
+            >
+              <div className="section-label mb-4">If you're in hospitality</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0C0C0C] mb-4">
+                A website alone won't fix the real leak.
+              </h2>
+              <p className="text-[#6E6B67] leading-relaxed">
+                Most hotels and tour operators in {city.name} don't have a marketing problem —
+                they have a follow-up problem. Inquiries land at 11pm; replies go out at 9am.
+                We install the AI revenue system that fixes it: lead capture, automated WhatsApp
+                follow-up, and a live revenue dashboard. Built on what's already running in our
+                own travel product, Himato.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+              {[
+                { icon: MdSmartToy,    title: 'Lead Capture System',          desc: 'Every WhatsApp, form, and DM caught and qualified by an AI agent in under 60 seconds — even at midnight.' },
+                { icon: MdSupportAgent, title: 'Automated Follow-Up Engine',  desc: 'WhatsApp + email + SMS sequences that nurture cold leads and recover abandoned bookings on autopilot.' },
+                { icon: MdVerified,    title: 'Revenue Analytics Dashboard',  desc: 'Leads, response time, conversion, revenue by source — on one screen you can open from your phone.' },
+              ].map((sys, idx) => (
+                <motion.div
+                  key={sys.title}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-6"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-4">
+                    <sys.icon size={20} />
+                  </div>
+                  <h3 className="text-base font-bold text-[#0C0C0C] mb-2">{sys.title}</h3>
+                  <p className="text-sm text-[#6E6B67] leading-relaxed">{sys.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <a href="/services" className="btn-primary text-sm px-6 py-3">
+                See how the system works
+                <MdArrowForward size={16} />
+              </a>
+              <a href="/pricing" className="btn-outline text-sm px-6 py-3">
+                See pricing
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* ── CASE STUDIES (rich content only) ─────────────── */}
         {city.caseStudies && city.caseStudies.length > 0 && (
           <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E5E2DC]">
@@ -511,9 +570,9 @@ const CityLanding = () => {
               viewport={{ once: true }}
               className="mb-14"
             >
-              <div className="section-label mb-4">How We Work</div>
+              <div className="section-label mb-4">How We Install</div>
               <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] max-w-xl">
-                A clear process from start to finish.
+                From first call to live system in 4–6 weeks.
               </h2>
             </motion.div>
 
@@ -662,17 +721,18 @@ const CityLanding = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
-                Ready to build something that works in {city.name}?
+                Ready to stop losing inquiries in {city.name}?
               </h2>
               <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                Tell us what you need. We'll get back to you within one business day with a clear next step — no sales pitch, no obligation.
+                Tell us about your property — or what you're trying to build. We'll come back
+                within one business day with a clear next step. No sales pitch, no obligation.
               </p>
 
               <div className="space-y-5">
                 {[
-                  'Free initial consultation',
-                  'Fixed quote before work begins',
-                  'No lock-in contracts',
+                  'Free 20-min walkthrough of your funnel',
+                  'Fixed install quote before any work begins',
+                  'You own the system, data, and accounts',
                 ].map((text) => (
                   <div key={text} className="flex items-center gap-3 text-slate-300">
                     <MdCheckCircle size={18} className="text-blue-400 shrink-0" />
@@ -703,13 +763,13 @@ const CityLanding = () => {
               custom={1}
             >
               <div className="bg-white rounded-2xl p-8 border border-[#E5E2DC]">
-                <h3 className="text-xl font-bold text-[#0C0C0C] mb-6">Send us a message</h3>
+                <h3 className="text-xl font-bold text-[#0C0C0C] mb-6">Tell us about your property</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <textarea
                     rows={5}
                     value={queryMessage}
                     onChange={(e) => setQueryMessage(e.target.value)}
-                    placeholder={`Describe what you're looking to build in ${city.name}...`}
+                    placeholder={`Property name, type (hotel/homestay/tour operator), and rough monthly inquiries in ${city.name}. Or just say hi.`}
                     className="w-full border border-[#E5E2DC] rounded-lg p-4 text-[#0C0C0C] placeholder-[#A09A90] text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors resize-none"
                     disabled={isSubmitting}
                   />
@@ -718,7 +778,7 @@ const CityLanding = () => {
                     disabled={isSubmitting || !queryMessage.trim()}
                     className="btn-primary w-full justify-center py-3.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? 'Sending…' : 'Send Message'}
+                    {isSubmitting ? 'Sending…' : 'Request walkthrough'}
                   </button>
                 </form>
 

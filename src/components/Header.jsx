@@ -86,7 +86,7 @@ const Header = () => {
                 onClick={handleGetQuote}
                 className="hidden sm:block btn-primary text-sm py-2.5 px-5"
               >
-                Get a Quote
+                Book a walkthrough
               </button>
 
               <button
@@ -155,7 +155,7 @@ const Header = () => {
                   onClick={() => { handleGetQuote(); setIsMobileMenuOpen(false) }}
                   className="btn-primary w-full justify-center text-sm"
                 >
-                  Get a Quote
+                  Book a walkthrough
                 </button>
                 <div className="flex gap-5 justify-center pt-1">
                   <a href="https://wa.me/919733814168" target="_blank" rel="noopener noreferrer"

@@ -129,13 +129,15 @@ const Pricing = () => {
               variants={fadeUp} initial="hidden" animate="visible" custom={1}
               className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6 max-w-3xl"
             >
-              Honest pricing. Fixed quotes. No surprises.
+              Honest pricing. Fixed install fees. Clear retainers.
             </motion.h1>
             <motion.p
               variants={fadeUp} initial="hidden" animate="visible" custom={2}
               className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl mb-10"
             >
-              Every project is different, so we don't do fixed packages. What we do instead: give you a clear, fixed quote before any work begins — based on exactly what your project needs, nothing more.
+              Revenue systems are priced as a fixed install fee + a monthly retainer for ongoing
+              tuning. Individual websites, apps, and software projects are priced as fixed quotes.
+              Either way — you see the number before any work begins.
             </motion.p>
 
             <motion.div
@@ -143,10 +145,10 @@ const Pricing = () => {
               className="flex flex-wrap gap-6"
             >
               {[
-                'Fixed price agreed before work starts',
-                'No hourly billing surprises',
-                'No hidden charges',
-                'Scope changes discussed openly',
+                'Fixed install fee, no hourly surprises',
+                'Monthly retainer disclosed upfront',
+                'No lock-in — cancel the retainer any time',
+                'You own the data, accounts, and system',
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2 text-sm text-[#3D3A36]">
                   <MdCheckCircle size={16} className="text-blue-500 shrink-0" />
@@ -157,20 +159,136 @@ const Pricing = () => {
           </div>
         </section>
 
-        {/* ── PRICE GUIDE ──────────────────────────────────── */}
+        {/* ── REVENUE SYSTEM PRICING ───────────────────────── */}
         <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+
+            <motion.div
+              variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="mb-12 max-w-2xl"
+            >
+              <div className="section-label mb-4">Revenue Systems</div>
+              <h2 className="text-4xl font-bold text-[#0C0C0C] mb-3">
+                Install fee + monthly retainer.
+              </h2>
+              <p className="text-[#6E6B67]">
+                The flagship offer. Buy the complete system as a bundle, or install the components
+                individually as your business grows into them.
+              </p>
+            </motion.div>
+
+            {/* Bundle card */}
+            <motion.div
+              variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="card p-10 lg:p-12 mb-6"
+              style={{ background: '#0A0F1E', borderColor: '#0A0F1E' }}
+            >
+              <div className="grid lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-7">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold tracking-widest uppercase mb-5">
+                    Most properties pick this
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 leading-tight">
+                    Complete Revenue System
+                  </h3>
+                  <p className="text-slate-300 leading-relaxed text-base">
+                    Lead Capture + Automated Follow-Up + Revenue Analytics, all wired together as
+                    one engine. Single discovery, one timeline, one unified dashboard. 4–6 weeks
+                    from kickoff to live.
+                  </p>
+                </div>
+                <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10 space-y-4">
+                  <div>
+                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Install fee</div>
+                    <div className="text-2xl font-bold text-white">₹1,50,000 – ₹3,00,000</div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Monthly retainer</div>
+                    <div className="text-2xl font-bold text-white">₹15,000 – ₹25,000</div>
+                    <div className="text-xs text-slate-400 mt-1">Tuning, new campaigns, fresh prompts — cancel any time</div>
+                  </div>
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="btn-primary text-sm px-6 py-3 whitespace-nowrap mt-2"
+                  >
+                    Request a bundle quote
+                    <MdArrowForward size={16} />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Individual flagship pricing */}
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                {
+                  title: 'Lead Capture System',
+                  starting: '₹75,000',
+                  typical: '₹75,000 – ₹1,25,000',
+                  timeline: '3–4 weeks',
+                  retainer: '₹8,000 / month',
+                },
+                {
+                  title: 'Automated Follow-Up Engine',
+                  starting: '₹50,000',
+                  typical: '₹50,000 – ₹90,000',
+                  timeline: '2–3 weeks',
+                  retainer: '₹6,000 / month',
+                },
+                {
+                  title: 'Revenue Analytics Dashboard',
+                  starting: '₹40,000',
+                  typical: '₹40,000 – ₹70,000',
+                  timeline: '2–3 weeks',
+                  retainer: '₹4,000 / month',
+                },
+              ].map((item, idx) => (
+                <motion.div
+                  key={item.title}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-6"
+                >
+                  <h4 className="font-bold text-[#0C0C0C] mb-4">{item.title}</h4>
+                  <div className="space-y-3 text-sm">
+                    <div>
+                      <div className="text-xs text-[#A09A90] font-semibold uppercase tracking-widest mb-0.5">Install</div>
+                      <div className="text-[#0C0C0C] font-semibold">{item.typical}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-[#A09A90] font-semibold uppercase tracking-widest mb-0.5">Retainer</div>
+                      <div className="text-[#0C0C0C] font-semibold">{item.retainer}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-[#A09A90] font-semibold uppercase tracking-widest mb-0.5">Timeline</div>
+                      <div className="text-[#3D3A36]">{item.timeline}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRICE GUIDE ──────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-b border-[#E5E2DC]">
           <div className="max-w-7xl mx-auto">
 
             <motion.div
               variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
               className="mb-14"
             >
-              <div className="section-label mb-4">Price Guide</div>
+              <div className="section-label mb-4">Individual Project Pricing</div>
               <h2 className="text-4xl font-bold text-[#0C0C0C] max-w-xl">
-                Starting points, not final quotes.
+                Need just a website or app? Here's the range.
               </h2>
               <p className="text-[#6E6B67] mt-3 max-w-2xl">
-                These ranges are based on real projects we've delivered. Your actual quote depends on your specific requirements — we'll tell you exactly what it'll cost after a free discovery call.
+                For one-off projects outside the revenue-system bundle — websites, apps, custom
+                software, design work, consulting. These ranges are based on real projects we've
+                delivered. Final quote depends on scope.
               </p>
             </motion.div>
 
@@ -296,24 +414,28 @@ const Pricing = () => {
             <div className="space-y-5">
               {[
                 {
-                  q: 'Do you charge by the hour or by the project?',
-                  a: 'Almost always by the project. We agree on a fixed price upfront so you know exactly what you\'re spending. Hourly billing is only used for consulting or small open-ended tasks where scope genuinely can\'t be defined in advance.',
+                  q: 'What\'s included in the monthly retainer?',
+                  a: 'Tuning the AI agent\'s replies, writing and shipping new follow-up campaigns each season, adding new flows as your channels grow, fixing anything that breaks, and a monthly review of the dashboard with action recommendations. It\'s the difference between a system that decays and one that gets sharper every month.',
                 },
                 {
-                  q: 'What if my requirements change mid-project?',
-                  a: 'We handle this openly. If you want to add something outside the original scope, we\'ll tell you the cost of that addition before doing it. Nothing gets billed retroactively.',
+                  q: 'Can I cancel the retainer?',
+                  a: 'Yes, any time, no penalty. The system keeps running — you just stop getting our ongoing tuning. You own the dashboard, the data, the WhatsApp account, the AI prompts, everything. We don\'t hold systems hostage.',
                 },
                 {
-                  q: 'Do you take a deposit?',
-                  a: 'Yes. We typically work on a 50% upfront, 50% on delivery structure for most projects. For larger projects we split payments into milestones. This is discussed and agreed in the quote.',
+                  q: 'What about WhatsApp Business API fees, hosting, etc?',
+                  a: 'Third-party costs (WhatsApp Business API, AI model usage, hosting, domains, SMS gateway) are passed through at cost — you pay them directly to the providers. Typical range is ₹3,000–₹8,000/month depending on your inquiry volume. We\'ll estimate this for your specific business during scoping.',
+                },
+                {
+                  q: 'Do you take a deposit on the install fee?',
+                  a: 'Yes. Standard structure is 50% upfront to kick off, 50% on go-live. For larger bundle installs we split into three milestones. Everything is written into the agreement before any work begins.',
+                },
+                {
+                  q: 'What if I just need a website, not a full revenue system?',
+                  a: 'That\'s fine — see the Individual Project Pricing section above. Websites still start at ₹25,000. We\'ll tell you honestly if a revenue system would make more sense for your business, but we\'re happy to do the standalone build if that\'s what fits.',
                 },
                 {
                   q: 'Can you work within a tight budget?',
-                  a: 'Sometimes yes. If your budget is limited, we\'ll tell you honestly what\'s achievable within it and what trade-offs that means. We\'d rather scope a smaller project properly than overpromise on a bigger one.',
-                },
-                {
-                  q: 'Are there ongoing costs after the project is delivered?',
-                  a: 'Hosting, domains, and third-party services have their own costs which we\'ll highlight during scoping. We also offer optional maintenance and support packages — but these are never mandatory.',
+                  a: 'Sometimes yes. If the bundle is out of reach, we usually recommend starting with just the Lead Capture System (₹75k) because it has the highest ROI on its own. We\'d rather scope a smaller install properly than oversell you a full bundle you can\'t make work.',
                 },
               ].map((item, idx) => (
                 <motion.div
@@ -340,10 +462,12 @@ const Pricing = () => {
               variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
-                Get a fixed quote for your project.
+                Get a fixed install quote.
               </h2>
               <p className="text-slate-400 text-lg mb-10 leading-relaxed">
-                Tell us what you're building. We'll come back with a clear price, a realistic timeline, and no obligation to proceed.
+                Tell us about your property — rooms or experiences, monthly inquiry volume, what
+                tools you already use. We'll come back with a clear install fee, retainer estimate,
+                and a realistic go-live date.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button

@@ -29,7 +29,9 @@ const Contact = () => {
   const isQuoteRequest = searchParams.get('quote') === 'true'
 
   const [formData, setFormData] = useState({
-    name: '', email: '', phone: '', company: '', service: '', budget: '', message: ''
+    name: '', email: '', phone: '', company: '',
+    propertyType: '', inquiryVolume: '',
+    service: '', budget: '', message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
@@ -64,10 +66,22 @@ const Contact = () => {
 
     try {
       const budgetInUSD = formData.budget ? convertBudgetRangeToUSD(formData.budget) : ''
+
+      // Compose qualification block + user's message so the inbox sees full context.
+      const qualificationLines = [
+        formData.propertyType && `Property type: ${formData.propertyType}`,
+        formData.inquiryVolume && `Monthly inquiries: ${formData.inquiryVolume}`,
+        formData.service && `Interested in: ${formData.service}`,
+        formData.budget && `Budget for install: ${formData.budget}`,
+      ].filter(Boolean)
+      const composedMessage = qualificationLines.length
+        ? `${qualificationLines.join('\n')}\n\n${formData.message}`
+        : formData.message
+
       const apiData = {
         fullName: formData.name,
         email: formData.email,
-        projectDetails: formData.message,
+        projectDetails: composedMessage,
         ...(formData.phone && { phone: formData.phone.trim() }),
         ...(formData.company && { organizationName: formData.company.trim() }),
         ...(budgetInUSD && { budgetRange: budgetInUSD })
@@ -79,12 +93,18 @@ const Contact = () => {
       trackLead('contact_page', {
         service: formData.service || 'unspecified',
         budget_range: formData.budget || 'unspecified',
+        property_type: formData.propertyType || 'unspecified',
+        inquiry_volume: formData.inquiryVolume || 'unspecified',
       })
 
       setSubmittedData(apiData)
       setSubmitStatus('success')
       setShowSuccessModal(true)
-      setFormData({ name: '', email: '', phone: '', company: '', service: '', budget: '', message: '' })
+      setFormData({
+        name: '', email: '', phone: '', company: '',
+        propertyType: '', inquiryVolume: '',
+        service: '', budget: '', message: ''
+      })
     } catch (error) {
       console.error('Error submitting contact form:', error)
       setSubmitStatus('error')
@@ -96,28 +116,28 @@ const Contact = () => {
 
   const faqs = [
     {
-      question: 'How long does it take to deliver a website?',
-      answer: 'Most business websites are delivered within 3–4 weeks from the day we receive all your content and requirements. Complex projects with custom features or integrations typically take 6–10 weeks. We give you a firm timeline before any work begins.'
+      question: 'What happens on the 20-minute walkthrough call?',
+      answer: 'We walk through your current inquiry funnel together — where leads come from, how fast you reply, where they drop off. By the end you have a clear sense of where the biggest leak is and whether installing a revenue system would actually move the needle for your specific property. No pitch, no obligation, no slides.'
     },
     {
-      question: 'What does a typical project cost?',
-      answer: 'A standard business website starts at ₹25,000. E-commerce stores, booking systems, or custom web apps vary based on scope. We provide a fixed-price quote after a short discovery call — no hidden fees, no surprises.'
+      question: 'Do I need to have my numbers ready before the call?',
+      answer: 'Helpful but not required. Roughly knowing your monthly inquiry volume, average booking value, and which channels you use (WhatsApp, Booking.com, Instagram, etc.) makes the call sharper. If you don\'t have those handy, we work with whatever you bring.'
     },
     {
-      question: 'Do you work with businesses outside Sikkim and Northeast India?',
-      answer: 'Yes. While we are based in Gangtok, we serve clients across India. Our work process is fully remote-friendly — discovery, design, development, and handoff all happen via video calls, shared documents, and live previews.'
+      question: 'Do you work with properties outside Sikkim or Northeast India?',
+      answer: 'Yes. We\'re based in Gangtok but install remotely across India — hotels, homestays, and tour operators anywhere. Discovery, design, install, and tuning all happen via video calls and shared dashboards. Our hands have been in properties in Sikkim, West Bengal, Assam, and beyond.'
     },
     {
-      question: 'What is included after delivery?',
-      answer: 'Every project includes a 30-day post-launch support window for bug fixes and small adjustments at no extra cost. We also offer ongoing maintenance plans if you want regular updates, security checks, and content changes handled for you.'
+      question: 'What if we already have a website we like?',
+      answer: 'We don\'t need to replace it. The Lead Capture System can live alongside your existing site, or be wired into it. We rebuild the site only if it\'s actively losing inquiries — slow, broken on mobile, missing capture forms. We\'ll tell you honestly on the walkthrough.'
     },
     {
-      question: 'Can I update my website myself after it is built?',
-      answer: 'Yes. If you need a CMS (content management system), we build it in so you can edit text, images, and blog posts without touching code. We also provide a handover walkthrough so you feel confident managing the site on your own.'
+      question: 'How quickly can we go live?',
+      answer: 'The complete bundle takes 4–6 weeks from kickoff to live. Individual systems are 2–4 weeks. Once we sign the agreement we run a one-hour audit, two weeks of design + AI training, two to three weeks of build and integration, then one week of test traffic before flipping you fully live.'
     },
     {
-      question: 'Do you provide SEO along with the website?',
-      answer: 'Every site we build is technically SEO-ready — fast load times, clean code, proper meta tags, and structured data out of the box. For ongoing keyword research, content strategy, and ranking work, we offer SEO as a separate service.'
+      question: 'What if I just want a website or app, not a revenue system?',
+      answer: 'That\'s fine. We still take selected one-off projects — websites start at ₹25,000, apps at ₹1,50,000. Tell us what you need; we\'ll be honest about whether we\'re the right fit and whether a revenue system would have made more sense.'
     },
   ]
 
@@ -161,8 +181,8 @@ const Contact = () => {
               custom={1}
               className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6"
             >
-              Let's build{' '}
-              <span className="text-blue-600">together</span>
+              See if a revenue system{' '}
+              <span className="text-blue-600">fits your property</span>.
             </motion.h1>
             <motion.p
               variants={fadeUp}
@@ -171,7 +191,9 @@ const Contact = () => {
               custom={2}
               className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl mx-auto"
             >
-              Tell us what you need — a website, an app, or something custom. We'll reply within 24 hours with a clear plan and honest pricing.
+              Tell us a bit about your property and we'll book a 20-minute walkthrough — we'll
+              look at your current funnel, point to where leads are leaking, and tell you honestly
+              whether we're the right install. No pitch, no obligation.
             </motion.p>
           </div>
         </section>
@@ -192,10 +214,11 @@ const Contact = () => {
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-sky-400 to-blue-600 rounded-t-[inherit]" aria-hidden />
 
               <h2 className="text-2xl sm:text-3xl font-bold text-[#0C0C0C] mb-1">
-                {isQuoteRequest ? 'Request a quote' : 'Send us a message'}
+                {isQuoteRequest ? 'Request a quote' : 'Book a walkthrough'}
               </h2>
               <p className="text-[#6E6B67] mb-8 text-sm">
-                Fill in the details below and we'll get back to you within one business day.
+                Share a few details about your property and we'll come back within one business
+                day to schedule the call. Skip anything you're not sure about.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -216,42 +239,68 @@ const Contact = () => {
                     <input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+91…" className={fieldClass} />
                   </div>
                   <div>
-                    <label htmlFor="company" className={labelClass}>Company</label>
-                    <input id="company" name="company" type="text" value={formData.company} onChange={handleInputChange} placeholder="Organization name" className={fieldClass} />
+                    <label htmlFor="company" className={labelClass}>Property / business name</label>
+                    <input id="company" name="company" type="text" value={formData.company} onChange={handleInputChange} placeholder="e.g. Himalayan View Resort" className={fieldClass} />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="service" className={labelClass}>What do you need?</label>
-                    <select id="service" name="service" value={formData.service} onChange={handleInputChange} className={`${fieldClass} text-[#3D3A36]`}>
-                      <option value="">Select a service</option>
-                      <option value="website">Website Development</option>
-                      <option value="mobile-app">Mobile App</option>
-                      <option value="custom-software">Custom Software</option>
-                      <option value="ui-ux">UI / UX Design</option>
-                      <option value="ai-integration">AI Integration</option>
-                      <option value="it-consulting">IT Consulting</option>
+                    <label htmlFor="propertyType" className={labelClass}>What kind of property?</label>
+                    <select id="propertyType" name="propertyType" value={formData.propertyType} onChange={handleInputChange} className={`${fieldClass} text-[#3D3A36]`}>
+                      <option value="">Select type</option>
+                      <option value="hotel">Hotel</option>
+                      <option value="homestay">Homestay / Boutique stay</option>
+                      <option value="resort">Resort</option>
+                      <option value="tour-operator">Tour operator</option>
+                      <option value="restaurant">Restaurant</option>
+                      <option value="other-service">Other service business</option>
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="budget" className={labelClass}>Budget range</label>
+                    <label htmlFor="inquiryVolume" className={labelClass}>Monthly inquiries (rough)</label>
+                    <select id="inquiryVolume" name="inquiryVolume" value={formData.inquiryVolume} onChange={handleInputChange} className={`${fieldClass} text-[#3D3A36]`}>
+                      <option value="">Select volume</option>
+                      <option value="under-50">Fewer than 50</option>
+                      <option value="50-200">50 – 200</option>
+                      <option value="200-500">200 – 500</option>
+                      <option value="500-plus">500+</option>
+                      <option value="not-sure">Not sure</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="service" className={labelClass}>Which system fits?</label>
+                    <select id="service" name="service" value={formData.service} onChange={handleInputChange} className={`${fieldClass} text-[#3D3A36]`}>
+                      <option value="">I'd like a recommendation</option>
+                      <option value="bundle">Complete Revenue System (bundle)</option>
+                      <option value="lead-capture">Lead Capture System</option>
+                      <option value="follow-up">Automated Follow-Up Engine</option>
+                      <option value="analytics">Revenue Analytics Dashboard</option>
+                      <option value="standalone-build">Standalone website / app / software</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="budget" className={labelClass}>Budget for install</label>
                     <select id="budget" name="budget" value={formData.budget} onChange={handleInputChange} className={`${fieldClass} text-[#3D3A36]`}>
                       <option value="">Select budget</option>
-                      <option value="under-50k">&lt; ₹50k</option>
-                      <option value="50k-1l">₹50k – ₹1L</option>
-                      <option value="1l-5l">₹1L – ₹5L</option>
-                      <option value="over-5l">₹5L +</option>
+                      <option value="under-50k">&lt; ₹50,000 (standalone build)</option>
+                      <option value="50k-1l">₹50,000 – ₹1,50,000 (single system)</option>
+                      <option value="1l-3l">₹1,50,000 – ₹3,00,000 (complete bundle)</option>
+                      <option value="over-3l">₹3,00,000+</option>
+                      <option value="not-sure">Not sure yet</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="message" className={labelClass}>Project details *</label>
+                  <label htmlFor="message" className={labelClass}>Anything else we should know? *</label>
                   <textarea
                     id="message" name="message" required value={formData.message}
                     onChange={handleInputChange} rows={5}
-                    placeholder="Describe your project, goals, or any questions you have…"
+                    placeholder="What does your current funnel look like? Any tools you already use (Booking.com, WhatsApp Business, a CRM)? Anything specific you'd like us to focus on during the walkthrough."
                     className={`${fieldClass} resize-none`}
                   />
                 </div>
@@ -261,12 +310,12 @@ const Contact = () => {
                   disabled={isSubmitting}
                   className="btn-primary w-full justify-center text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  {isSubmitting ? 'Sending…' : 'Send message'}
+                  {isSubmitting ? 'Sending…' : 'Request walkthrough'}
                 </button>
 
                 {submitStatus === 'success' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-center text-sm flex items-center justify-center gap-2">
-                    <FaCheckCircle className="shrink-0" /> Message sent! We'll reply within 24 hours.
+                    <FaCheckCircle className="shrink-0" /> Thanks — we'll reach out within one business day to schedule your walkthrough.
                   </motion.div>
                 )}
                 {submitStatus === 'error' && (

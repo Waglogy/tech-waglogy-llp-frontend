@@ -36,14 +36,15 @@ const Projects = () => {
               variants={fadeUp} initial="hidden" animate="visible" custom={1}
               className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6 max-w-3xl"
             >
-              Real projects. Real businesses. Real results.
+              The product we run. The systems we install.
             </motion.h1>
             <motion.p
               variants={fadeUp} initial="hidden" animate="visible" custom={2}
               className="text-lg text-[#6E6B67] leading-relaxed max-w-2xl"
             >
-              We build across industries — travel, hospitality, education, engineering, sustainability, and more.
-              Here's a look at what we've delivered.
+              We started with Himato — our own AI travel platform — and now install the same
+              engine inside hotels, homestays, and tour operators across India. Below: the product
+              we own, and a selection of client work that taught us the playbook.
             </motion.p>
           </div>
         </section>
@@ -53,7 +54,7 @@ const Projects = () => {
           <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#E5E2DC]">
             <div className="max-w-7xl mx-auto">
 
-              <div className="section-label mb-8">Our Own Product</div>
+              <div className="section-label mb-8">Our Flagship Product</div>
 
               <Link to={`/projects/${product.id}`}>
                 <motion.div
@@ -117,7 +118,14 @@ const Projects = () => {
         <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8] border-b border-[#E5E2DC]">
           <div className="max-w-7xl mx-auto">
 
-            <div className="section-label mb-8">Client Projects</div>
+            <div className="mb-8 max-w-2xl">
+              <div className="section-label mb-3">Earlier Client Work</div>
+              <p className="text-[#6E6B67] leading-relaxed">
+                Selected websites, apps, and software we built before Waglogy focused on revenue
+                systems for hospitality. The craft and shipping discipline carry forward — these
+                are the projects that taught us how service businesses actually run.
+              </p>
+            </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {clientProjects.map((project, idx) => (
@@ -208,18 +216,20 @@ const Projects = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
-                Your project could be next.
+                Your property could be next.
               </h2>
               <p className="text-slate-400 text-lg mb-10 leading-relaxed">
-                Every project on this page started with a conversation. Tell us what you're building and we'll tell you how we can help.
+                Every install starts with a 20-minute walkthrough of your current funnel. We
+                show you where you're leaking leads, and you decide whether the math is worth it.
+                No pitch, no obligation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/contact" className="btn-primary px-8 py-4 text-base justify-center">
-                  Start a Conversation
+                  Book a walkthrough
                   <MdArrowForward size={18} />
                 </Link>
                 <Link to="/services" className="btn-outline px-8 py-4 text-base justify-center border-white/20 text-white hover:border-white/40 hover:bg-white/5">
-                  See Our Services
+                  See the systems
                 </Link>
               </div>
             </motion.div>

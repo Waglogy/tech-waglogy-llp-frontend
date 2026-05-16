@@ -21,12 +21,12 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   const services = [
-    { name: 'Website Development', href: '/services' },
-    { name: 'Mobile App Development', href: '/services' },
+    { name: 'Lead Capture System', href: '/services' },
+    { name: 'Automated Follow-Up Engine', href: '/services' },
+    { name: 'Revenue Analytics Dashboard', href: '/services' },
+    { name: 'Complete Revenue System', href: '/services' },
+    { name: 'Websites & Apps', href: '/services' },
     { name: 'Custom Software', href: '/services' },
-    { name: 'UI / UX Design', href: '/services' },
-    { name: 'AI Integration', href: '/services' },
-    { name: 'IT Consulting', href: '/services' },
   ]
 
   const company = [
@@ -57,7 +57,9 @@ const Footer = () => {
               <img src="/logo.svg" alt="Waglogy" className="h-14 w-auto brightness-0 invert opacity-90" />
             </a>
             <p className="text-sm leading-relaxed mb-6">
-              Tech Waglogy LLP is an IT company based in Gangtok, Sikkim. We build digital solutions for growing businesses across India.
+              Tech Waglogy LLP is the team behind Himato. We install AI-powered revenue
+              systems for hotels, homestays, and tour operators across India. Based in
+              Gangtok, Sikkim.
             </p>
             <div className="flex gap-3">
               {social.map((s) => (

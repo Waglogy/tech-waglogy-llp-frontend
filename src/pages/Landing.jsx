@@ -20,78 +20,102 @@ const fadeUp = {
   })
 }
 
-const services = [
+const flagshipSystems = [
+  {
+    icon: MdSmartToy,
+    title: 'Lead Capture System',
+    desc: 'Inquiries don\'t fall through cracks. Every WhatsApp, form, and call is captured, qualified, and routed — with a 30-second AI first-response so guests never wait.',
+    outcome: 'Stop losing leads to slow replies',
+  },
+  {
+    icon: MdSupportAgent,
+    title: 'Automated Follow-Up Engine',
+    desc: 'WhatsApp, email, and SMS sequences that nurture quiet leads, recover abandoned bookings, and bring guests back in the off-season — written and tuned for hospitality.',
+    outcome: 'Recover the 60% you currently lose',
+  },
+  {
+    icon: MdVerified,
+    title: 'Revenue Analytics Dashboard',
+    desc: 'Open your phone every morning to see leads this week, response time, conversion rate, and revenue by source. The numbers your team has been guessing at, finally on one screen.',
+    outcome: 'Run the business on data, not gut',
+  },
+]
+
+const otherServices = [
   {
     icon: MdWeb,
-    title: 'Website Development',
-    desc: 'Professional websites built to perform — fast, secure, and optimized to turn visitors into customers.',
+    title: 'Websites',
+    desc: 'Built to capture inquiries, not just look pretty. SEO-ready and mobile-first.',
   },
   {
     icon: MdPhoneIphone,
-    title: 'Mobile App Development',
-    desc: 'iOS and Android applications built around your business workflow, not the other way around.',
+    title: 'Mobile Apps',
+    desc: 'iOS and Android apps built around how your business actually operates.',
   },
   {
     icon: MdCode,
     title: 'Custom Software',
-    desc: 'Tailored software solutions that fit exactly how your business operates — no unnecessary complexity.',
+    desc: 'Internal tools, dashboards, booking platforms — built to fit your workflow.',
   },
   {
     icon: MdBrush,
     title: 'UI / UX Design',
-    desc: 'Clean, intuitive interfaces that make your product easy to use and your brand easy to trust.',
-  },
-  {
-    icon: MdSmartToy,
-    title: 'AI Integration',
-    desc: 'Practical AI tools and automation built into your existing systems to save time and reduce manual work.',
+    desc: 'Interfaces that are easy to use and honest about what they are.',
   },
   {
     icon: MdDesktopWindows,
     title: 'IT Consulting',
-    desc: 'Straightforward technology guidance — we help you make the right decisions before you invest.',
+    desc: 'Honest advice on technology decisions — before you spend a rupee.',
   },
 ]
 
 const process = [
   {
     number: '01',
-    title: 'We Listen',
-    desc: 'We take time to understand your business, your goals, and what problem you actually need solved.',
+    title: 'Audit',
+    desc: 'We sit with you for an hour and map your current funnel — where leads come from, where they get stuck, where revenue leaks out.',
   },
   {
     number: '02',
-    title: 'We Plan',
-    desc: 'Clear scope, realistic timeline, fixed pricing. No vague estimates, no moving goalposts.',
+    title: 'Design',
+    desc: 'We design your system: the messages, the AI agent\'s tone, the dashboard your team will actually use. You approve every piece before we build.',
   },
   {
     number: '03',
-    title: 'We Build',
-    desc: 'Quality development with regular updates. You see progress, not just a final reveal.',
+    title: 'Install',
+    desc: 'We wire it up — WhatsApp Business API, AI agent, follow-up flows, analytics dashboard. Four to six weeks from kickoff to live.',
   },
   {
     number: '04',
-    title: 'We Support',
-    desc: 'We stay after launch — maintenance, updates, and growth support as your business evolves.',
+    title: 'Tune',
+    desc: 'Monthly retainer keeps it sharp. New campaigns each season, fresh AI prompts, new dashboards as your business grows. The system gets better every month.',
   },
 ]
 
 const faqData = [
   {
-    question: 'What does a website cost?',
-    answer: 'Projects vary based on scope. Most business websites fall between ₹25,000 and ₹1,00,000. We provide a fixed quote before any work begins — no hidden charges, no surprises.',
+    question: 'Will this actually increase bookings, or is it just another tool?',
+    answer: 'A revenue system only works if the math is honest. Most hotels and operators we audit lose 50–70% of inquiries to slow response — replying in 30 seconds instead of 9 hours typically recovers a meaningful share of that. We instrument everything from day one so you can see exactly what changed, not just trust our word.',
   },
   {
-    question: 'How long does a project take?',
-    answer: 'Standard websites take 3–5 weeks. Mobile apps typically take 8–14 weeks. Custom software timelines depend on complexity. We give you a clear timeline before we start.',
+    question: 'What does it cost to install?',
+    answer: 'Build fee is typically ₹1,50,000 to ₹3,00,000 depending on scope — landing page, WhatsApp engine, AI agent, dashboard, follow-up flows. After that, a monthly retainer of ₹15,000 to ₹25,000 covers tuning, new campaigns, and adding flows as your business grows. Fixed quote before any work begins.',
   },
   {
-    question: 'Do you only work with businesses in Sikkim?',
-    answer: 'No. We work with businesses across India — our clients are in Sikkim, Delhi, Kolkata, and beyond. We collaborate remotely and handle everything digitally.',
+    question: 'What if I already use a CRM or booking system?',
+    answer: 'We integrate. The system sits on top of what you already use — WhatsApp Business, Booking.com extranet, your existing CRM if you have one. You don\'t throw anything away. The goal is one place to see what\'s working, not another tool to log into.',
   },
   {
-    question: 'What happens after the project is launched?',
-    answer: 'We offer ongoing support and maintenance packages. You are never handed over a finished product and left alone — we stay available for updates, fixes, and growth.',
+    question: 'Do you only work with hotels in Sikkim?',
+    answer: 'No. We\'re based in Gangtok and start with Northeast India because that\'s where we have natural reach — but the same system installs cleanly for hotels, homestays, and tour operators anywhere in India. Most of the work is remote.',
+  },
+  {
+    question: 'Who owns the data and the system after install?',
+    answer: 'You do. The dashboard, the WhatsApp number, the customer data — it\'s all in accounts you own. The retainer is for tuning and improvement, not for holding your system hostage. You can walk away any time with everything intact.',
+  },
+  {
+    question: 'Are you a Waglogy old client looking for website work?',
+    answer: 'We still build websites, mobile apps, and custom software for select projects — but our main work now is installing revenue systems for the hospitality industry. If you need a one-off build, talk to us and we\'ll tell you honestly whether we\'re the right fit.',
   },
 ]
 
@@ -145,7 +169,7 @@ const Landing = () => {
                   custom={0}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold tracking-widest uppercase mb-8"
                 >
-                  IT Company · Gangtok, Sikkim
+                  From the team behind Himato
                 </motion.div>
 
                 <motion.h1
@@ -155,9 +179,8 @@ const Landing = () => {
                   custom={1}
                   className="text-5xl sm:text-6xl lg:text-6xl font-bold leading-[1.08] mb-6 text-[#0C0C0C]"
                 >
-                  Technology that{' '}
-                  <span className="text-blue-600">works</span>{' '}
-                  for your business.
+                  Turn every inquiry into a{' '}
+                  <span className="text-blue-600">paying booking</span>.
                 </motion.h1>
 
                 <motion.p
@@ -167,8 +190,10 @@ const Landing = () => {
                   custom={2}
                   className="text-lg text-[#6E6B67] mb-10 leading-relaxed"
                 >
-                  We build websites, mobile apps, and software for growing businesses across India.
-                  Straightforward process, honest pricing, and support that doesn't disappear after launch.
+                  We install AI-powered revenue systems for hotels, homestays, and tour operators
+                  across India — lead capture, automated WhatsApp follow-up, and a live dashboard of
+                  what's actually working. Built by the team behind Himato, our own AI travel
+                  platform running in Northeast India.
                 </motion.p>
 
                 <motion.div
@@ -179,11 +204,11 @@ const Landing = () => {
                   className="flex flex-col sm:flex-row gap-4"
                 >
                   <a href="/contact" className="btn-primary text-base px-7 py-3.5">
-                    Start a Project
+                    Book a 20-min walkthrough
                     <MdArrowForward size={18} />
                   </a>
-                  <a href="/projects" className="btn-outline text-base px-7 py-3.5">
-                    View Our Work
+                  <a href="/services" className="btn-outline text-base px-7 py-3.5">
+                    See how it works
                   </a>
                 </motion.div>
 
@@ -196,10 +221,10 @@ const Landing = () => {
                   className="mt-12 pt-8 border-t border-[#E5E2DC] flex flex-wrap gap-8"
                 >
                   {[
-                    { value: '50+', label: 'Projects Delivered' },
-                    { value: '5+', label: 'Years in Business' },
-                    { value: 'Pan-India', label: 'Clients Served' },
-                    { value: 'Mon–Sun', label: 'Support Hours' },
+                    { value: '<60s', label: 'First-touch response' },
+                    { value: '24/7', label: 'Auto-response engine' },
+                    { value: '4–6 wks', label: 'From kickoff to live' },
+                    { value: '5+ yrs', label: 'Building in Northeast' },
                   ].map((stat) => (
                     <div key={stat.label}>
                       <div className="text-2xl font-bold text-[#0C0C0C]" style={{ fontFamily: 'Outfit, sans-serif' }}>{stat.value}</div>
@@ -209,16 +234,16 @@ const Landing = () => {
                 </motion.div>
               </div>
 
-              {/* Right — project screenshots */}
+              {/* Right — product mockups */}
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
                 className="hidden lg:block relative h-[580px]"
               >
-                {/* Main large card */}
-                <div className="absolute top-0 left-0 right-8 rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg">
-                  {/* Browser chrome */}
+                {/* ── MAIN: Revenue Dashboard mockup ── */}
+                <div className="absolute top-0 left-0 right-8 rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg bg-white">
+                  {/* App chrome */}
                   <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-4 py-2.5 flex items-center gap-2">
                     <div className="flex gap-1.5">
                       <div className="w-3 h-3 rounded-full bg-[#E5E2DC]" />
@@ -226,40 +251,132 @@ const Landing = () => {
                       <div className="w-3 h-3 rounded-full bg-[#E5E2DC]" />
                     </div>
                     <div className="flex-1 mx-3 bg-white rounded-md px-3 py-1 text-[10px] text-[#A09A90] border border-[#E5E2DC]">
-                      himato.ai
+                      waglogy.app/dashboard
                     </div>
                   </div>
-                  <img src="/himato.png" alt="Himato — AI travel app" className="w-full object-cover object-top" style={{ height: '220px' }} />
+
+                  {/* Dashboard body */}
+                  <div className="p-5 bg-[#FAFAF8]" style={{ height: '260px' }}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <div className="text-[10px] font-semibold text-[#A09A90] uppercase tracking-widest">Revenue Dashboard</div>
+                        <div className="text-sm font-bold text-[#0C0C0C] mt-0.5">This Week · Mar 18 – Mar 24</div>
+                      </div>
+                      <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-50 border border-green-100">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        <span className="text-[10px] font-semibold text-green-700">Live</span>
+                      </div>
+                    </div>
+
+                    {/* Metric grid */}
+                    <div className="grid grid-cols-4 gap-2.5 mb-4">
+                      {[
+                        { label: 'Inquiries', value: '127', delta: '+18%', positive: true },
+                        { label: 'Bookings', value: '38', delta: '+24%', positive: true },
+                        { label: 'Revenue', value: '₹4.2L', delta: '+31%', positive: true },
+                        { label: 'Avg reply', value: '47s', delta: '−9h', positive: true },
+                      ].map((m) => (
+                        <div key={m.label} className="bg-white rounded-lg border border-[#E5E2DC] p-2.5">
+                          <div className="text-[9px] text-[#A09A90] font-semibold uppercase tracking-widest mb-1">{m.label}</div>
+                          <div className="text-base font-bold text-[#0C0C0C] leading-none">{m.value}</div>
+                          <div className={`text-[10px] font-semibold mt-1.5 ${m.positive ? 'text-green-600' : 'text-red-500'}`}>{m.delta}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bar chart */}
+                    <div className="bg-white rounded-lg border border-[#E5E2DC] p-3">
+                      <div className="text-[10px] text-[#A09A90] font-semibold uppercase tracking-widest mb-2.5">Inquiries by day</div>
+                      <div className="flex items-end justify-between gap-1.5" style={{ height: '54px' }}>
+                        {[
+                          { day: 'M', h: 42 },
+                          { day: 'T', h: 68 },
+                          { day: 'W', h: 55 },
+                          { day: 'T', h: 78 },
+                          { day: 'F', h: 92 },
+                          { day: 'S', h: 100 },
+                          { day: 'S', h: 71 },
+                        ].map((b, i) => (
+                          <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                            <div className="w-full rounded-t bg-blue-500" style={{ height: `${b.h}%`, opacity: 0.85 }} />
+                            <div className="text-[9px] text-[#A09A90] font-medium">{b.day}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Bottom-left card */}
-                <div className="absolute bottom-0 left-0 w-[52%] rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg">
-                  <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-3 py-2 flex items-center gap-2">
-                    <div className="flex gap-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
+                {/* ── BOTTOM LEFT: WhatsApp AI conversation ── */}
+                <div className="absolute bottom-0 left-0 w-[52%] rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg bg-white">
+                  {/* WhatsApp header */}
+                  <div className="bg-[#075E54] px-3 py-2.5 flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-white text-[10px] font-bold">HV</div>
+                    <div className="flex-1">
+                      <div className="text-[11px] font-semibold text-white leading-none">Himalayan View Resort</div>
+                      <div className="text-[9px] text-white/70 mt-0.5">online · AI agent active</div>
                     </div>
-                    <div className="flex-1 mx-2 bg-white rounded px-2 py-0.5 text-[9px] text-[#A09A90] border border-[#E5E2DC]">
-                      turtles.restaurant
+                    <FaWhatsapp className="text-white/80" size={14} />
+                  </div>
+                  {/* Conversation */}
+                  <div className="bg-[#E7DFD3] px-3 py-3 space-y-2" style={{ height: '194px' }}>
+                    {/* Guest message */}
+                    <div className="flex justify-start">
+                      <div className="bg-white rounded-lg rounded-tl-sm px-2.5 py-1.5 max-w-[80%] shadow-sm">
+                        <div className="text-[10px] text-[#0C0C0C] leading-snug">Rooms for 24–28 Dec? family of 4 🙂</div>
+                        <div className="text-[8px] text-[#A09A90] text-right mt-0.5">11:47 PM</div>
+                      </div>
+                    </div>
+                    {/* AI reply */}
+                    <div className="flex justify-end">
+                      <div className="bg-[#DCF8C6] rounded-lg rounded-tr-sm px-2.5 py-1.5 max-w-[85%] shadow-sm">
+                        <div className="text-[10px] text-[#0C0C0C] leading-snug">
+                          Hi! Yes — Deluxe Suite is available 24–28 Dec at ₹6,500/night.
+                          Breakfast included, full valley view. Want me to hold it 24h?
+                        </div>
+                        <div className="flex items-center gap-1 justify-end mt-0.5">
+                          <span className="text-[8px] text-[#3D3A36] font-medium">11:47 PM</span>
+                          <span className="text-[8px] text-[#3D3A36]">✓✓</span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* AI badge */}
+                    <div className="flex justify-center pt-1">
+                      <div className="bg-white/80 backdrop-blur px-2 py-0.5 rounded-full border border-white/60 flex items-center gap-1">
+                        <MdSmartToy size={9} className="text-blue-600" />
+                        <span className="text-[8px] font-semibold text-[#3D3A36]">AI replied in 28s</span>
+                      </div>
                     </div>
                   </div>
-                  <img src="/turtles.png" alt="Turtle's Restaurant" className="w-full object-cover object-top" style={{ height: '180px' }} />
                 </div>
 
-                {/* Bottom-right card */}
-                <div className="absolute bottom-0 right-0 w-[45%] rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg">
-                  <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-3 py-2 flex items-center gap-2">
-                    <div className="flex gap-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E5E2DC]" />
-                    </div>
-                    <div className="flex-1 mx-2 bg-white rounded px-2 py-0.5 text-[9px] text-[#A09A90] border border-[#E5E2DC]">
-                      tghe.travel
-                    </div>
+                {/* ── BOTTOM RIGHT: Today's Inquiries feed ── */}
+                <div className="absolute bottom-0 right-0 w-[45%] rounded-xl overflow-hidden border border-[#E5E2DC] shadow-lg bg-white">
+                  <div className="bg-[#F5F4F0] border-b border-[#E5E2DC] px-3 py-2 flex items-center justify-between">
+                    <div className="text-[10px] font-bold text-[#0C0C0C]">Today's Inquiries</div>
+                    <div className="text-[9px] text-blue-600 font-semibold">9 new</div>
                   </div>
-                  <img src="/tghe.png" alt="The Great Himalayan Escape" className="w-full object-cover object-top" style={{ height: '180px' }} />
+                  <div className="divide-y divide-[#E5E2DC]" style={{ height: '208px' }}>
+                    {[
+                      { name: 'Priya M.', src: 'WhatsApp', srcColor: 'bg-green-50 text-green-700', preview: '4 nights, 2 rooms…', time: '2m', status: 'bg-green-500' },
+                      { name: 'Arjun K.', src: 'Web Form', srcColor: 'bg-blue-50 text-blue-700', preview: 'Family of 5 in Dec', time: '11m', status: 'bg-amber-400' },
+                      { name: 'Booking.com', src: 'Channel', srcColor: 'bg-purple-50 text-purple-700', preview: 'Twin deluxe Mar 28', time: '24m', status: 'bg-green-500' },
+                      { name: 'Sangita T.', src: 'Instagram', srcColor: 'bg-pink-50 text-pink-700', preview: 'Honeymoon package?', time: '47m', status: 'bg-green-500' },
+                      { name: 'David L.', src: 'WhatsApp', srcColor: 'bg-green-50 text-green-700', preview: 'Group of 12 in Apr', time: '1h', status: 'bg-green-500' },
+                    ].map((row, i) => (
+                      <div key={i} className="px-3 py-2 flex items-center gap-2">
+                        <div className={`w-1.5 h-1.5 rounded-full ${row.status} shrink-0`} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-semibold text-[#0C0C0C] truncate">{row.name}</span>
+                            <span className={`text-[8px] font-semibold px-1 py-0.5 rounded ${row.srcColor}`}>{row.src}</span>
+                          </div>
+                          <div className="text-[9px] text-[#6E6B67] truncate mt-0.5">{row.preview}</div>
+                        </div>
+                        <div className="text-[9px] text-[#A09A90] font-medium shrink-0">{row.time}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Floating tag */}
@@ -267,14 +384,14 @@ const Landing = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1, duration: 0.4 }}
-                  className="absolute top-[230px] right-0 bg-white border border-[#E5E2DC] rounded-xl px-4 py-3 shadow-md flex items-center gap-3"
+                  className="absolute top-[280px] right-0 bg-white border border-[#E5E2DC] rounded-xl px-4 py-3 shadow-md flex items-center gap-3"
                 >
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <MdCheckCircle className="text-blue-600" size={18} />
+                    <MdSmartToy className="text-blue-600" size={18} />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-[#0C0C0C]">50+ Projects</div>
-                    <div className="text-[10px] text-[#6E6B67]">Delivered across India</div>
+                    <div className="text-xs font-bold text-[#0C0C0C]">Auto-replied in 28s</div>
+                    <div className="text-[10px] text-[#6E6B67]">While the owner was asleep</div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -283,7 +400,7 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* ── SERVICES ─────────────────────────────────────── */}
+        {/* ── FLAGSHIP SYSTEMS ─────────────────────────────── */}
         <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E5E2DC]">
           <div className="max-w-7xl mx-auto">
 
@@ -292,30 +409,39 @@ const Landing = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-14"
+              className="mb-14 max-w-2xl"
             >
-              <div className="section-label mb-4">What We Do</div>
-              <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] max-w-xl">
-                Services built for real business needs.
+              <div className="section-label mb-4">What We Install</div>
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] mb-4">
+                Three systems that turn inquiries into revenue.
               </h2>
+              <p className="text-[#6E6B67] text-lg leading-relaxed">
+                Each one solves a specific failure point in the inquiry-to-booking funnel.
+                Installed together, they replace the WhatsApp-and-Excel chaos most hospitality
+                businesses run on today.
+              </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {services.map((service, idx) => (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              {flagshipSystems.map((system, idx) => (
                 <motion.div
-                  key={service.title}
+                  key={system.title}
                   variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
                   custom={idx}
-                  className="card p-7 group cursor-default"
+                  className="card p-8 group cursor-default flex flex-col"
                 >
-                  <div className="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-5 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
-                    <service.icon size={22} />
+                  <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
+                    <system.icon size={24} />
                   </div>
-                  <h3 className="text-lg font-bold text-[#0C0C0C] mb-2">{service.title}</h3>
-                  <p className="text-sm text-[#6E6B67] leading-relaxed">{service.desc}</p>
+                  <h3 className="text-xl font-bold text-[#0C0C0C] mb-3">{system.title}</h3>
+                  <p className="text-sm text-[#6E6B67] leading-relaxed mb-5 flex-1">{system.desc}</p>
+                  <div className="pt-4 border-t border-[#E5E2DC] flex items-center gap-2 text-xs font-semibold text-blue-600 uppercase tracking-widest">
+                    <MdCheckCircle size={14} />
+                    {system.outcome}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -328,10 +454,53 @@ const Landing = () => {
               className="mt-10"
             >
               <a href="/services" className="btn-outline text-sm px-6 py-3">
-                See all services
+                See full system breakdown
                 <MdArrowForward size={16} />
               </a>
             </motion.div>
+          </div>
+        </section>
+
+        {/* ── WE ALSO BUILD ────────────────────────────────── */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E5E2DC]">
+          <div className="max-w-7xl mx-auto">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-10 max-w-2xl"
+            >
+              <div className="section-label mb-4">We Also Build</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0C0C0C] mb-3">
+                Need a one-off project? We still do that.
+              </h2>
+              <p className="text-[#6E6B67] leading-relaxed">
+                Websites, apps, and custom software for selected projects — usually as part of a larger
+                revenue system, sometimes on their own when the fit makes sense.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {otherServices.map((service, idx) => (
+                <motion.div
+                  key={service.title}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx}
+                  className="card p-5 group cursor-default"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
+                    <service.icon size={18} />
+                  </div>
+                  <h3 className="text-sm font-bold text-[#0C0C0C] mb-1.5">{service.title}</h3>
+                  <p className="text-xs text-[#6E6B67] leading-relaxed">{service.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -347,12 +516,12 @@ const Landing = () => {
             >
               <div className="section-label mb-4">Why Waglogy</div>
               <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] mb-6">
-                A technology company you can actually work with.
+                Built by an AI tourism company, not an agency.
               </h2>
               <p className="text-[#6E6B67] text-lg leading-relaxed mb-8">
-                We are not a faceless vendor. We are a team based in Gangtok, Sikkim,
-                that understands the challenges of running a business in India — and builds
-                technology solutions that fit your reality.
+                We run Himato — our own AI travel platform in Northeast India. Every system
+                we install in your hotel is built on what's already working at scale in our
+                own product. You're not the experiment.
               </p>
               <a href="/about" className="btn-outline text-sm px-6 py-3">
                 About our company
@@ -363,24 +532,24 @@ const Landing = () => {
             <div className="space-y-5">
               {[
                 {
-                  icon: MdVerified,
-                  title: 'Transparent Pricing',
-                  desc: 'Fixed quotes before work begins. No surprises, no scope creep billed retroactively.',
+                  icon: MdStar,
+                  title: 'We run what we sell',
+                  desc: 'Himato is our own AI travel product. The lead capture, follow-up engine, and analytics we install in your hotel are battle-tested in our own operation first.',
                 },
                 {
-                  icon: MdSupportAgent,
-                  title: 'Real Support',
-                  desc: 'You can call us. We answer. Monday to Sunday, 9am to 7pm — and available on WhatsApp.',
+                  icon: MdVerified,
+                  title: 'Outcomes, instrumented',
+                  desc: 'Every system ships with a dashboard. Inquiries, response time, conversion rate, revenue by source — measured from day one. No "trust us, it\'s working" energy.',
                 },
                 {
                   icon: MdGroups,
-                  title: 'Experienced Team',
-                  desc: 'Full-stack developers, designers, and consultants — everything under one roof.',
+                  title: 'Built for hospitality',
+                  desc: 'Tour operator flows, off-season nurture, group inquiry handling, multilingual replies — we know this industry, not just the tech. Less explaining for you.',
                 },
                 {
-                  icon: MdStar,
-                  title: 'Long-Term Partnership',
-                  desc: 'We build lasting relationships, not one-off projects. Your growth matters to us beyond the invoice.',
+                  icon: MdSupportAgent,
+                  title: 'We stay on the retainer',
+                  desc: 'Monthly tuning keeps the system sharp as your business shifts. New campaigns, new flows, fresh prompts. Not a finished project — an ongoing engine.',
                 },
               ].map((item, idx) => (
                 <motion.div
@@ -416,9 +585,9 @@ const Landing = () => {
               viewport={{ once: true }}
               className="mb-14"
             >
-              <div className="section-label mb-4">How We Work</div>
+              <div className="section-label mb-4">How We Install</div>
               <h2 className="text-4xl sm:text-5xl font-bold text-[#0C0C0C] max-w-xl">
-                A clear process from start to finish.
+                From first call to live system in 4–6 weeks.
               </h2>
             </motion.div>
 
@@ -505,17 +674,19 @@ const Landing = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
-                Ready to build something that works?
+                Ready to stop losing inquiries?
               </h2>
               <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                Tell us what you need. We'll get back to you within one business day with a clear next step — no sales pitch, no obligation.
+                Tell us a bit about your property and how many inquiries you handle each month.
+                We'll come back within one business day with a clear assessment — no sales pitch,
+                no obligation.
               </p>
 
               <div className="space-y-5">
                 {[
-                  { icon: MdCheckCircle, text: 'Free initial consultation' },
-                  { icon: MdCheckCircle, text: 'Fixed quote before work begins' },
-                  { icon: MdCheckCircle, text: 'No lock-in contracts' },
+                  { icon: MdCheckCircle, text: 'Free 20-min walkthrough of your funnel' },
+                  { icon: MdCheckCircle, text: 'Fixed install quote before any work begins' },
+                  { icon: MdCheckCircle, text: 'You own the system, data, and accounts' },
                 ].map((item) => (
                   <div key={item.text} className="flex items-center gap-3 text-slate-300">
                     <item.icon size={18} className="text-blue-400 shrink-0" />

@@ -76,7 +76,7 @@ const About = () => {
                 custom={1}
                 className="text-5xl sm:text-6xl font-bold leading-[1.08] mb-6"
               >
-                We're the technology company your business has been looking for.
+                The team behind Himato — now installing the engine inside your hotel.
               </motion.h1>
 
               <motion.p
@@ -86,7 +86,8 @@ const About = () => {
                 custom={2}
                 className="text-lg text-[#6E6B67] leading-relaxed mb-8 max-w-lg"
               >
-                Based in Gangtok, Sikkim. Building digital products for businesses across India — and beyond — since 2020.
+                Based in Gangtok, Sikkim. Building and operating AI products for hospitality and
+                service businesses across India since 2020.
               </motion.p>
 
               <motion.div
@@ -136,7 +137,8 @@ const About = () => {
                 <div className="section-label mb-4">Our Story</div>
                 <h2 className="text-4xl font-bold text-[#0C0C0C] mb-4">Why we exist.</h2>
                 <p className="text-[#6E6B67] leading-relaxed">
-                  Not a funding story. Not a pivot story. Just an honest reason we started building.
+                  From a product we built for ourselves to a system we install for others — the
+                  honest version of how Waglogy got here.
                 </p>
               </div>
             </motion.div>
@@ -150,23 +152,37 @@ const About = () => {
               className="lg:col-span-8 space-y-6 text-[#3D3A36] text-lg leading-relaxed"
             >
               <p className="text-xl font-medium text-[#0C0C0C] border-l-4 border-blue-500 pl-5">
-                Most technology companies make things more complicated than they need to be.
+                We started building Himato because every hotel and tour operator in Northeast India was leaking leads the same way — and nobody had built the engine to stop it.
               </p>
 
               <p>
-                They use jargon you don't understand, send proposals that go on forever, make promises they quietly walk back, and then disappear once the invoice is paid. Finding a technology partner you can actually trust is harder than it should be.
+                Inquiries land at 11pm. The owner replies at 9am. By then, the guest has booked
+                somewhere else. The math is brutal: most properties in this region lose 60–70% of
+                their inquiries not to a competitor's price, but to silence. The lead just goes
+                cold.
               </p>
 
               <p>
-                We started Waglogy because we saw this problem firsthand. Businesses across India — from Gangtok to Gurgaon — were struggling to find technology partners who were honest, reliable, and actually delivered. Not just in the beginning, but all the way through.
+                So we built Himato — our own AI travel platform — partly as a product, partly as
+                a working laboratory for how AI could fix this. WhatsApp engines that reply in 30
+                seconds. AI agents that know rooms and rates and seasons. Dashboards that show
+                owners what's actually working. Then we realised the bigger opportunity wasn't
+                running our own platform — it was installing the same engine, custom-fitted,
+                inside other people's hotels.
               </p>
 
               <p>
-                So we built the company we wished existed. One where you know exactly what something costs before work begins. One where the person who sold you the project is the same person building it. One where you can pick up the phone and someone actually answers.
+                That's what Waglogy does now. We install AI-powered revenue systems for hotels,
+                homestays, and tour operators across India. Lead capture, automated follow-up,
+                revenue analytics — wired together as one system, instrumented from day one, tuned
+                every month. Built on top of what's already running in Himato.
               </p>
 
               <p>
-                We are based in Gangtok, Sikkim — and that is not a limitation. It is who we are. We work with businesses of every size, in every industry, across India and internationally. What does not change is how we work: directly, honestly, and with full accountability for what we deliver.
+                We're based in Gangtok, Sikkim — and that's not a limitation, it's a fit. The
+                tourism economy is in our backyard. We work remotely with properties across India
+                and Northeast Asia, but every system we install is built by a team that
+                understands the industry, not just the tech.
               </p>
             </motion.div>
           </div>
@@ -273,12 +289,12 @@ const About = () => {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 {[
-                  'Web Development',
-                  'Mobile Apps',
-                  'UI / UX Design',
-                  'Custom Software',
-                  'AI Integration',
-                  'IT Consulting',
+                  'Lead Capture Systems',
+                  'WhatsApp AI Agents',
+                  'Follow-Up Automation',
+                  'Revenue Dashboards',
+                  'Himato (our product)',
+                  'Custom Builds',
                 ].map((skill) => (
                   <span key={skill} className="px-4 py-2 rounded-lg bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium">
                     {skill}
