@@ -333,11 +333,11 @@ const Services = () => {
                   <div className="grid sm:grid-cols-3 gap-6">
                     <div>
                       <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1.5">Build fee</div>
-                      <div className="text-xl font-bold text-white">₹1.5L – ₹3L</div>
+                      <div className="text-xl font-bold text-white">₹2L – ₹3L</div>
                     </div>
                     <div>
                       <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1.5">Monthly retainer</div>
-                      <div className="text-xl font-bold text-white">₹15k – ₹25k</div>
+                      <div className="text-xl font-bold text-white">₹18k – ₹25k</div>
                     </div>
                     <div>
                       <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1.5">Time to live</div>
@@ -347,13 +347,14 @@ const Services = () => {
                 </div>
                 <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">What you get</p>
-                  <ul className="space-y-2.5 mb-8">
+                  <ul className="space-y-2.5 mb-6">
                     {[
                       'All three flagship systems, fully integrated',
                       'Single discovery and scoping engagement',
                       'One unified dashboard across lead, follow-up, revenue',
                       'Monthly tuning, new campaigns, fresh AI prompts',
                       'You own all accounts, data, and the system itself',
+                      '90-day Payback Promise — refund the difference if it doesn\'t pay back',
                     ].map((item) => (
                       <li key={item} className="flex items-start gap-2.5 text-sm text-slate-200">
                         <MdCheckCircle size={16} className="text-blue-400 mt-0.5 shrink-0" />

@@ -149,7 +149,7 @@ export const PAGE_SEO = {
 
   pricing: {
     title: 'Pricing - Revenue System Install Fees & Retainers | Waglogy',
-    description: 'Transparent pricing for AI-powered revenue systems for hotels and tour operators: ₹1.5L–3L install + ₹15–25k/month retainer. Individual web, app, and software pricing also published. No hidden charges.',
+    description: 'Transparent pricing for AI-powered revenue systems for hotels and tour operators: ₹2L–3L install + ₹18k–25k/month retainer, backed by a 90-day Payback Promise. Individual web, app, and software pricing also published. No hidden charges.',
     keywords: [
       'revenue system pricing',
       'AI install fee Sikkim',

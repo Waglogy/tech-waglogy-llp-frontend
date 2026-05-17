@@ -288,7 +288,7 @@ const Contact = () => {
                       <option value="">Select budget</option>
                       <option value="under-50k">&lt; ₹50,000 (standalone build)</option>
                       <option value="50k-1l">₹50,000 – ₹1,50,000 (single system)</option>
-                      <option value="1l-3l">₹1,50,000 – ₹3,00,000 (complete bundle)</option>
+                      <option value="2l-3l">₹2,00,000 – ₹3,00,000 (complete bundle)</option>
                       <option value="over-3l">₹3,00,000+</option>
                       <option value="not-sure">Not sure yet</option>
                     </select>

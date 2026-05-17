@@ -200,11 +200,11 @@ const Pricing = () => {
                 <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10 space-y-4">
                   <div>
                     <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Install fee</div>
-                    <div className="text-2xl font-bold text-white">₹1,50,000 – ₹3,00,000</div>
+                    <div className="text-2xl font-bold text-white">₹2,00,000 – ₹3,00,000</div>
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Monthly retainer</div>
-                    <div className="text-2xl font-bold text-white">₹15,000 – ₹25,000</div>
+                    <div className="text-2xl font-bold text-white">₹18,000 – ₹25,000</div>
                     <div className="text-xs text-slate-400 mt-1">Tuning, new campaigns, fresh prompts — cancel any time</div>
                   </div>
                   <button
@@ -270,6 +270,28 @@ const Pricing = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* ── PAYBACK PROMISE BANNER ───────────────────── */}
+            <motion.div
+              variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="mt-8 rounded-xl border border-blue-200 bg-blue-50/60 p-6 sm:p-7 flex flex-col sm:flex-row gap-5 items-start sm:items-center"
+            >
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center">
+                <MdCheckCircle size={26} />
+              </div>
+              <div className="flex-1">
+                <div className="text-xs font-semibold text-blue-700 uppercase tracking-widest mb-1.5">90-day Payback Promise</div>
+                <h3 className="text-lg sm:text-xl font-bold text-[#0C0C0C] mb-2 leading-snug">
+                  If the dashboard doesn't show enough new revenue to cover the install fee in 90 days, we refund the difference.
+                </h3>
+                <p className="text-sm text-[#3D3A36] leading-relaxed">
+                  In writing, in every agreement. You're not betting on us — you're betting on the
+                  dashboard. If the numbers aren't there, your money comes back. That's what we
+                  mean by &ldquo;we sell recovered revenue, not software.&rdquo;
+                </p>
+              </div>
+            </motion.div>
+
           </div>
         </section>
 
@@ -413,6 +435,10 @@ const Pricing = () => {
 
             <div className="space-y-5">
               {[
+                {
+                  q: 'What\'s the 90-day Payback Promise?',
+                  a: 'Every revenue-system install ships with this clause written into the agreement: if after 90 days the dashboard doesn\'t show enough new revenue to cover the install fee, we refund the difference. No hoops, no fine print. It\'s how we put our money where our pitch is — you\'re not betting on us, you\'re betting on what the dashboard measures.',
+                },
                 {
                   q: 'What\'s included in the monthly retainer?',
                   a: 'Tuning the AI agent\'s replies, writing and shipping new follow-up campaigns each season, adding new flows as your channels grow, fixing anything that breaks, and a monthly review of the dashboard with action recommendations. It\'s the difference between a system that decays and one that gets sharper every month.',

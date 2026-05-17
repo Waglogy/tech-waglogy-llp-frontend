@@ -95,11 +95,11 @@ const process = [
 const faqData = [
   {
     question: 'Will this actually increase bookings, or is it just another tool?',
-    answer: 'A revenue system only works if the math is honest. Most hotels and operators we audit lose 50–70% of inquiries to slow response — replying in 30 seconds instead of 9 hours typically recovers a meaningful share of that. We instrument everything from day one so you can see exactly what changed, not just trust our word.',
+    answer: 'A revenue system only works if the math is honest. Most hotels and operators we audit lose 50–70% of inquiries to slow response — replying in 30 seconds instead of 9 hours typically recovers a meaningful share of that. We instrument everything from day one so you can see exactly what changed, not just trust our word. And we back it with the 90-day Payback Promise: if the dashboard doesn\'t show enough new revenue to cover the install fee within 90 days, we refund the difference.',
   },
   {
     question: 'What does it cost to install?',
-    answer: 'Build fee is typically ₹1,50,000 to ₹3,00,000 depending on scope — landing page, WhatsApp engine, AI agent, dashboard, follow-up flows. After that, a monthly retainer of ₹15,000 to ₹25,000 covers tuning, new campaigns, and adding flows as your business grows. Fixed quote before any work begins.',
+    answer: 'Build fee is typically ₹2,00,000 to ₹3,00,000 depending on scope — landing page, WhatsApp engine, AI agent, dashboard, follow-up flows. After that, a monthly retainer of ₹18,000 to ₹25,000 covers tuning, new campaigns, and adding flows as your business grows. Fixed quote before any work begins — and every install ships with a 90-day Payback Promise: if the dashboard doesn\'t show enough new revenue to cover the install fee in 90 days, we refund the difference.',
   },
   {
     question: 'What if I already use a CRM or booking system?',
