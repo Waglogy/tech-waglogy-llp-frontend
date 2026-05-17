@@ -1,29 +1,24 @@
 import React, { useEffect } from 'react';
-import { FaCheckCircle, FaTimes, FaEnvelope, FaPhone, FaBuilding, FaUser, FaMoneyBillWave, FaCommentAlt } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  MdCheckCircle, MdClose, MdMail, MdPhone, MdBusiness, MdPerson,
+  MdCurrencyRupee, MdChatBubbleOutline
+} from 'react-icons/md';
 
 const SuccessModal = ({ isOpen, onClose, submittedData }) => {
-  // Close modal on Escape key press
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
-
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden';
     }
-
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
@@ -34,116 +29,81 @@ const SuccessModal = ({ isOpen, onClose, submittedData }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={onClose}
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl"
+            exit={{ opacity: 0, scale: 0.96, y: 16 }}
+            transition={{ duration: 0.2 }}
+            className="relative w-full max-w-lg bg-white rounded-2xl border border-[#E5E2DC] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
           >
-            {/* Header / Success Icon */}
-            <div className="bg-gradient-to-b from-blue-600/20 to-transparent p-8 text-center border-b border-white/5">
-              <div className="w-20 h-20 mx-auto bg-blue-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                <FaCheckCircle className="w-10 h-10 text-blue-400" />
-              </div>
-              <h2 className="text-3xl font-bold text-white mb-2">Message Sent!</h2>
-              <p className="text-slate-400">We've received your inquiry and will get back to you shortly.</p>
-            </div>
-
-            {/* Close Button */}
+            {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+              aria-label="Close"
+              className="absolute top-4 right-4 p-1.5 rounded-lg text-[#6E6B67] hover:bg-[#F0EDE8] transition-colors z-10"
             >
-              <FaTimes />
+              <MdClose size={20} />
             </button>
 
-            {/* Content */}
-            <div className="p-6 md:p-8">
+            {/* Header */}
+            <div className="px-8 pt-10 pb-6 text-center border-b border-[#E5E2DC]">
+              <div className="w-16 h-16 mx-auto rounded-full bg-blue-50 flex items-center justify-center mb-5">
+                <MdCheckCircle size={36} className="text-blue-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#0C0C0C] mb-2">Message Sent</h2>
+              <p className="text-sm text-[#6E6B67] leading-relaxed max-w-sm mx-auto">
+                We've received your inquiry and will get back to you shortly.
+              </p>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 sm:p-8 overflow-y-auto">
               {submittedData && (
-                <div className="bg-white/5 rounded-xl border border-white/10 p-5 mb-6">
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Submission Summary</h3>
-                  <div className="space-y-4 max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <div className="border border-[#E5E2DC] rounded-xl p-5 mb-5 bg-[#FAFAF8]">
+                  <h3 className="text-xs font-semibold text-[#6E6B67] uppercase tracking-widest mb-4 pb-3 border-b border-[#E5E2DC]">
+                    Submission Summary
+                  </h3>
+                  <div className="space-y-4 max-h-[220px] overflow-y-auto pr-1">
 
                     {submittedData.fullName && (
-                      <div className="flex items-start gap-3 text-sm">
-                        <FaUser className="mt-1 text-blue-400 flex-shrink-0" />
-                        <div>
-                          <span className="block text-xs text-slate-500">Name</span>
-                          <span className="text-slate-200">{submittedData.fullName}</span>
-                        </div>
-                      </div>
+                      <Row icon={MdPerson} label="Name" value={submittedData.fullName} />
                     )}
-
                     {submittedData.email && (
-                      <div className="flex items-start gap-3 text-sm">
-                        <FaEnvelope className="mt-1 text-sky-400 flex-shrink-0" />
-                        <div>
-                          <span className="block text-xs text-slate-500">Email</span>
-                          <span className="text-slate-200 break-all">{submittedData.email}</span>
-                        </div>
-                      </div>
+                      <Row icon={MdMail} label="Email" value={submittedData.email} breakAll />
                     )}
-
                     {submittedData.phone && (
-                      <div className="flex items-start gap-3 text-sm">
-                        <FaPhone className="mt-1 text-indigo-400 flex-shrink-0" />
-                        <div>
-                          <span className="block text-xs text-slate-500">Phone</span>
-                          <span className="text-slate-200">{submittedData.phone}</span>
-                        </div>
-                      </div>
+                      <Row icon={MdPhone} label="Phone" value={submittedData.phone} />
                     )}
-
                     {submittedData.organizationName && (
-                      <div className="flex items-start gap-3 text-sm">
-                        <FaBuilding className="mt-1 text-slate-400 flex-shrink-0" />
-                        <div>
-                          <span className="block text-xs text-slate-500">Company</span>
-                          <span className="text-slate-200">{submittedData.organizationName}</span>
-                        </div>
-                      </div>
+                      <Row icon={MdBusiness} label="Company" value={submittedData.organizationName} />
                     )}
-
                     {submittedData.budgetRange && (
-                      <div className="flex items-start gap-3 text-sm">
-                        <FaMoneyBillWave className="mt-1 text-green-400 flex-shrink-0" />
-                        <div>
-                          <span className="block text-xs text-slate-500">Budget</span>
-                          <span className="text-slate-200">{submittedData.budgetRange}</span>
-                        </div>
-                      </div>
+                      <Row icon={MdCurrencyRupee} label="Budget" value={submittedData.budgetRange} />
                     )}
-
                     {submittedData.projectDetails && (
-                      <div className="flex items-start gap-3 text-sm">
-                        <FaCommentAlt className="mt-1 text-slate-400 flex-shrink-0" />
-                        <div>
-                          <span className="block text-xs text-slate-500">Message</span>
-                          <span className="text-slate-200 whitespace-pre-wrap">{submittedData.projectDetails}</span>
-                        </div>
-                      </div>
+                      <Row icon={MdChatBubbleOutline} label="Message" value={submittedData.projectDetails} multiline />
                     )}
                   </div>
                 </div>
               )}
 
-              {/* Response Time Info */}
-              <div className="flex items-center gap-3 bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
-                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
-                <p className="text-blue-300 text-sm">
-                  <strong>Expected Response:</strong> Within 24-48 hours
+              {/* Response info */}
+              <div className="flex items-center gap-3 bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse shrink-0" aria-hidden />
+                <p className="text-sm text-[#0C0C0C]">
+                  <span className="font-semibold">Expected response:</span>{' '}
+                  <span className="text-[#3D3A36]">Within 24–48 hours</span>
                 </p>
               </div>
 
-              {/* Action Button */}
               <button
                 onClick={onClose}
-                className="w-full rounded-xl px-6 py-4 font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
+                className="btn-primary w-full justify-center py-3.5 text-sm"
               >
                 Close Window
               </button>
@@ -154,5 +114,21 @@ const SuccessModal = ({ isOpen, onClose, submittedData }) => {
     </AnimatePresence>
   );
 };
+
+const Row = ({ icon: Icon, label, value, breakAll, multiline }) => (
+  <div className="flex items-start gap-3">
+    <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 mt-0.5">
+      <Icon size={15} />
+    </div>
+    <div className="min-w-0 flex-1">
+      <div className="text-[11px] font-semibold text-[#A09A90] uppercase tracking-wider mb-0.5">{label}</div>
+      <div
+        className={`text-sm text-[#0C0C0C] ${breakAll ? 'break-all' : ''} ${multiline ? 'whitespace-pre-wrap leading-relaxed' : ''}`}
+      >
+        {value}
+      </div>
+    </div>
+  </div>
+);
 
 export default SuccessModal;

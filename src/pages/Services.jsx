@@ -8,6 +8,8 @@ import {
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
 import { generateServiceSchema } from '../config/seo'
+import { submitContactForm } from '../services/contactService'
+import { convertBudgetRangeToUSD } from '../utils/currencyConverter'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -165,23 +167,60 @@ const inputClass = 'w-full border border-[#E5E2DC] rounded-lg px-4 py-3 text-[#0
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null)
   const [showModal, setShowModal] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', budget: '', message: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const resetForm = () => setForm({ name: '', email: '', phone: '', company: '', budget: '', message: '' })
+
+  const closeModal = () => {
+    setShowModal(false)
+    setSubmitStatus(null)
+    setErrorMessage('')
+  }
 
   const openQuote = (service) => {
     setSelectedService(service)
-    setForm(f => ({ ...f, message: `I'm interested in ${service.title}. Please get in touch.` }))
+    setForm({
+      name: '', email: '', phone: '', company: '', budget: '',
+      message: `I'm interested in ${service.title}. Please get in touch.`,
+    })
+    setSubmitStatus(null)
+    setErrorMessage('')
     setShowModal(true)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Service Enquiry — ${selectedService?.title}`)
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\nService: ${selectedService?.title}\n\n${form.message}`
-    )
-    window.location.href = `mailto:contact@waglogy.in?subject=${subject}&body=${body}`
-    setShowModal(false)
-    setForm({ name: '', email: '', phone: '', message: '' })
+    setIsSubmitting(true)
+    setErrorMessage('')
+    setSubmitStatus(null)
+
+    try {
+      const budgetForBackend = convertBudgetRangeToUSD(form.budget)
+      const projectDetails = `Service: ${selectedService?.title}\n\n${form.message}`
+      await submitContactForm({
+        fullName: form.name,
+        email: form.email,
+        phone: form.phone.trim(),
+        organizationName: form.company.trim(),
+        budgetRange: budgetForBackend,
+        projectDetails,
+      })
+      setSubmitStatus('success')
+      resetForm()
+      setTimeout(() => {
+        setShowModal(false)
+        setSubmitStatus(null)
+      }, 2000)
+    } catch (error) {
+      console.error('Quote request failed:', error)
+      setSubmitStatus('error')
+      setErrorMessage(error.message || 'Failed to send quote request. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const serviceSchemas = flagshipSystems.map(s =>
@@ -560,14 +599,14 @@ const Services = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-              onClick={() => setShowModal(false)}
+              onClick={closeModal}
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 16 }}
               transition={{ duration: 0.2 }}
-              className="relative bg-white rounded-2xl w-full max-w-md shadow-2xl border border-[#E5E2DC] overflow-hidden"
+              className="relative bg-white rounded-2xl w-full max-w-md shadow-2xl border border-[#E5E2DC] overflow-hidden max-h-[90vh] overflow-y-auto"
             >
               <div className="flex items-start justify-between p-6 border-b border-[#E5E2DC]">
                 <div>
@@ -577,7 +616,7 @@ const Services = () => {
                   )}
                 </div>
                 <button
-                  onClick={() => setShowModal(false)}
+                  onClick={closeModal}
                   className="p-1.5 rounded-lg hover:bg-[#F0EDE8] text-[#6E6B67] transition-colors"
                 >
                   <MdClose size={20} />
@@ -586,7 +625,7 @@ const Services = () => {
 
               <form onSubmit={handleSubmit} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Name</label>
+                  <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Name *</label>
                   <input
                     type="text"
                     required
@@ -598,7 +637,7 @@ const Services = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Email</label>
+                    <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Email *</label>
                     <input
                       type="email"
                       required
@@ -609,7 +648,7 @@ const Services = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Phone</label>
+                    <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Phone *</label>
                     <input
                       type="tel"
                       required
@@ -621,7 +660,35 @@ const Services = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">What do you need?</label>
+                  <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Company / Property name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Himalayan View Resort"
+                    className={inputClass}
+                    value={form.company}
+                    onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">Budget for install *</label>
+                  <select
+                    required
+                    className={`${inputClass} text-[#3D3A36]`}
+                    value={form.budget}
+                    onChange={e => setForm(f => ({ ...f, budget: e.target.value }))}
+                  >
+                    <option value="">Select budget</option>
+                    <option value="under-50k">&lt; ₹50,000</option>
+                    <option value="50k-1l">₹50,000 – ₹1,00,000</option>
+                    <option value="1l-3l">₹1,00,000 – ₹3,00,000</option>
+                    <option value="3l-5l">₹3,00,000 – ₹5,00,000</option>
+                    <option value="5l-10l">₹5,00,000 – ₹10,00,000</option>
+                    <option value="over-10l">Over ₹10,00,000</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-[#6E6B67] uppercase tracking-wider mb-1.5">What do you need? *</label>
                   <textarea
                     required
                     rows={4}
@@ -631,9 +698,25 @@ const Services = () => {
                     onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                   />
                 </div>
-                <button type="submit" className="btn-primary w-full justify-center py-3.5 text-sm">
-                  Send Enquiry
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-primary w-full justify-center py-3.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Sending…' : 'Send Enquiry'}
                 </button>
+
+                {submitStatus === 'success' && (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-center text-sm flex items-center justify-center gap-2">
+                    <MdCheckCircle size={16} className="shrink-0" />
+                    Thanks — we'll reach out within one business day.
+                  </div>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-center text-sm">
+                    {errorMessage}
+                  </div>
+                )}
               </form>
             </motion.div>
           </div>
