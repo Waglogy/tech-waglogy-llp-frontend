@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUser, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiUser, FiLock, FiEye, FiEyeOff, FiAlertCircle } from 'react-icons/fi';
 import adminAuthService from '../services/adminAuthService';
 
 const Login = () => {
@@ -28,100 +28,99 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        {/* Logo/Title */}
+    <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center px-4 py-12">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#EFF6FF] opacity-60 blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-[#F5F4F0] opacity-80 blur-3xl" />
+      </div>
+
+      <div className="relative max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-black mb-2">Waglogy</h1>
-          <p className="text-gray-600">Admin Panel</p>
+          <a href="/" className="inline-flex items-center justify-center mb-6">
+            <img src="/logo.png" alt="Waglogy" className="h-12 w-auto" />
+          </a>
+          <span className="section-label justify-center">Admin Panel</span>
+          <h1 className="mt-3 text-3xl font-semibold text-[#0C0C0C] tracking-tight">
+            Welcome back
+          </h1>
+          <p className="mt-2 text-[#6E6B67]">Sign in to continue managing your workspace.</p>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-white rounded-lg shadow-2xl p-8 border-2 border-gray-200">
-          <h2 className="text-2xl font-bold text-black mb-6">Sign In</h2>
-          
+        <div className="admin-card p-8 shadow-[0_8px_30px_rgba(12,12,12,0.06)]">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
+            <div className="mb-5 p-3.5 rounded-lg bg-[#FEF2F2] border border-[#FECACA] text-sm text-[#B91C1C] flex items-start gap-2">
+              <FiAlertCircle size={16} className="mt-0.5 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleLogin}>
-            {/* Email Input */}
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-semibold mb-2">
-                Email Address
-              </label>
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="admin-label">Email address</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiUser className="text-gray-400" />
-                </div>
+                <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9CA3AF]" size={16} />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
-                  placeholder="admin@waglogy.com"
+                  className="admin-input pl-10"
+                  placeholder="you@waglogy.in"
                   required
+                  autoComplete="email"
                 />
               </div>
             </div>
 
-            {/* Password Input */}
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-semibold mb-2">
-                Password
-              </label>
+            <div>
+              <label className="admin-label">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="text-gray-400" />
-                </div>
+                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9CA3AF]" size={16} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="admin-input pl-10 pr-10"
                   placeholder="••••••••"
                   required
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#3D3A36] transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? (
-                    <FiEyeOff className="text-gray-400 hover:text-gray-600" />
-                  ) : (
-                    <FiEye className="text-gray-400 hover:text-gray-600" />
-                  )}
+                  {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Signing In...
+                  Signing in…
                 </>
               ) : (
-                'Sign In'
+                'Sign in'
               )}
             </button>
           </form>
         </div>
+
+        <p className="mt-6 text-center text-xs text-[#6E6B67]">
+          Authorised personnel only. All activity is logged.
+        </p>
       </div>
     </div>
   );
 };
 
 export default Login;
-

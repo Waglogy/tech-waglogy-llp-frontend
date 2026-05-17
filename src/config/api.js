@@ -26,8 +26,16 @@ class ApiClient {
       const response = await fetch(url, config);
       
       if (!response.ok) {
-        const error = await response.json().catch(() => ({ message: 'An error occurred' }));
-        throw new Error(error.message || `HTTP error! status: ${response.status}`);
+        const fallback = (() => {
+          if (response.status === 429) return 'Too many attempts. Please wait a moment and try again.';
+          if (response.status === 401) return 'Invalid email or password.';
+          if (response.status === 403) return "You don't have permission to perform this action.";
+          if (response.status === 404) return 'Not found.';
+          if (response.status >= 500) return 'Server error. Please try again shortly.';
+          return `Request failed (${response.status}).`;
+        })();
+        const error = await response.json().catch(() => ({ message: fallback }));
+        throw new Error(error.message || fallback);
       }
 
       return await response.json();

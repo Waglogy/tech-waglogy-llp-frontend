@@ -1,35 +1,51 @@
 import { useState, useEffect } from 'react';
-import { FiBriefcase, FiMail, FiPhone, FiPlus, FiEdit2, FiTrash2, FiX, FiFilter, FiSearch } from 'react-icons/fi';
-import { getAllClients, createClient, updateClient, deleteClient, getClientStats, searchClients } from '../../services/clientService';
+import {
+  FiBriefcase, FiPlus, FiEdit2, FiTrash2, FiX, FiSearch, FiAlertCircle,
+} from 'react-icons/fi';
+import {
+  getAllClients, createClient, updateClient, deleteClient,
+  getClientStats, searchClients,
+} from '../../services/clientService';
+
+const STATUS_OPTIONS = ['active', 'inactive', 'pending', 'completed', 'on-hold', 'cancelled'];
+
+const statusPill = (status) => {
+  switch (status) {
+    case 'active': return 'admin-pill-green';
+    case 'inactive': return 'admin-pill-gray';
+    case 'pending': return 'admin-pill-amber';
+    case 'completed': return 'admin-pill-blue';
+    case 'on-hold': return 'admin-pill-orange';
+    case 'cancelled': return 'admin-pill-red';
+    default: return 'admin-pill-gray';
+  }
+};
+
+const formatDate = (d) => {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+};
+
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+
+const emptyForm = {
+  company: '', contactPerson: '', email: '', phone: '', service: '',
+  startDate: '', endDate: '', revenue: '', status: 'active', address: '', notes: '',
+};
 
 const Clients = () => {
   const [clients, setClients] = useState([]);
-  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingClient, setEditingClient] = useState(null);
   const [filterStatus, setFilterStatus] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const [formData, setFormData] = useState({
-    company: '',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    service: '',
-    startDate: '',
-    endDate: '',
-    revenue: '',
-    status: 'active',
-    address: '',
-    notes: ''
-  });
+  const [formData, setFormData] = useState(emptyForm);
 
-  // Fetch clients and stats on component mount
   useEffect(() => {
     fetchClients();
-    fetchStats();
   }, [filterStatus]);
 
   const fetchClients = async () => {
@@ -41,65 +57,42 @@ const Clients = () => {
       setClients(response.data || []);
     } catch (err) {
       setError('Failed to load clients. Please try again.');
-      console.error('Error fetching clients:', err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchStats = async () => {
-    try {
-      const response = await getClientStats();
-      setStats(response.data);
-    } catch (err) {
-      console.error('Error fetching stats:', err);
-    }
-  };
-
   const handleSearch = async () => {
-    if (!searchQuery.trim()) {
-      fetchClients();
-      return;
-    }
-
+    if (!searchQuery.trim()) { fetchClients(); return; }
     try {
       setLoading(true);
       const response = await searchClients(searchQuery);
       setClients(response.data || []);
     } catch (err) {
-      console.error('Error searching clients:', err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleInputChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
       if (editingClient) {
-        // Update existing client
         const response = await updateClient(editingClient._id, formData);
-        setClients(clients.map(client => 
-          client._id === editingClient._id ? response.data : client
-        ));
+        setClients(clients.map((c) => (c._id === editingClient._id ? response.data : c)));
       } else {
-        // Create new client
         const response = await createClient(formData);
         setClients([response.data, ...clients]);
       }
-      await fetchStats(); // Refresh stats
       resetForm();
     } catch (err) {
       alert(err.message || 'Failed to save client. Please try again.');
-      console.error('Error saving client:', err);
+      console.error(err);
     }
   };
 
@@ -116,94 +109,40 @@ const Clients = () => {
       revenue: client.revenue,
       status: client.status,
       address: client.address || '',
-      notes: client.notes || ''
+      notes: client.notes || '',
     });
     setShowAddModal(true);
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this client?')) return;
-    
+    if (!confirm('Delete this client?')) return;
     try {
       await deleteClient(id);
-      setClients(clients.filter(client => client._id !== id));
-      await fetchStats(); // Refresh stats
+      setClients(clients.filter((c) => c._id !== id));
     } catch (err) {
       alert('Failed to delete client. Please try again.');
-      console.error('Error deleting client:', err);
+      console.error(err);
     }
   };
 
   const resetForm = () => {
-    setFormData({
-      company: '',
-      contactPerson: '',
-      email: '',
-      phone: '',
-      service: '',
-      startDate: '',
-      endDate: '',
-      revenue: '',
-      status: 'active',
-      address: '',
-      notes: ''
-    });
+    setFormData(emptyForm);
     setEditingClient(null);
     setShowAddModal(false);
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'inactive':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'completed':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'on-hold':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800 border-red-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
+  const localStats = {
+    activeRevenue: clients.filter((c) => c.status === 'active').reduce((s, c) => s + c.revenue, 0),
+    completedRevenue: clients.filter((c) => c.status === 'completed').reduce((s, c) => s + c.revenue, 0),
+    totalRevenue: clients.reduce((s, c) => s + c.revenue, 0),
   };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR'
-    }).format(amount);
-  };
-
-  // Calculate local stats
-  const calculateLocalStats = () => {
-    const activeRevenue = clients.filter(c => c.status === 'active').reduce((sum, c) => sum + c.revenue, 0);
-    const completedRevenue = clients.filter(c => c.status === 'completed').reduce((sum, c) => sum + c.revenue, 0);
-    const totalRevenue = clients.reduce((sum, c) => sum + c.revenue, 0);
-    
-    return { activeRevenue, completedRevenue, totalRevenue };
-  };
-
-  const localStats = calculateLocalStats();
 
   if (loading && clients.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading clients...</p>
+          <div className="admin-spinner mx-auto" />
+          <p className="mt-4 text-sm text-[#6E6B67]">Loading clients…</p>
         </div>
       </div>
     );
@@ -211,178 +150,143 @@ const Clients = () => {
 
   if (error && clients.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button
-            onClick={fetchClients}
-            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
-          >
-            Retry
-          </button>
-        </div>
+      <div className="admin-card p-10 text-center">
+        <FiAlertCircle size={32} className="mx-auto text-[#B91C1C] mb-3" />
+        <p className="text-[#0C0C0C] font-medium mb-1">Couldn't load clients</p>
+        <p className="text-sm text-[#6E6B67] mb-5">{error}</p>
+        <button onClick={fetchClients} className="btn-primary text-sm py-2.5 px-5">Try again</button>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="mb-8 flex justify-between items-center">
+      {/* Header */}
+      <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-3xl font-bold text-black">Clients</h1>
-          <p className="text-gray-600 mt-2">Manage your client portfolio</p>
+          <span className="section-label">Portfolio</span>
+          <h1 className="admin-page-title mt-3">Clients</h1>
+          <p className="admin-page-subtitle">Manage your client portfolio and ongoing engagements.</p>
         </div>
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors flex items-center gap-2"
-        >
-          <FiPlus size={20} />
-          Add Client
+        <button onClick={() => setShowAddModal(true)} className="btn-primary text-sm py-2.5 px-5">
+          <FiPlus size={16} /> Add client
         </button>
       </div>
 
-      {/* Client Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h3 className="text-gray-600 text-sm font-medium mb-2">Active Clients Revenue</h3>
-          <p className="text-3xl font-bold text-black">{formatCurrency(localStats.activeRevenue)}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h3 className="text-gray-600 text-sm font-medium mb-2">Completed Revenue</h3>
-          <p className="text-3xl font-bold text-black">{formatCurrency(localStats.completedRevenue)}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h3 className="text-gray-600 text-sm font-medium mb-2">Total Revenue</h3>
-          <p className="text-3xl font-bold text-black">{formatCurrency(localStats.totalRevenue)}</p>
-        </div>
+      {/* Revenue stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <StatCard label="Active revenue" value={formatCurrency(localStats.activeRevenue)} tint="bg-[#ECFDF5] text-[#047857]" />
+        <StatCard label="Completed revenue" value={formatCurrency(localStats.completedRevenue)} tint="bg-[#EFF6FF] text-[#1D4ED8]" />
+        <StatCard label="Total revenue" value={formatCurrency(localStats.totalRevenue)} tint="bg-[#F5F3FF] text-[#6D28D9]" />
       </div>
 
-      {/* Search and Filter */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 mb-6">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Search */}
+      {/* Search + filter */}
+      <div className="admin-card p-4 mb-6">
+        <div className="flex flex-col md:flex-row gap-3">
           <div className="flex-1 flex gap-2">
             <div className="relative flex-1">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]" size={16} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Search by company, contact, service, or email..."
-                className="w-full pl-10 pr-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                placeholder="Search by company, contact, service, or email…"
+                className="admin-input pl-10"
               />
             </div>
-            <button
-              onClick={handleSearch}
-              className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
-            >
-              Search
-            </button>
+            <button onClick={handleSearch} className="btn-primary text-sm py-2.5 px-5">Search</button>
             {searchQuery && (
               <button
-                onClick={() => {
-                  setSearchQuery('');
-                  fetchClients();
-                }}
-                className="bg-gray-200 text-black px-4 py-2 rounded-lg hover:bg-gray-300"
+                onClick={() => { setSearchQuery(''); fetchClients(); }}
+                className="btn-outline text-sm py-2.5 px-4"
               >
                 Clear
               </button>
             )}
           </div>
-
-          {/* Filter */}
-          <div className="flex items-center gap-2">
-            <FiFilter className="text-gray-600" size={20} />
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-            >
-              <option>All</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-              <option value="on-hold">On Hold</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="admin-select w-auto"
+          >
+            <option>All</option>
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s.charAt(0).toUpperCase() + s.slice(1).replace('-', ' ')}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
-      {/* Clients Table */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200">
+      {/* Table */}
+      <div className="admin-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-black text-white">
+            <thead>
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Company</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Contact Person</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Service</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Start Date</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Revenue</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Status</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold">Actions</th>
+                <th className="admin-th">Company</th>
+                <th className="admin-th">Contact</th>
+                <th className="admin-th">Service</th>
+                <th className="admin-th">Start</th>
+                <th className="admin-th">Revenue</th>
+                <th className="admin-th">Status</th>
+                <th className="admin-th text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody>
               {clients.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
-                    No clients found
+                  <td colSpan="7" className="px-6 py-16 text-center text-sm text-[#6E6B67]">
+                    No clients found.
                   </td>
                 </tr>
               ) : (
                 clients.map((client) => (
-                  <tr key={client._id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm">
-                      <div className="flex items-center">
-                        <FiBriefcase className="mr-2 text-gray-600" size={16} />
-                        <div>
-                          <div className="font-medium text-black">{client.company}</div>
+                  <tr key={client._id} className="admin-row">
+                    <td className="admin-td">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[#F5F4F0] text-[#6E6B67] flex items-center justify-center shrink-0">
+                          <FiBriefcase size={14} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-[#0C0C0C] truncate">{client.company}</div>
                           {client.email && (
-                            <div className="text-gray-600 text-xs">{client.email}</div>
+                            <div className="text-xs text-[#6E6B67] truncate">{client.email}</div>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm">
-                      <div className="font-medium text-black">{client.contactPerson}</div>
-                      {client.phone && (
-                        <div className="text-gray-600 text-xs">{client.phone}</div>
-                      )}
+                    <td className="admin-td">
+                      <div className="font-medium text-[#0C0C0C]">{client.contactPerson}</div>
+                      {client.phone && <div className="text-xs text-[#6E6B67]">{client.phone}</div>}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="admin-td text-[#6E6B67]">
                       <div className="truncate max-w-xs" title={client.service}>
                         {client.service}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{formatDate(client.startDate)}</td>
-                    <td className="px-6 py-4 text-sm font-semibold text-black">
+                    <td className="admin-td text-[#6E6B67]">{formatDate(client.startDate)}</td>
+                    <td className="admin-td font-medium text-[#0C0C0C]">
                       {formatCurrency(client.revenue)}
                     </td>
-                    <td className="px-6 py-4 text-sm">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(client.status)}`}>
-                        {client.status.charAt(0).toUpperCase() + client.status.slice(1)}
+                    <td className="admin-td">
+                      <span className={`admin-pill ${statusPill(client.status)}`}>
+                        {client.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm">
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleEdit(client)}
-                          className="text-black hover:text-gray-600 p-2 hover:bg-gray-100 rounded"
-                          title="Edit"
-                        >
-                          <FiEdit2 size={18} />
+                    <td className="admin-td">
+                      <div className="flex items-center gap-1 justify-end">
+                        <button onClick={() => handleEdit(client)} className="admin-icon-btn" title="Edit">
+                          <FiEdit2 size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(client._id)}
-                          className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded"
+                          className="admin-icon-btn admin-icon-btn-danger"
                           title="Delete"
                         >
-                          <FiTrash2 size={18} />
+                          <FiTrash2 size={16} />
                         </button>
                       </div>
                     </td>
@@ -394,191 +298,68 @@ const Clients = () => {
         </div>
       </div>
 
-      {/* Add/Edit Client Modal */}
+      {/* Add/Edit modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-3xl w-full p-6 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="text-2xl font-bold text-black">
+        <div className="admin-modal-overlay" onClick={resetForm}>
+          <div className="admin-modal-panel max-w-3xl" onClick={(e) => e.stopPropagation()}>
+            <div className="px-6 py-5 border-b border-[#E5E2DC] flex items-start justify-between">
+              <h2 className="text-xl font-semibold text-[#0C0C0C] font-['Outfit'] tracking-tight">
                 {editingClient ? 'Edit Client' : 'Add New Client'}
               </h2>
-              <button
-                onClick={resetForm}
-                className="text-gray-500 hover:text-black text-2xl"
-              >
-                <FiX size={24} />
+              <button onClick={resetForm} className="admin-icon-btn" aria-label="Close">
+                <FiX size={18} />
               </button>
             </div>
+
             <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Company Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    maxLength="200"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Contact Person *
-                  </label>
-                  <input
-                    type="text"
-                    name="contactPerson"
-                    value={formData.contactPerson}
-                    onChange={handleInputChange}
-                    maxLength="100"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    maxLength="20"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                  />
-                </div>
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+                <Input label="Company Name *" name="company" value={formData.company}
+                  onChange={handleInputChange} maxLength="200" required />
+                <Input label="Contact Person *" name="contactPerson" value={formData.contactPerson}
+                  onChange={handleInputChange} maxLength="100" required />
+                <Input label="Email" name="email" type="email" value={formData.email}
+                  onChange={handleInputChange} />
+                <Input label="Phone" name="phone" type="tel" value={formData.phone}
+                  onChange={handleInputChange} maxLength="20" />
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Service *
-                  </label>
-                  <input
-                    type="text"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleInputChange}
-                    maxLength="200"
-                    placeholder="e.g., Web Development - E-commerce Platform"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  />
+                  <Input label="Service *" name="service" value={formData.service}
+                    onChange={handleInputChange} maxLength="200"
+                    placeholder="e.g., Web Development — E-commerce Platform" required />
                 </div>
+                <Input label="Start Date *" name="startDate" type="date" value={formData.startDate}
+                  onChange={handleInputChange} required />
+                <Input label="End Date" name="endDate" type="date" value={formData.endDate}
+                  onChange={handleInputChange} />
+                <Input label="Revenue *" name="revenue" type="number" min="0" step="0.01"
+                  value={formData.revenue} onChange={handleInputChange} placeholder="0.00" required />
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Start Date *
-                  </label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    End Date
-                  </label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Revenue *
-                  </label>
-                  <input
-                    type="number"
-                    name="revenue"
-                    value={formData.revenue}
-                    onChange={handleInputChange}
-                    min="0"
-                    step="0.01"
-                    placeholder="0.00"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Status
-                  </label>
-                  <select
-                    name="status"
-                    value={formData.status}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    required
-                  >
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                    <option value="pending">Pending</option>
-                    <option value="completed">Completed</option>
-                    <option value="on-hold">On Hold</option>
-                    <option value="cancelled">Cancelled</option>
+                  <label className="admin-label">Status</label>
+                  <select name="status" value={formData.status} onChange={handleInputChange}
+                    className="admin-select" required>
+                    {STATUS_OPTIONS.map((s) => (
+                      <option key={s} value={s}>
+                        {s.charAt(0).toUpperCase() + s.slice(1).replace('-', ' ')}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    maxLength="500"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                  />
+                  <Input label="Address" name="address" value={formData.address}
+                    onChange={handleInputChange} maxLength="500" />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Notes
-                  </label>
-                  <textarea
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleInputChange}
-                    maxLength="1000"
-                    rows="3"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                  ></textarea>
+                  <label className="admin-label">Notes</label>
+                  <textarea name="notes" value={formData.notes} onChange={handleInputChange}
+                    maxLength="1000" rows="3" className="admin-textarea" />
                 </div>
               </div>
-              <div className="mt-6 flex gap-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
-                >
-                  {editingClient ? 'Update Client' : 'Add Client'}
-                </button>
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="flex-1 bg-gray-200 text-black py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
-                >
+
+              <div className="px-6 py-4 border-t border-[#E5E2DC] bg-[#FAFAF8] flex justify-end gap-2 rounded-b-[14px]">
+                <button type="button" onClick={resetForm} className="btn-outline text-sm py-2 px-4">
                   Cancel
+                </button>
+                <button type="submit" className="btn-primary text-sm py-2 px-5">
+                  {editingClient ? 'Update client' : 'Add client'}
                 </button>
               </div>
             </form>
@@ -588,5 +369,22 @@ const Clients = () => {
     </div>
   );
 };
+
+const StatCard = ({ label, value, tint }) => (
+  <div className="admin-card p-5">
+    <div className="flex items-start justify-between mb-2">
+      <h3 className="text-xs font-semibold text-[#6E6B67] uppercase tracking-wider">{label}</h3>
+      <div className={`${tint} px-1.5 py-0.5 rounded text-[10px] font-semibold`}>INR</div>
+    </div>
+    <p className="text-2xl font-semibold text-[#0C0C0C] tracking-tight font-['Outfit']">{value}</p>
+  </div>
+);
+
+const Input = ({ label, ...props }) => (
+  <div>
+    <label className="admin-label">{label}</label>
+    <input className="admin-input" {...props} />
+  </div>
+);
 
 export default Clients;
